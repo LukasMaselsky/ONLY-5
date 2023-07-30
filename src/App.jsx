@@ -6,8 +6,8 @@ import './App.css'
 function App() {
 
     const [playlist, setPlaylist] = useState([{
-        title:'song1', artist: 'artist1', id: 1, length:3, coverArt:null 
-    }, {title:'song2', artist: 'artist2', id: 2, length:4, coverArt:null }])
+        title:'song1', artist: 'artist1', id: 1, length:'1:27', coverArt:null 
+    }, {title:'song2', artist: 'artist2', id: 2, length:'2:34', coverArt:null }])
 
     const handleDelete = (id) => {
         const newPlaylist = playlist.filter(song => song.id !== id);

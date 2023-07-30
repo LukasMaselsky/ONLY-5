@@ -1,12 +1,26 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrash } from '@fortawesome/free-solid-svg-icons'
+
 function Playlist({ playlist, handleDelete}) {
     return (
         <div className='playlist'>
-            {playlist.map(song => (
-                <div className='song' key={song.id}>
-                    <p>{song.title}, {song.artist}, {song.length}, {song.id}</p>
-                    <button onClick={() => handleDelete(song.id)}>delete</button>
-                </div>
-            ))}
+            <div className="playlist-wrapper">
+                {playlist.map(song => (
+
+                    <div className='song' key={song.id}>
+                        <div className='song-info'>
+                            <p>{song.title}</p>
+                            <p>{song.artist}</p>
+                        </div>
+                        <div className='song-length'>
+                            <p>{song.length}</p>
+                        </div>
+                        <div className="trash-wrapper">
+                            <FontAwesomeIcon className='trash' icon={faTrash} style={{color: "#ffffff",}} onClick={() => handleDelete(song.id)}/>
+                        </div>
+                    </div>
+                ))}
+            </div>
         </div>
     )
 }

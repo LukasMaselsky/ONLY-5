@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Lexend:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+
 :root {
     --text: #f3efef;
     --background: #121F0A;
@@ -8,6 +11,17 @@
 
 * {
     margin:0;
+    box-sizing: border-box;
+    font-family: 'Almarai', sans-serif;
+}
+
+a {
+    text-decoration: none;
+}
+
+body {
+    background-color: var(--background);
+    font-family: 'Lexend', sans-serif;
 }
 
 main {
@@ -26,6 +40,72 @@ main {
     gap: 1rem;
 }
 
+.search > input {
+    height:2rem;
+    width:20rem;
+    padding: 1rem;
+    border:none;
+}
+
+.search > button {
+    background-color: var(--text);
+    border: none;
+}
+
+.search > button:hover {
+    cursor:pointer;
+}
+
 input:focus {
     outline:none;
+}
+
+.playlist {
+    width:100%;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.playlist-wrapper {
+    width:70%;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.song {
+    padding: 0.5rem 1rem;
+    height:5rem;
+    display:flex;
+    flex-direction: row;
+    background-color: var(--accent);
+    border:1px solid var(--text);
+}
+
+.trash:hover {
+    cursor:pointer;
+}
+
+.song-info {
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.song-info p:nth-child(1){
+    font-size:2rem;
+}
+
+.song-info p:nth-child(2) {
+    font-size:1rem;
+}
+
+.song-length, .trash-wrapper {
+    font-size:2rem;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.song-length {
+    padding: 0rem 1rem;
 }
