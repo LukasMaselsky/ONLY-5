@@ -22,6 +22,7 @@ a {
 body {
     background-color: var(--background);
     font-family: 'Lexend', sans-serif;
+    overflow-x:hidden;
 }
 
 main {
@@ -29,6 +30,8 @@ main {
     width: 100svw;
     background-color: var(--background);
     color: var(--text);
+    position:relative;
+    min-height: 100vh;
 }
 
 .search {
@@ -90,14 +93,28 @@ input:focus {
     flex-direction: column;
     justify-content: center;
     flex-grow: 1;
+    min-width: 0;
 }
 
-.song-info p:nth-child(1){
-    font-size:2rem;
+.song-title, .song-artist {
+    height:50%;
+    display:flex;
+    align-items:center;
 }
 
-.song-info p:nth-child(2) {
-    font-size:1rem;
+.song-title {
+    font-size: 2rem;
+}
+
+.song-artist {
+    font-size: 1rem;
+}
+
+
+p {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .song-length, .trash-wrapper {
@@ -108,4 +125,25 @@ input:focus {
 }
 .song-length {
     padding: 0rem 1rem;
+}
+
+.choose-song {
+    visibility:hidden;
+    position: absolute;
+    background-color: var(--text);
+    width:60%;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    padding:2rem;
+    top: 50%;
+    left: 50%;
+    transform:translate(-50%, -50%);
+    border-radius:2%;
+}
+
+.choose-song-wrapper {
+    width:100%;
+    flex-direction: column;
+    align-items: flex-start;
 }

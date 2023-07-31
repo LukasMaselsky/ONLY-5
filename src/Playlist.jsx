@@ -9,8 +9,13 @@ function Playlist({ playlist, handleDelete}) {
 
                     <div className='song' key={song.id}>
                         <div className='song-info'>
-                            <p>{song.title}</p>
-                            <p>{song.artist}</p>
+                            <div className="song-title">
+                                <p>{song.title}</p>
+                            </div>
+                            <div className="song-artist">
+                                <p>{song.artist}</p>
+                            </div>
+                            
                         </div>
                         <div className='song-length'>
                             <p>{song.length}</p>
