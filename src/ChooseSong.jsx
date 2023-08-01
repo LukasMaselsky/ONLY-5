@@ -1,4 +1,7 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useContext } from "react";
+import { popupVisibility } from "./App";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faX } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios';
 
 const milliToMin = (millis) => {
@@ -12,6 +15,7 @@ const milliToMin = (millis) => {
 function ChooseSong({ playlist, setPlaylist, search, setSearch}) {
 
     const [selection, setSelection] = useState(null)
+    const vis = useContext(popupVisibility)
 
     useEffect(() => {
         //! this if statement to prevent firing on initialization of search when it is null
@@ -21,6 +25,9 @@ function ChooseSong({ playlist, setPlaylist, search, setSearch}) {
             axios.defaults.baseURL = baseURL
             axios.get('artist=' + search.artist + '%20AND%20recording=' + search.title)
             .then((res) => {
+                // !SHOW POPUP HERE WHEN RESPONSE RECEIVED
+                vis.show()
+
                 const myJSON = JSON.stringify(res.data)
                 const data = JSON.parse(myJSON)
                 console.log(data['recordings'].slice(0, 5))
@@ -58,11 +65,13 @@ function ChooseSong({ playlist, setPlaylist, search, setSearch}) {
         setPlaylist((prevItems) => [...prevItems, {
             title: title, artist: artist, id: (playlist[playlist.length - 1].id + 1), length: length,  coverArt:null
         }])
-        //! HIDE POPUP
+        //! HIDE POPUP  
+        vis.hide()    
     }
 
     return (
-        <div className="choose-song">
+        <div className="choose-song" style={{'visibility':vis.vis}}>
+            <FontAwesomeIcon className='exit' icon={faX} style={{color: "#000000",}} onClick={vis.hide}/>
             <div className="choose-song-wrapper">
                 {selection && selection.map(song => (
                 <div className='song' onClick={() => chooseAddition(song['title'], song['artist-credit'][0]['name'], milliToMin(song['length']))} key={song.id}>

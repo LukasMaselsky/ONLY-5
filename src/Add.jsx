@@ -1,19 +1,14 @@
-import { useState } from "react";
-
+import { useState, useContext } from "react";
 
 function Add({ search, setSearch}) {
-
     const [artistSearch, setArtistSearch] = useState('')
     const [titleSearch, setTitleSearch] = useState('')
-
     
 
     const handleSearch = (e) => {
         e.preventDefault();
 
         setSearch({artist:artistSearch, title:titleSearch})
-        // !SHOW POPUP HERE
-        
 
     }
 
