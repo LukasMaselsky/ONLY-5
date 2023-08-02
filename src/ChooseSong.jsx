@@ -16,10 +16,12 @@ function ChooseSong({ playlist, setPlaylist, search, setSearch}) {
 
     const [selection, setSelection] = useState(null)
     const vis = useContext(popupVisibility)
+    const [isChoosing, setIsChoosing] = useState(false) //* var to know if song is being chosen to prevent spamming of search button
 
     useEffect(() => {
         //! this if statement to prevent firing on initialization of search when it is null
-        if (search != null) {
+        if (search != null && !isChoosing) {
+            setIsChoosing(true)
             const baseURL = 'https://musicbrainz.org/ws/2/recording?query='
                 
             axios.defaults.baseURL = baseURL
@@ -54,27 +56,38 @@ function ChooseSong({ playlist, setPlaylist, search, setSearch}) {
             }).catch((err) => {
                 console.log(err)
             })
-
         }
     }, [search]);
 
         
         
     const chooseAddition = (title, artist, length) => {
+        console.log(playlist)
         // update playlist with new song after selection from options
         setPlaylist((prevItems) => [...prevItems, {
-            title: title, artist: artist, id: (playlist[playlist.length - 1].id + 1), length: length,  coverArt:null
+            title: title, 
+            artist: artist, 
+            id: playlist.length !== 0 ? playlist[playlist.length - 1].id + 1 : 1, // if array not empty
+            length: length,  
+            coverArt: null,
         }])
         //! HIDE POPUP  
-        vis.hide()    
+        vis.hide() 
+        setIsChoosing(false)   
+    }
+
+    const exitChoosing = () => {
+        vis.hide()
+        setIsChoosing(false)
     }
 
     return (
         <div className="choose-song" style={{'visibility':vis.vis}}>
-            <FontAwesomeIcon className='exit' icon={faX} style={{color: "#000000",}} onClick={vis.hide}/>
+            <FontAwesomeIcon className='exit' icon={faX} style={{color: "#000000",}} onClick={exitChoosing}/>
             <div className="choose-song-wrapper">
+                <h1 className='choose-song-heading'>Choose song to add</h1>
                 {selection && selection.map(song => (
-                <div className='song' onClick={() => chooseAddition(song['title'], song['artist-credit'][0]['name'], milliToMin(song['length']))} key={song.id}>
+                <div className='song popup' onClick={() => chooseAddition(song['title'], song['artist-credit'][0]['name'], (song['length'] !== undefined ? milliToMin(song['length']) : '-'))} key={song.id}>
                     <div className='song-info'>
                         <div className="song-title">
                             <p>{song['title']}</p>
@@ -84,7 +97,7 @@ function ChooseSong({ playlist, setPlaylist, search, setSearch}) {
                         </div>
                     </div>
                     <div className='song-length'>
-                        <p>{milliToMin(song['length'])}</p>
+                        <p>{(song['length'] !== undefined ? milliToMin(song['length']) : '-')}</p>
                     </div>
                 </div>
                 ))}

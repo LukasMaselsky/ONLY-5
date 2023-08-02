@@ -9,9 +9,7 @@ export const popupVisibility = createContext({visibility:null, show:null, hide:n
 
 function App() {
 
-    const [playlist, setPlaylist] = useState([{
-        title:'song1', artist: 'artist1', id: 1, length:'1:27', coverArt:null 
-    }, {title:'song2', artist: 'artist2', id: 2, length:'2:34', coverArt:null }])
+    const [playlist, setPlaylist] = useState([])
 
     const [search, setSearch] = useState()
     const [visibility, setVisibility] = useState('hidden')

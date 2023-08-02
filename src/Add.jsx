@@ -1,4 +1,6 @@
-import { useState, useContext } from "react";
+import { useState} from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 
 function Add({ search, setSearch}) {
     const [artistSearch, setArtistSearch] = useState('')
@@ -16,7 +18,7 @@ function Add({ search, setSearch}) {
         <div className="search">
             <input className='artist-search' placeholder='artist' value={artistSearch} onInput={e => setArtistSearch(e.target.value)}/> 
             <input className='title-search' placeholder='title' value={titleSearch} onInput={e => setTitleSearch(e.target.value)}/>
-            <button onClick={handleSearch}>Submit</button>
+            <FontAwesomeIcon className='search-button' icon={faMagnifyingGlass} style={{color: "#ffffff",}} onClick={handleSearch}/>
         </div>
     )
 }

@@ -40,23 +40,25 @@ main {
     width: 100%;
     padding: 1rem 2rem;
     justify-content: center;
+    align-items:center;
     gap: 1rem;
 }
 
 .search > input {
-    height:2rem;
+    height:3rem;
     width:20rem;
     padding: 1rem;
     border:none;
 }
 
-.search > button {
-    background-color: var(--text);
+.search > .search-button {
     border: none;
+    font-size:1.5rem;
 }
 
-.search > button:hover {
+.search > .search-button:hover {
     cursor:pointer;
+    opacity:0.9;
 }
 
 input:focus {
@@ -77,6 +79,7 @@ input:focus {
 }
 
 .song {
+    position:relative;
     padding: 0.5rem 1rem;
     height:5rem;
     display:flex;
@@ -87,6 +90,24 @@ input:focus {
 
 .trash:hover {
     cursor:pointer;
+}
+
+.trash-wrapper {
+    visibility:hidden;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%)
+}
+
+/* when hovering on song card show option to delete */
+
+.song:hover .trash-wrapper {
+    visibility: visible;
+}
+
+.song:hover {
+    opacity:0.9;
 }
 
 .song-info {
@@ -123,6 +144,7 @@ p {
     flex-direction: column;
     justify-content: center;
 }
+
 .song-length {
     padding: 0rem 1rem;
 }
@@ -146,6 +168,7 @@ p {
     width:100%;
     flex-direction: column;
     align-items: flex-start;
+    text-align:center;
 }
 
 .exit {
@@ -159,4 +182,16 @@ p {
 .exit:hover {
     cursor:pointer;
     opacity:0.5;
+}
+
+.choose-song-heading {
+    color:var(--background);
+}
+
+.popup {
+    height:4rem;
+}
+
+.popup:hover {
+    cursor:pointer;
 }
