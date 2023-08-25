@@ -8,6 +8,8 @@ function Playlist({ playlist, handleDelete}) {
                 {playlist.map(song => (
 
                     <div className='song' key={song.id}>
+                        //! wrap this and other comp imgs in div to style
+                        <img className='cover-art' src={song.coverArt}></img>
                         <div className='song-info'>
                             <div className="song-title">
                                 <p>{song.title}</p>

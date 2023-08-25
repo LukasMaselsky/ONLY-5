@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useReducer } from "react";
 import { popupVisibility } from "./App";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faX } from '@fortawesome/free-solid-svg-icons'
@@ -32,27 +32,10 @@ function ChooseSong({ playlist, setPlaylist, search, setSearch}) {
 
                 const myJSON = JSON.stringify(res.data)
                 const data = JSON.parse(myJSON)
-                console.log(data['recordings'].slice(0, 5))
-                setSelection(data['recordings'].slice(0, 5))
+                const slicedData = data['recordings'].slice(0, 5)
+    
+                getCoverArt(slicedData)
                 //* these results will be the ones the user chooses from
-                
-
-                /*
-                const artist = data['recordings'][0]['artist-credit'][0]['name']
-                const title = data['recordings'][0]['title']
-                const length = milliToMin(data['recordings'][0]['length']) // convert from milli to mins
-                const MBID = data['recordings'][0]['id']
-                */
-                //cover art
-                /*
-                axios.defaults.baseURL = 'https://musicbrainz.org/ws/2/'
-                axios.get('recording/eca8983b-9e76-4b5c-904f-2547a9c6716c').then((res) => {
-                    console.log(res.data)
-                }).catch((err) => {
-                    console.log(err)
-                })
-                */
-                
             }).catch((err) => {
                 console.log(err)
             })
@@ -61,15 +44,14 @@ function ChooseSong({ playlist, setPlaylist, search, setSearch}) {
 
         
         
-    const chooseAddition = (title, artist, length) => {
-        console.log(playlist)
+    const chooseAddition = (title, artist, length, cover) => {
         // update playlist with new song after selection from options
         setPlaylist((prevItems) => [...prevItems, {
             title: title, 
             artist: artist, 
             id: playlist.length !== 0 ? playlist[playlist.length - 1].id + 1 : 1, // if array not empty
             length: length,  
-            coverArt: null,
+            coverArt: cover,
         }])
         //! HIDE POPUP  
         vis.hide() 
@@ -81,13 +63,51 @@ function ChooseSong({ playlist, setPlaylist, search, setSearch}) {
         setIsChoosing(false)
     }
 
-    return (
+    function getCoverArt(slice) {
+        const imagePromises = [];
+
+        axios.defaults.baseURL = 'https://coverartarchive.org/release/'
+        for (let i = 0; i < slice.length; i++) {
+            imagePromises.push(
+            axios.get(slice[i]['releases'][0]['id'])
+            .then((res) => {
+                const myJSON = JSON.stringify(res.data)
+                const data = JSON.parse(myJSON)
+                slice[i]['cover'] = data['images'][0]['image']
+            }).catch((err) => {
+                console.log(err)
+            })
+            )
+        }
+        Promise.all(imagePromises).then(() => {
+            setAllImagesLoaded(true); // Set the flag when all images are loaded meaning the whole selection ui only loads after all images are gotten
+            setSelection(slice);
+        });
+    }
+
+
+    //* handle image loading
+    const [loadedImageCount, setLoadedImageCount] = useState(0);
+    const [allImagesLoaded, setAllImagesLoaded] = useState(false);
+
+    const handleImageLoad = () => {
+        setLoadedImageCount(prevCount => prevCount + 1);
+    }
+
+    useEffect(() => {
+        if (loadedImageCount === (selection && selection.length)) {
+            setAllImagesLoaded(true)
+        }
+    }, [loadedImageCount, selection]);
+
+    return (   
         <div className="choose-song" style={{'visibility':vis.vis}}>
             <FontAwesomeIcon className='exit' icon={faX} style={{color: "#000000",}} onClick={exitChoosing}/>
             <div className="choose-song-wrapper">
                 <h1 className='choose-song-heading'>Choose song to add</h1>
-                {selection && selection.map(song => (
-                <div className='song popup' onClick={() => chooseAddition(song['title'], song['artist-credit'][0]['name'], (song['length'] !== undefined ? milliToMin(song['length']) : '-'))} key={song.id}>
+                {allImagesLoaded && selection && selection.map(song => (
+                <div className='song popup' onClick={() => chooseAddition(song['title'], song['artist-credit'][0]['name'], (song['length'] !== undefined ? milliToMin(song['length']) : '-'), song['cover'])} key={song.id}>
+                    <img className='cover-art' src={song['cover']} onLoad={handleImageLoad}></img>
                     <div className='song-info'>
                         <div className="song-title">
                             <p>{song['title']}</p>
