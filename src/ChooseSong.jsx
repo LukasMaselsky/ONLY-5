@@ -1,5 +1,5 @@
-import { useState, useEffect, useContext, useReducer } from "react";
-import { popupVisibility } from "./App";
+import { useState, useEffect, useContext } from 'react';
+import { Visibility } from "./App";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faX } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios';
@@ -12,10 +12,10 @@ const milliToMin = (millis) => {
     return `${minutes}:${(seconds < 10 ? "0" : "")}${seconds}`;
 }
 
-function ChooseSong({ playlist, setPlaylist, search, setSearch}) {
+function ChooseSong({ playlist, setPlaylist, search}) {
 
     const [selection, setSelection] = useState(null)
-    const vis = useContext(popupVisibility)
+    const vis = useContext(Visibility)
     const [isChoosing, setIsChoosing] = useState(false) //* var to know if song is being chosen to prevent spamming of search button
 
     useEffect(() => {
@@ -28,11 +28,19 @@ function ChooseSong({ playlist, setPlaylist, search, setSearch}) {
             axios.get('artist=' + search.artist + '%20AND%20recording=' + search.title)
             .then((res) => {
                 // !SHOW POPUP HERE WHEN RESPONSE RECEIVED
-                vis.show()
+                vis.showPopup()
 
                 const myJSON = JSON.stringify(res.data)
                 const data = JSON.parse(myJSON)
-                const slicedData = data['recordings'].slice(0, 5)
+                // filter out music videos
+                let slicedData = []
+                let j = 0
+                while (slicedData.length < 5) {
+                    if (!data['recordings'][j]['video']) {
+                        slicedData.push(data['recordings'][j])
+                    }
+                    j++
+                }
     
                 getCoverArt(slicedData)
                 //* these results will be the ones the user chooses from
@@ -54,12 +62,12 @@ function ChooseSong({ playlist, setPlaylist, search, setSearch}) {
             coverArt: cover,
         }])
         //! HIDE POPUP  
-        vis.hide() 
+        vis.hidePopup() 
         setIsChoosing(false)   
     }
 
     const exitChoosing = () => {
-        vis.hide()
+        vis.hidePopup()
         setIsChoosing(false)
     }
 
@@ -101,13 +109,14 @@ function ChooseSong({ playlist, setPlaylist, search, setSearch}) {
     }, [loadedImageCount, selection]);
 
     return (   
-        <div className="choose-song" style={{'visibility':vis.vis}}>
+        <div className="choose-song" style={{'visibility':vis.popupVis}}>
             <FontAwesomeIcon className='exit' icon={faX} style={{color: "#000000",}} onClick={exitChoosing}/>
             <div className="choose-song-wrapper">
                 <h1 className='choose-song-heading'>Choose song to add</h1>
                 {allImagesLoaded && selection && selection.map(song => (
                 <div className='song popup' onClick={() => chooseAddition(song['title'], song['artist-credit'][0]['name'], (song['length'] !== undefined ? milliToMin(song['length']) : '-'), song['cover'])} key={song.id}>
                     <img className='cover-art' src={song['cover']} onLoad={handleImageLoad}></img>
+
                     <div className='song-info'>
                         <div className="song-title">
                             <p>{song['title']}</p>
