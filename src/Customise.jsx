@@ -1,7 +1,8 @@
 import { useState, useEffect, useContext } from 'react';
 import { Visibility } from "./App";
+import { SketchPicker } from 'react-color';
 
-function Customise() {
+function Customise( { BGColour, setBGColour } ) {
 
     const vis = useContext(Visibility)
 
@@ -10,12 +11,20 @@ function Customise() {
         vis.showSelectButtons()
     }
 
+
+    const handleBGColourChange = (colour) => {
+        setBGColour(colour.hex)
+    }
+
     return (
         <div className="customise">
             <div className="customise-wrapper">
                 <div className="select-colour">
                     <button className="select-colour-btn" onClick={() => showSelectMenu()}>Background Colour</button>
                 </div>
+                <SketchPicker 
+                color={BGColour}
+                onChangeComplete={handleBGColourChange}/>
                 <div className="select-font-type">
                     <button className="select-font-type-btn">Font Type</button>
                 </div>

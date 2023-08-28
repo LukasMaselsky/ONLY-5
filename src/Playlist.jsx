@@ -1,10 +1,10 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { Visibility } from "./App";
 
-function Playlist({ playlist, updatePlaylist, handleDelete, selectedForStyling, setSelectedForStyling}) {
+function Playlist({ playlist, updatePlaylist, handleDelete, selectedForStyling, setSelectedForStyling, BGColour, setBGColour}) {
     
     const vis = useContext(Visibility)
 
@@ -16,18 +16,24 @@ function Playlist({ playlist, updatePlaylist, handleDelete, selectedForStyling, 
         updatePlaylist(items)
     }
 
-    //! THIS DOESNT WORK !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //* works now
     const handleCheckboxChange = (event, id) => {
         if (selectedForStyling.includes(id)) {
             const newSelected = selectedForStyling.filter(e => e !== id)
             setSelectedForStyling(newSelected)
         }
         else {
-            console.log('here')
             setSelectedForStyling((prev) => [...prev, id])
         }
-        console.log(selectedForStyling)
     }
+
+    useEffect(() => {
+        for (let i = 0;i < selectedForStyling.length;i++) {
+            const id = 'song-' + String(selectedForStyling[i])
+            const element = document.getElementById(id)
+            element.style.backgroundColor = String(BGColour)
+        }
+    }, [BGColour])
 
     return (
         <div className='playlist'>
@@ -39,7 +45,7 @@ function Playlist({ playlist, updatePlaylist, handleDelete, selectedForStyling, 
                         {playlist.map((song, index) => (
                             <Draggable key={song.id} draggableId={String(song.id)} index={index}>
                                 {(provided) => (
-                                    <div className='song' {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
+                                    <div className='song' id={'song-' + String(song.id)} {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
                                         <img className='cover-art' src={song.coverArt}></img>
                                         <div className='song-info'>
                                             <div className="song-title">

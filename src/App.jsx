@@ -21,6 +21,9 @@ function App() {
 
     const [selectedForStyling, setSelectedForStyling] = useState([])
 
+
+    const [BGColour, setBGColour] = useState('#FFC0CB')
+
     const updatePlaylist = (update) => {
         setPlaylist(update)
     }
@@ -67,10 +70,10 @@ function App() {
                 showSelectButtons:setSelectButtonsShow,
                 hideSelectButtons:setSelectButtonsHide}}>
                     <Add search={search} setSearch={setSearch}/>
-                    <Playlist playlist={playlist} updatePlaylist={updatePlaylist} handleDelete={handleDelete} selectedForStyling={selectedForStyling} setSelectedForStyling={setSelectedForStyling}/>
+                    <Playlist playlist={playlist} updatePlaylist={updatePlaylist} handleDelete={handleDelete} selectedForStyling={selectedForStyling} setSelectedForStyling={setSelectedForStyling} BGColour={BGColour} setBGColour={setBGColour}/>
                     <ChooseSong playlist={playlist} setPlaylist={setPlaylist} search={search}/>
-                    <ApplyCustomiseSelect />
-                    <Customise />
+                    <ApplyCustomiseSelect playlist={playlist} selectedForStyling={selectedForStyling} setSelectedForStyling={setSelectedForStyling}/>
+                    <Customise BGColour={BGColour} setBGColour={setBGColour}/>
             </Visibility.Provider>
         </main>
     );
