@@ -4,7 +4,7 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { Visibility } from "./App";
 
-function Playlist({ playlist, updatePlaylist, handleDelete, selectedForStyling, setSelectedForStyling, BGColour, setBGColour}) {
+function Playlist({ playlist, updatePlaylist, handleDelete, selectedForStyling, setSelectedForStyling, state, dispatch}) {
     
     const vis = useContext(Visibility)
 
@@ -27,13 +27,36 @@ function Playlist({ playlist, updatePlaylist, handleDelete, selectedForStyling, 
         }
     }
 
+    // change BG colour on each song selected
     useEffect(() => {
         for (let i = 0;i < selectedForStyling.length;i++) {
+            const colourRGBA = JSON.stringify(Object.values(state.BGColour))
             const id = 'song-' + String(selectedForStyling[i])
             const element = document.getElementById(id)
-            element.style.backgroundColor = String(BGColour)
+            element.style.backgroundColor = 'rgba(' + colourRGBA.slice(1, -1) + ')'
         }
-    }, [BGColour])
+    }, [state.BGColour])
+
+    // change font type on each song selected
+    useEffect(() => {
+        for (let i = 0;i < selectedForStyling.length;i++) {
+            console.log(state.fontType)
+            const id = 'song-' + String(selectedForStyling[i])
+            const element = document.getElementById(id)
+            element.style.fontFamily = '"' + state.fontType + '"'
+        }
+    }, [state.fontType])
+
+
+    // change font type on each song selected
+    useEffect(() => {
+        for (let i = 0;i < selectedForStyling.length;i++) {
+            const colourRGBA = JSON.stringify(Object.values(state.fontColour))
+            const id = 'song-' + String(selectedForStyling[i])
+            const element = document.getElementById(id)
+            element.style.color = 'rgba(' + colourRGBA.slice(1, -1) + ')'
+        }
+    }, [state.fontColour])
 
     return (
         <div className='playlist'>

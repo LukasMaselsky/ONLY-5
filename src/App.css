@@ -14,7 +14,6 @@
 * {
     margin:0;
     box-sizing: border-box;
-    font-family: 'Almarai', sans-serif;
 }
 
 a {
@@ -23,8 +22,8 @@ a {
 
 body {
     background-color: var(--background);
-    font-family: 'Lexend', sans-serif;
-    overflow-x:hidden;
+    font-family: 'Almarai', sans-serif;
+    overflow-x: hidden;
 }
 
 main {
@@ -90,7 +89,7 @@ input:focus {
     display:flex;
     flex-direction: row;
     background-color: var(--accent);
-    border:1px solid var(--text);
+    /*border:1px solid var(--text);*/
 }
 
 .trash:hover {
@@ -213,13 +212,13 @@ input[type=checkbox] {
     cursor:pointer;
 }
 
-.customise, .customise-select {
+.customise, .customise-select, .change-style {
     width:100%;
     display:flex;
     justify-content: center;
 }
 
-.customise-wrapper, .customise-select-wrapper {
+.customise-wrapper, .customise-select-wrapper, .change-style-wrapper {
     padding:1rem;
     justify-content:center;
     gap:1rem;
