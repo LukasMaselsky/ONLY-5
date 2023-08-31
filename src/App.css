@@ -174,10 +174,11 @@ input[type=checkbox] {
     align-items: center;
     justify-content: center;
     padding:2rem;
-    top: 50%;
+    top: 20%;
     left: 50%;
-    transform:translate(-50%, -50%);
+    transform:translate(-50%, -20%);
     border-radius:5%;
+    z-index:1
 }
 
 .choose-song-wrapper {
@@ -227,3 +228,17 @@ input[type=checkbox] {
     flex-direction: row;
 }
 
+.select-colour-btn, .select-font-type-btn, .select-font-colour-btn, .upload-background-btn {
+   padding:1rem;
+   border:none;
+}
+
+.select-colour-btn:hover, .select-font-type-btn:hover, .select-font-colour-btn:hover, .upload-background-btn:hover {
+    cursor:pointer;
+}
+
+
+.select-all-btn, .apply-selection-btn {
+    padding:0.5rem;
+    border:none;
+}

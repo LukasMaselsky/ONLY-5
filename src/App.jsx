@@ -173,7 +173,7 @@ function App() {
                     <ChooseSong playlist={playlist} setPlaylist={setPlaylist} search={search}/>
                     <ApplyCustomiseSelect playlist={playlist} selectedForStyling={selectedForStyling} setSelectedForStyling={setSelectedForStyling} state={state} dispatch={dispatch}/>
                     <ChangeStyle state={state} dispatch={dispatch}/>
-                    <Customise state={state} dispatch={dispatch}/>
+                    <Customise playlist={playlist} state={state} dispatch={dispatch}/>
             </Visibility.Provider>
         </main>
     );

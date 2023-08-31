@@ -21,15 +21,24 @@ function ApplyCustomiseSelect( { playlist, selectedForStyling, setSelectedForSty
             else if (vis.whichCustomiseOption === 'fontType') {
                 dispatch({ type:'showFontTypePicker' })
             }
-        }
-        
+        } 
     }
 
     //! for future, improve to check all boxes visually and let user click 'finish selection' for better UX
     const selectAll = () => {
         const allIds = playlist.map(element => element.id)
         setSelectedForStyling(allIds)
-        finishSelectingForCustomise()
+        vis.hideCheckbox()
+        vis.hideSelectButtons()
+        if (vis.whichCustomiseOption === 'BGColour') {
+            dispatch({ type:'showBGColourPicker' })
+        }
+        else if (vis.whichCustomiseOption === 'fontColour') {
+            dispatch({ type:'showFontColourPicker' })
+        }
+        else if (vis.whichCustomiseOption === 'fontType') {
+            dispatch({ type:'showFontTypePicker' })
+        }
     }
 
     return (

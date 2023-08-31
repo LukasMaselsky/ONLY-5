@@ -32,6 +32,7 @@ function ChooseSong({ playlist, setPlaylist, search}) {
 
                 const myJSON = JSON.stringify(res.data)
                 const data = JSON.parse(myJSON)
+                console.log(data)
                 // filter out music videos
                 let slicedData = []
                 let j = 0
@@ -41,7 +42,6 @@ function ChooseSong({ playlist, setPlaylist, search}) {
                     }
                     j++
                 }
-    
                 getCoverArt(slicedData)
                 //* these results will be the ones the user chooses from
             }).catch((err) => {
@@ -76,12 +76,41 @@ function ChooseSong({ playlist, setPlaylist, search}) {
 
         axios.defaults.baseURL = 'https://coverartarchive.org/release/'
         for (let i = 0; i < slice.length; i++) {
+
+            // select digital media version of album
+            let date;
+            let preferredRelease;
+            let getID;
+            if (slice[i]['releases'] !== undefined) {
+                for (let j = 0; j < slice[i]['releases'].length;j++) {
+                    // gets earliest release date for "original" cover 
+                    //! add to compare both years and months and days for more accurate, convert just year to 31/12
+                    if (j == 0) {
+                        date = (slice[i]['releases'][j]['date'] !== undefined) ? parseInt(slice[i]['releases'][j]['date'].slice(0, 4)) : new Date().getFullYear()
+                        preferredRelease = j
+                    }
+                    else if (slice[i]['releases'][j]['date'] !== undefined && (parseInt(slice[i]['releases'][j]['date'].slice(0, 4)) < date)) {
+                        date = parseInt(slice[i]['releases'][j]['date'].slice(0, 4))
+                        preferredRelease = j
+                    }
+                }
+                getID = slice[i]['releases'][preferredRelease]['id']
+            } else {
+                getID = slice[i]['id']
+            }
+
             imagePromises.push(
-            axios.get(slice[i]['releases'][0]['id'])
+            axios.get(getID)
             .then((res) => {
                 const myJSON = JSON.stringify(res.data)
                 const data = JSON.parse(myJSON)
-                slice[i]['cover'] = data['images'][0]['image']
+                for (let k = 0; k < data['images'].length;k++) {
+                    if (data['images'][k]['front']) {
+                        slice[i]['cover'] = data['images'][k]['image']
+                        break
+                    }
+                }
+                
             }).catch((err) => {
                 console.log(err)
             })

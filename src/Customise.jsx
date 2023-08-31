@@ -1,20 +1,24 @@
 import { useState, useEffect, useContext } from 'react';
 import { Visibility } from "./App";
 
-function Customise( { state, dispatch } ) {
+function Customise( { playlist, state, dispatch } ) {
 
     const vis = useContext(Visibility)
 
     const showSelectMenu = (payload) => {
-        vis.showCheckbox()
-        vis.showSelectButtons()
-        // hide all customiser when clicking a button
-        dispatch({ type:'hideBGColourPicker' })
-        dispatch({ type:'hideFontColourPicker' })
-        dispatch({ type:'hideFontTypePicker' })
-        
+        if (playlist.length == 0) {
+            alert('no songs added to playlist')
+        } else {
+            vis.showCheckbox()
+            vis.showSelectButtons()
+            // hide all customiser when clicking a button
+            dispatch({ type:'hideBGColourPicker' })
+            dispatch({ type:'hideFontColourPicker' })
+            dispatch({ type:'hideFontTypePicker' })
+            
 
-        vis.setWhichCustomiseOption(payload)
+            vis.setWhichCustomiseOption(payload)
+        }
     }
 
     return (
