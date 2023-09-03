@@ -1,7 +1,7 @@
 import { ChromePicker } from 'react-color';
 import FontPicker from "font-picker-react";
 
-function ChangeStyle( { state, dispatch } ) {
+function ChangeStyle( { state, dispatch, anyStylerOpen } ) {
 
     // this is for colour picker itself
     const handleBGColourChange = (colour) => {
@@ -15,7 +15,7 @@ function ChangeStyle( { state, dispatch } ) {
     //const API_KEY = process.env.GOOGLE_FONTS_API_KEY
 
     return (
-        <div className='change-style' style={ (state.BGColourPickerVis == 'flex' || state.fontColourPickerVis == 'flex' || state.fontTypePickerVis == 'flex') ? {display:'flex'} : {display:'none'} }>
+        <div className='change-style' style={ (anyStylerOpen) ? {display:'flex'} : {display:'none'} }>
             <div className="change-style-wrapper">
                 <div style={{display:state.BGColourPickerVis}}>
                     <ChromePicker 

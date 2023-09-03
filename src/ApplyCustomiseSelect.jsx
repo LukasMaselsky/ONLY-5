@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { Visibility } from "./App";
 
 
-function ApplyCustomiseSelect( { playlist, selectedForStyling, setSelectedForStyling, state, dispatch } ) {
+function ApplyCustomiseSelect( { playlist, selectedForStyling, setSelectedForStyling, state, dispatch, anyStylerOpen, setAnyStylerOpen } ) {
 
     const vis = useContext(Visibility)
 
@@ -10,6 +10,7 @@ function ApplyCustomiseSelect( { playlist, selectedForStyling, setSelectedForSty
         if (selectedForStyling.length == 0) {
             alert('nothing selected')
         } else {
+            setAnyStylerOpen(!anyStylerOpen)
             vis.hideCheckbox()
             vis.hideSelectButtons()
             if (vis.whichCustomiseOption === 'BGColour') {
@@ -28,16 +29,9 @@ function ApplyCustomiseSelect( { playlist, selectedForStyling, setSelectedForSty
     const selectAll = () => {
         const allIds = playlist.map(element => element.id)
         setSelectedForStyling(allIds)
-        vis.hideCheckbox()
-        vis.hideSelectButtons()
-        if (vis.whichCustomiseOption === 'BGColour') {
-            dispatch({ type:'showBGColourPicker' })
-        }
-        else if (vis.whichCustomiseOption === 'fontColour') {
-            dispatch({ type:'showFontColourPicker' })
-        }
-        else if (vis.whichCustomiseOption === 'fontType') {
-            dispatch({ type:'showFontTypePicker' })
+        let checkboxes = document.querySelectorAll('input[type=checkbox]');
+        for (let i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = true
         }
     }
 

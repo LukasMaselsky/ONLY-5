@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { Visibility } from "./App";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faX } from '@fortawesome/free-solid-svg-icons'
+import ScaleLoader from "react-spinners/ScaleLoader";
 import axios from 'axios';
 
 const milliToMin = (millis) => {
@@ -17,36 +18,52 @@ function ChooseSong({ playlist, setPlaylist, search}) {
     const [selection, setSelection] = useState(null)
     const vis = useContext(Visibility)
     const [isChoosing, setIsChoosing] = useState(false) //* var to know if song is being chosen to prevent spamming of search button
+    const [isLoading, setIsLoading] = useState(false)
+
+    const [token, setToken] = useState('')
+
+    const spotify = {
+        ClientId: 'cb20116d67d6469fb4ea1b43fd8a1768',
+        ClientSecret: 'd3d27af19bf54837834de2df497db0ae'
+    }
 
     useEffect(() => {
         //! this if statement to prevent firing on initialization of search when it is null
         if (search != null && !isChoosing) {
             setIsChoosing(true)
-            const baseURL = 'https://musicbrainz.org/ws/2/recording?query='
-                
-            axios.defaults.baseURL = baseURL
-            axios.get('artist=' + search.artist + '%20AND%20recording=' + search.title)
-            .then((res) => {
-                // !SHOW POPUP HERE WHEN RESPONSE RECEIVED
-                vis.showPopup()
+            setIsLoading(true)
+            vis.showPopup()
+              
+            axios('https://accounts.spotify.com/api/token', {
+            headers: {
+                'Content-Type' : 'application/x-www-form-urlencoded',
+                'Authorization' : 'Basic ' + btoa(spotify.ClientId + ':' + spotify.ClientSecret)      
+            },
+            data: 'grant_type=client_credentials',
+            method: 'POST'
+            })
+            .then(tokenResponse => {      
+                setToken(tokenResponse.data.access_token);
 
-                const myJSON = JSON.stringify(res.data)
-                const data = JSON.parse(myJSON)
-                console.log(data)
-                // filter out music videos
-                let slicedData = []
-                let j = 0
-                while (slicedData.length < 5) {
-                    if (!data['recordings'][j]['video']) {
-                        slicedData.push(data['recordings'][j])
-                    }
-                    j++
-                }
-                getCoverArt(slicedData)
-                //* these results will be the ones the user chooses from
-            }).catch((err) => {
+                axios('https://api.spotify.com/v1/search?q=' + search.title + '&type=track&market=ES&limit=5&offset=0', {
+                    method: 'GET',
+                    headers: { 'Authorization' : 'Bearer ' + tokenResponse.data.access_token}
+                })
+                .then (response => {   
+                    //console.log(response)     
+                    let data = response['data']['tracks']['items']
+                    data.sort((a, b) => b.popularity - a.popularity) // sort by highest popularity
+                    setSelection(data)
+                    setIsLoading(false)
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+            })
+            .catch((err) => {
                 console.log(err)
             })
+        
         }
     }, [search]);
 
@@ -69,93 +86,42 @@ function ChooseSong({ playlist, setPlaylist, search}) {
     const exitChoosing = () => {
         vis.hidePopup()
         setIsChoosing(false)
+        setIsLoading(false)
     }
 
-    function getCoverArt(slice) {
-        const imagePromises = [];
-
-        axios.defaults.baseURL = 'https://coverartarchive.org/release/'
-        for (let i = 0; i < slice.length; i++) {
-
-            // select digital media version of album
-            let date;
-            let preferredRelease;
-            let getID;
-            if (slice[i]['releases'] !== undefined) {
-                for (let j = 0; j < slice[i]['releases'].length;j++) {
-                    // gets earliest release date for "original" cover 
-                    //! add to compare both years and months and days for more accurate, convert just year to 31/12
-                    if (j == 0) {
-                        date = (slice[i]['releases'][j]['date'] !== undefined) ? parseInt(slice[i]['releases'][j]['date'].slice(0, 4)) : new Date().getFullYear()
-                        preferredRelease = j
-                    }
-                    else if (slice[i]['releases'][j]['date'] !== undefined && (parseInt(slice[i]['releases'][j]['date'].slice(0, 4)) < date)) {
-                        date = parseInt(slice[i]['releases'][j]['date'].slice(0, 4))
-                        preferredRelease = j
-                    }
-                }
-                getID = slice[i]['releases'][preferredRelease]['id']
-            } else {
-                getID = slice[i]['id']
-            }
-
-            imagePromises.push(
-            axios.get(getID)
-            .then((res) => {
-                const myJSON = JSON.stringify(res.data)
-                const data = JSON.parse(myJSON)
-                for (let k = 0; k < data['images'].length;k++) {
-                    if (data['images'][k]['front']) {
-                        slice[i]['cover'] = data['images'][k]['image']
-                        break
-                    }
-                }
-                
-            }).catch((err) => {
-                console.log(err)
-            })
-            )
-        }
-        Promise.all(imagePromises).then(() => {
-            setAllImagesLoaded(true); // Set the flag when all images are loaded meaning the whole selection ui only loads after all images are gotten
-            setSelection(slice);
-        });
+    const getArtistNames = (arr) => {
+        return arr.map((artist) => artist.name).join(', ')
     }
-
-
-    //* handle image loading
-    const [loadedImageCount, setLoadedImageCount] = useState(0);
-    const [allImagesLoaded, setAllImagesLoaded] = useState(false);
-
-    const handleImageLoad = () => {
-        setLoadedImageCount(prevCount => prevCount + 1);
-    }
-
-    useEffect(() => {
-        if (loadedImageCount === (selection && selection.length)) {
-            setAllImagesLoaded(true)
-        }
-    }, [loadedImageCount, selection]);
 
     return (   
         <div className="choose-song" style={{'visibility':vis.popupVis}}>
             <FontAwesomeIcon className='exit' icon={faX} style={{color: "#000000",}} onClick={exitChoosing}/>
-            <div className="choose-song-wrapper">
+            <ScaleLoader
+                color={getComputedStyle(document.querySelector(':root')).getPropertyValue("--background")}
+                loading={isLoading}
+                height={75}
+                width={8}
+                radius={4}
+                aria-label="Loading Spinner"
+                data-testid="loader"
+            />
+            
+            <div className="choose-song-wrapper" style={{'display': (isLoading) ? 'none' : 'inline'}}>
                 <h1 className='choose-song-heading'>Choose song to add</h1>
-                {allImagesLoaded && selection && selection.map(song => (
-                <div className='song popup' onClick={() => chooseAddition(song['title'], song['artist-credit'][0]['name'], (song['length'] !== undefined ? milliToMin(song['length']) : '-'), song['cover'])} key={song.id}>
-                    <img className='cover-art' src={song['cover']} onLoad={handleImageLoad}></img>
+                {selection && selection.map(song => (
+                <div className='song popup' onClick={() => chooseAddition(song['name'], getArtistNames(song['artists']), milliToMin(song['duration_ms']), song['album']['images'][0]['url'])} key={song.id}>
+                    <img className='cover-art' src={song['album']['images'][0]['url']}></img>
 
                     <div className='song-info'>
                         <div className="song-title">
-                            <p>{song['title']}</p>
+                            <p>{song['name']}</p>
                         </div>
                         <div className="song-artist">
-                            <p>{song['artist-credit'][0]['name']}</p>
+                            <p>{getArtistNames(song['artists'])}</p>
                         </div>
                     </div>
                     <div className='song-length'>
-                        <p>{(song['length'] !== undefined ? milliToMin(song['length']) : '-')}</p>
+                        <p>{song['duration_ms'] !== undefined ? milliToMin(song['duration_ms']) : '-'}</p>
                     </div>
                 </div>
                 ))}

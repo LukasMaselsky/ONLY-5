@@ -22,6 +22,8 @@ function App() {
 
     const [selectedForStyling, setSelectedForStyling] = useState([])
 
+    const [anyStylerOpen, setAnyStylerOpen] = useState(false)
+
     function reducer(state, action) {
         switch(action.type) {
             case 'showBGColourPicker':
@@ -171,9 +173,9 @@ function App() {
                     <Add search={search} setSearch={setSearch}/>
                     <Playlist playlist={playlist} updatePlaylist={updatePlaylist} handleDelete={handleDelete} selectedForStyling={selectedForStyling} setSelectedForStyling={setSelectedForStyling} state={state} dispatch={dispatch}/>
                     <ChooseSong playlist={playlist} setPlaylist={setPlaylist} search={search}/>
-                    <ApplyCustomiseSelect playlist={playlist} selectedForStyling={selectedForStyling} setSelectedForStyling={setSelectedForStyling} state={state} dispatch={dispatch}/>
-                    <ChangeStyle state={state} dispatch={dispatch}/>
-                    <Customise playlist={playlist} state={state} dispatch={dispatch}/>
+                    <ApplyCustomiseSelect playlist={playlist} selectedForStyling={selectedForStyling} setSelectedForStyling={setSelectedForStyling} state={state} dispatch={dispatch} anyStylerOpen={anyStylerOpen} setAnyStylerOpen={setAnyStylerOpen}/>
+                    <ChangeStyle state={state} dispatch={dispatch} anyStylerOpen={anyStylerOpen} setAnyStylerOpen={setAnyStylerOpen}/>
+                    <Customise playlist={playlist} state={state} dispatch={dispatch} anyStylerOpen={anyStylerOpen} setAnyStylerOpen={setAnyStylerOpen} setSelectedForStyling={setSelectedForStyling}/>
             </Visibility.Provider>
         </main>
     );

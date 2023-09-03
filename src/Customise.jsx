@@ -1,14 +1,22 @@
 import { useState, useEffect, useContext } from 'react';
 import { Visibility } from "./App";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSquareCheck } from '@fortawesome/free-solid-svg-icons'
 
-function Customise( { playlist, state, dispatch } ) {
+function Customise( { playlist, state, dispatch, anyStylerOpen, setAnyStylerOpen, setSelectedForStyling } ) {
 
     const vis = useContext(Visibility)
 
     const showSelectMenu = (payload) => {
         if (playlist.length == 0) {
-            alert('no songs added to playlist')
+            alert('no songs added to playlist') //!
         } else {
+            let checkboxes = document.querySelectorAll('input[type=checkbox]');
+            for (let i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].checked = false
+            }
+
+            setSelectedForStyling([]) // deselect all when any button clicked
             vis.showCheckbox()
             vis.showSelectButtons()
             // hide all customiser when clicking a button
@@ -35,6 +43,9 @@ function Customise( { playlist, state, dispatch } ) {
                 </div>
                 <div className="upload-background">
                     <button className="upload-background-btn">Upload Background</button>
+                </div>
+                <div className="close-styler" style={(anyStylerOpen) ? {display:'flex'} : {display:'none'}}>
+                    <FontAwesomeIcon className="close-style-btn" icon={faSquareCheck} style={{color: "#86DA98", height:"100%"}}onClick={() => setAnyStylerOpen(!anyStylerOpen)}/>
                 </div>
             </div>
         </div>

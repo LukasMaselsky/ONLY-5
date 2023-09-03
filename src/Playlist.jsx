@@ -92,6 +92,7 @@ function Playlist({ playlist, updatePlaylist, handleDelete, selectedForStyling, 
                                 )}
                             </Draggable>
                         ))}
+                        {provided.placeholder}
                     </div>
                     )}
             </Droppable>
