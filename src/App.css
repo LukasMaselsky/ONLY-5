@@ -115,17 +115,13 @@ input:focus {
 }
 
 .song-info {
+    display:flex;
     flex-direction: column;
     justify-content: center;
     flex-grow: 1;
     padding: 0rem 0.5rem;
     min-width: 0;
-}
 
-.song-title {
-    height:50%;
-    display:flex;
-    align-items:center;
 }
 
 .song-title {
@@ -133,10 +129,6 @@ input:focus {
 }
 
 .song-artist {
-    height:50%;
-    display:flex;
-    justify-content: flex-end;
-    flex-direction: column;
     font-size: 1rem;
 }
 
@@ -144,6 +136,10 @@ p {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+}
+
+.choose {
+    text-align: left;
 }
 
 .song-length, .trash-wrapper {

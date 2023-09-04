@@ -71,13 +71,8 @@ function Playlist({ playlist, updatePlaylist, handleDelete, selectedForStyling, 
                                     <div className='song' id={'song-' + String(song.id)} {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
                                         <img className='cover-art' src={song.coverArt}></img>
                                         <div className='song-info'>
-                                            <div className="song-title">
-                                                <p>{song.title}</p>
-                                            </div>
-                                            <div className="song-artist">
-                                                <p>{song.artist}</p>
-                                            </div>
-                                            
+                                            <p className="song-title">{song.title}</p>
+                                            <p className="song-artist">{song.artist}</p>
                                         </div>
                                         <div className='song-length'>
                                             <p>{song.length}</p>

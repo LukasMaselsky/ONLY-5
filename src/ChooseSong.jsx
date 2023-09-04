@@ -112,13 +112,9 @@ function ChooseSong({ playlist, setPlaylist, search}) {
                 <div className='song popup' onClick={() => chooseAddition(song['name'], getArtistNames(song['artists']), milliToMin(song['duration_ms']), song['album']['images'][0]['url'])} key={song.id}>
                     <img className='cover-art' src={song['album']['images'][0]['url']}></img>
 
-                    <div className='song-info'>
-                        <div className="song-title">
-                            <p>{song['name']}</p>
-                        </div>
-                        <div className="song-artist">
-                            <p>{getArtistNames(song['artists'])}</p>
-                        </div>
+                    <div className='song-info'>  
+                        <p className="song-title choose">{song['name']}</p>
+                        <p className="song-artist choose">{getArtistNames(song['artists'])}</p>
                     </div>
                     <div className='song-length'>
                         <p>{song['duration_ms'] !== undefined ? milliToMin(song['duration_ms']) : '-'}</p>

@@ -1,4 +1,4 @@
-import { useState, createContext, useReducer} from 'react';
+import { useState, createContext, useReducer, useEffect} from 'react';
 import Playlist from './Playlist';
 import Add from './Add';
 import ChooseSong from './ChooseSong';
@@ -155,6 +155,17 @@ function App() {
     const setSelectButtonsHide = () => {
         setSelectButtonsDisplay('none')
     }
+
+    useEffect(() => {
+        const unloadCallback = (event) => {
+          event.preventDefault();
+          event.returnValue = "";
+          return "";
+        };
+      
+        window.addEventListener("beforeunload", unloadCallback);
+        return () => window.removeEventListener("beforeunload", unloadCallback);
+    }, []);
 
     return (
         <main>
