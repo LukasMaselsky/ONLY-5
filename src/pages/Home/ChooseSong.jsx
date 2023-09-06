@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
-import { Visibility } from "./App";
+import { Visibility } from "../../App";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faX } from '@fortawesome/free-solid-svg-icons'
 import ScaleLoader from "react-spinners/ScaleLoader";
@@ -29,7 +29,7 @@ function ChooseSong({ playlist, setPlaylist, search}) {
 
     useEffect(() => {
         //! this if statement to prevent firing on initialization of search when it is null
-        if (search != null && !isChoosing) {
+        if (search != null && !isChoosing && playlist.length < 5) {
             setIsChoosing(true)
             setIsLoading(true)
             vis.showPopup()

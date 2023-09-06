@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Visibility } from "./App";
+import { Visibility } from "../../App";
 
 
 function ApplyCustomiseSelect( { playlist, selectedForStyling, setSelectedForStyling, state, dispatch, anyStylerOpen, setAnyStylerOpen } ) {
@@ -10,7 +10,7 @@ function ApplyCustomiseSelect( { playlist, selectedForStyling, setSelectedForSty
         if (selectedForStyling.length == 0) {
             alert('nothing selected')
         } else {
-            setAnyStylerOpen(!anyStylerOpen)
+            setAnyStylerOpen(true)
             vis.hideCheckbox()
             vis.hideSelectButtons()
             if (vis.whichCustomiseOption === 'BGColour') {

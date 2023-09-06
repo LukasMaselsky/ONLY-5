@@ -1,10 +1,9 @@
 import { useState, createContext, useReducer, useEffect} from 'react';
-import Playlist from './Playlist';
-import Add from './Add';
-import ChooseSong from './ChooseSong';
-import Customise from './Customise';
-import ApplyCustomiseSelect from './ApplyCustomiseSelect';
-import ChangeStyle from './ChangeStyle';
+import Playlist from './components/Playlist';
+import Searchbar from './pages/Home/Searchbar';
+import ChooseSong from './pages/Home/ChooseSong';
+import Customise from './pages/Home/Customise';
+import ApplyCustomiseSelect from './pages/Home/ApplyCustomiseSelect';
 import './App.css';
 
 
@@ -156,6 +155,7 @@ function App() {
         setSelectButtonsDisplay('none')
     }
 
+    // ask before reload or leave page
     useEffect(() => {
         const unloadCallback = (event) => {
           event.preventDefault();
@@ -181,11 +181,10 @@ function App() {
                 hideSelectButtons:setSelectButtonsHide,
                 whichCustomiseOption:whichCustomiseOption,
                 setWhichCustomiseOption:setWhichCustomiseOption}}>
-                    <Add search={search} setSearch={setSearch}/>
+                    <Searchbar search={search} setSearch={setSearch}/>
                     <Playlist playlist={playlist} updatePlaylist={updatePlaylist} handleDelete={handleDelete} selectedForStyling={selectedForStyling} setSelectedForStyling={setSelectedForStyling} state={state} dispatch={dispatch}/>
                     <ChooseSong playlist={playlist} setPlaylist={setPlaylist} search={search}/>
                     <ApplyCustomiseSelect playlist={playlist} selectedForStyling={selectedForStyling} setSelectedForStyling={setSelectedForStyling} state={state} dispatch={dispatch} anyStylerOpen={anyStylerOpen} setAnyStylerOpen={setAnyStylerOpen}/>
-                    <ChangeStyle state={state} dispatch={dispatch} anyStylerOpen={anyStylerOpen} setAnyStylerOpen={setAnyStylerOpen}/>
                     <Customise playlist={playlist} state={state} dispatch={dispatch} anyStylerOpen={anyStylerOpen} setAnyStylerOpen={setAnyStylerOpen} setSelectedForStyling={setSelectedForStyling}/>
             </Visibility.Provider>
         </main>

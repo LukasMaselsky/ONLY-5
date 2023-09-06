@@ -2,7 +2,7 @@ import { useContext, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import { Visibility } from "./App";
+import { Visibility } from "../App";
 
 function Playlist({ playlist, updatePlaylist, handleDelete, selectedForStyling, setSelectedForStyling, state, dispatch}) {
     
@@ -40,7 +40,6 @@ function Playlist({ playlist, updatePlaylist, handleDelete, selectedForStyling, 
     // change font type on each song selected
     useEffect(() => {
         for (let i = 0;i < selectedForStyling.length;i++) {
-            console.log(state.fontType)
             const id = 'song-' + String(selectedForStyling[i])
             const element = document.getElementById(id)
             element.style.fontFamily = '"' + state.fontType + '"'

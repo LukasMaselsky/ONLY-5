@@ -36,10 +36,15 @@ main {
 }
 
 .search {
+    display:grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items:center;
+    /*
     display:flex;
     flex-direction: row;
     justify-content: center;
     align-items:center;
+    */
     gap: 1rem;
     width: 100%;
     padding: 1rem 0rem;
@@ -219,7 +224,7 @@ input[type=checkbox] {
     justify-content: center;
 }
 
-.customise-wrapper, .customise-select-wrapper, .change-style-wrapper {
+.customise-select-wrapper, .change-style-wrapper {
     padding:1rem;
     justify-content:center;
     gap:1rem;
@@ -228,18 +233,37 @@ input[type=checkbox] {
     flex-direction: row;
 }
 
+.customise-wrapper {
+    padding:1rem;
+    justify-content:center;
+    align-items:center;
+    gap:1rem;
+    width:100%;
+    display:flex;
+    flex-direction: row;
+}
+
+.select-colour,
+.select-font-colour,
+.select-font-type {
+    position:relative;
+}
+
 .select-colour-btn, 
 .select-font-type-btn, 
 .select-font-colour-btn, 
 .upload-background-btn {
-   padding:1rem;
-   border:none;
+    padding:1rem;
+    border:none;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .select-colour-btn:hover, 
 .select-font-type-btn:hover, 
 .select-font-colour-btn:hover, 
 .upload-background-btn:hover,
+.share-btn:hover,
 .close-style-btn:hover{
     cursor:pointer;
 }
