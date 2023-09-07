@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { Visibility } from "../../App";
 
 
-function ApplyCustomiseSelect( { playlist, selectedForStyling, setSelectedForStyling, state, dispatch, anyStylerOpen, setAnyStylerOpen } ) {
+function ApplyCustomiseSelect( { setReadyForFileUpload, playlist, selectedForStyling, setSelectedForStyling, state, dispatch, anyStylerOpen, setAnyStylerOpen } ) {
 
     const vis = useContext(Visibility)
 
@@ -10,7 +10,12 @@ function ApplyCustomiseSelect( { playlist, selectedForStyling, setSelectedForSty
         if (selectedForStyling.length == 0) {
             alert('nothing selected')
         } else {
-            setAnyStylerOpen(true)
+            if (!(vis.whichCustomiseOption === 'uploadBackground')) {
+                setAnyStylerOpen(true)
+                // don't trigger greeen checkbox for background upload since you can only click once to upload file
+            }
+
+            
             vis.hideCheckbox()
             vis.hideSelectButtons()
             if (vis.whichCustomiseOption === 'BGColour') {
@@ -21,6 +26,9 @@ function ApplyCustomiseSelect( { playlist, selectedForStyling, setSelectedForSty
             }
             else if (vis.whichCustomiseOption === 'fontType') {
                 dispatch({ type:'showFontTypePicker' })
+            }
+            else if (vis.whichCustomiseOption === 'uploadBackground') {
+                dispatch({type:'readyForUpload', status:true})
             }
         } 
     }

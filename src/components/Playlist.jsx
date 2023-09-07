@@ -33,6 +33,7 @@ function Playlist({ playlist, updatePlaylist, handleDelete, selectedForStyling, 
             const colourRGBA = JSON.stringify(Object.values(state.BGColour))
             const id = 'song-' + String(selectedForStyling[i])
             const element = document.getElementById(id)
+            element.style.backgroundImage = 'none' //* CLEAR BG IMAGE IF STYLING BG COLOUR
             element.style.backgroundColor = 'rgba(' + colourRGBA.slice(1, -1) + ')'
         }
     }, [state.BGColour])
@@ -56,6 +57,23 @@ function Playlist({ playlist, updatePlaylist, handleDelete, selectedForStyling, 
             element.style.color = 'rgba(' + colourRGBA.slice(1, -1) + ')'
         }
     }, [state.fontColour])
+
+    // change background image each song selected
+    useEffect(() => {
+        for (let i = 0;i < selectedForStyling.length;i++) {
+            const id = 'song-' + String(selectedForStyling[i])
+            const element = document.getElementById(id)
+
+            let reader = new FileReader()
+            reader.onloadend = function() {
+                element.style.backgroundImage = 'url(' + reader.result + ')'
+            }
+            
+            if(state.uploadBG){
+                reader.readAsDataURL(state.uploadBG);
+            }
+        }
+    }, [state.uploadBG])
 
     return (
         <div className='playlist'>

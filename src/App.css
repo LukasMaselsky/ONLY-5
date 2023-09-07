@@ -94,6 +94,7 @@ input:focus {
     display:flex;
     flex-direction: row;
     background-color: var(--accent);
+    background-size: cover;
     /*border:1px solid var(--text);*/
 }
 
@@ -179,9 +180,10 @@ input[type=checkbox] {
     align-items: center;
     justify-content: center;
     padding:2rem;
-    top: 20%;
-    left: 50%;
-    transform:translate(-50%, -20%);
+    left: 50%; /* center on X axis*/
+    transform:translateX(-50%);
+    top:0;
+    margin-top:5rem;
     border-radius:5%;
     z-index:1
 }
@@ -272,4 +274,49 @@ input[type=checkbox] {
 .select-all-btn, .apply-selection-btn {
     padding:0.5rem;
     border:none;
+}
+
+.upload-background > input {
+    display: block;
+    visibility: hidden;
+    width: 0;
+    height: 0;
+}
+
+/* google font search input */
+
+.font-searcher {
+    display:flex;
+    flex-direction: row;
+    align-items:center;
+    border:1px solid grey;
+    background:white;
+    padding:1px;   
+}
+
+.font-searcher > input {
+    padding:1rem;
+    flex-grow:2;
+    border:none;
+    font-size:1rem;
+}
+
+.font-searcher > input:focus {
+    outline:none;
+}
+
+.font-searcher:focus-within {
+    outline: 1px solid blue;
+}
+
+.font-searcher > .search-button {
+    color:black;
+    border: none;
+    font-size:1.5rem;
+    margin-right:10px;
+}
+
+.font-searcher > .search-button:hover {
+    cursor:pointer;
+    opacity:0.9;
 }

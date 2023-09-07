@@ -32,7 +32,9 @@ function App() {
                     fontColour: state.fontColour, 
                     fontColourPickerVis: state.fontColourPickerVis, 
                     fontType: state.fontType,
-                    fontTypePickerVis: state.fontTypePickerVis
+                    fontTypePickerVis: state.fontTypePickerVis,
+                    uploadBG: state.uploadBG,
+                    readyForUpload: state.readyForUpload,
                 }
             case 'hideBGColourPicker':
                 return {
@@ -41,7 +43,9 @@ function App() {
                     fontColour: state.fontColour, 
                     fontColourPickerVis: state.fontColourPickerVis, 
                     fontType: state.fontType,
-                    fontTypePickerVis: state.fontTypePickerVis
+                    fontTypePickerVis: state.fontTypePickerVis,
+                    uploadBG: state.uploadBG,
+                    readyForUpload: state.readyForUpload,
                 }
             case 'setBGColour':
                 return {
@@ -50,7 +54,9 @@ function App() {
                     fontColour: state.fontColour, 
                     fontColourPickerVis: state.fontColourPickerVis, 
                     fontType: state.fontType,
-                    fontTypePickerVis: state.fontTypePickerVis
+                    fontTypePickerVis: state.fontTypePickerVis,
+                    uploadBG: state.uploadBG,
+                    readyForUpload: state.readyForUpload,
                 }
             case 'showFontColourPicker':
                 return {
@@ -59,7 +65,9 @@ function App() {
                     fontColour: state.fontColour, 
                     fontColourPickerVis: 'flex', 
                     fontType: state.fontType,
-                    fontTypePickerVis: state.fontTypePickerVis
+                    fontTypePickerVis: state.fontTypePickerVis,
+                    uploadBG: state.uploadBG,
+                    readyForUpload: state.readyForUpload,
                 }
             case 'hideFontColourPicker':
                 return {
@@ -68,7 +76,9 @@ function App() {
                     fontColour: state.fontColour, 
                     fontColourPickerVis: 'none', 
                     fontType: state.fontType,
-                    fontTypePickerVis: state.fontTypePickerVis
+                    fontTypePickerVis: state.fontTypePickerVis,
+                    uploadBG: state.uploadBG,
+                    readyForUpload: state.readyForUpload,
                 }
             case 'setFontColour':
                 return {
@@ -77,7 +87,9 @@ function App() {
                     fontColour: action.colour, 
                     fontColourPickerVis: state.fontColourPickerVis, 
                     fontType: state.fontType,
-                    fontTypePickerVis: state.fontTypePickerVis
+                    fontTypePickerVis: state.fontTypePickerVis,
+                    uploadBG: state.uploadBG,
+                    readyForUpload: state.readyForUpload,
                 }
             case 'showFontTypePicker':
                 return {
@@ -86,7 +98,9 @@ function App() {
                     fontColour: state.fontColour, 
                     fontColourPickerVis: state.fontColourPickerVis, 
                     fontType: state.fontType,
-                    fontTypePickerVis: 'flex'
+                    fontTypePickerVis: 'flex',
+                    uploadBG: state.uploadBG,
+                    readyForUpload: state.readyForUpload,
                 }
             case 'hideFontTypePicker':
                 return {
@@ -95,7 +109,9 @@ function App() {
                     fontColour: state.fontColour, 
                     fontColourPickerVis: state.fontColourPickerVis, 
                     fontType: state.fontType,
-                    fontTypePickerVis: 'none'
+                    fontTypePickerVis: 'none',
+                    uploadBG: state.uploadBG,
+                    readyForUpload: state.readyForUpload,
                 }
             case 'setFontType':
                 return {
@@ -104,9 +120,32 @@ function App() {
                     fontColour: state.fontColour, 
                     fontColourPickerVis: state.fontColourPickerVis, 
                     fontType: action.font,
-                    fontTypePickerVis: state.fontTypePickerVis
+                    fontTypePickerVis: state.fontTypePickerVis,
+                    uploadBG: state.uploadBG,
+                    readyForUpload: state.readyForUpload,
                 }
-
+            case 'uploadBG':
+                return {
+                    BGColour: state.BGColour,
+                    BGColourPickerVis: state.BGColourPickerVis,
+                    fontColour: state.fontColour, 
+                    fontColourPickerVis: state.fontColourPickerVis, 
+                    fontType: state.fontType,
+                    fontTypePickerVis: state.fontTypePickerVis,
+                    uploadBG: action.file,
+                    readyForUpload: state.readyForUpload,
+                }
+            case 'readyForUpload':
+                return {
+                    BGColour: state.BGColour,
+                    BGColourPickerVis: state.BGColourPickerVis,
+                    fontColour: state.fontColour, 
+                    fontColourPickerVis: state.fontColourPickerVis, 
+                    fontType: state.fontType,
+                    fontTypePickerVis: state.fontTypePickerVis,
+                    uploadBG: state.uploadBG,
+                    readyForUpload: action.status,
+                }
         }
     }
 
@@ -116,7 +155,9 @@ function App() {
         fontColour: '#f5ebf7', 
         fontColourPickerVis: 'none', 
         fontType: 'Almarai',
-        fontTypePickerVis: 'none'
+        fontTypePickerVis: 'none',
+        uploadBG: null,
+        readyForUpload: false,
     })
 
     const [whichCustomiseOption, setWhichCustomiseOption] = useState('')
