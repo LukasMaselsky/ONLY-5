@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faX } from '@fortawesome/free-solid-svg-icons'
 import ScaleLoader from "react-spinners/ScaleLoader";
 import axios from 'axios';
+import Explicit from '../../components/Explicit';
 
 const milliToMin = (millis) => {
     const minutes = Math.floor(millis / 60000);
@@ -69,7 +70,7 @@ function ChooseSong({ playlist, setPlaylist, search}) {
 
         
         
-    const chooseAddition = (title, artist, length, cover) => {
+    const chooseAddition = (title, artist, length, cover, explicit) => {
         // update playlist with new song after selection from options
         setPlaylist((prevItems) => [...prevItems, {
             title: title, 
@@ -77,6 +78,7 @@ function ChooseSong({ playlist, setPlaylist, search}) {
             id: playlist.length !== 0 ? playlist[playlist.length - 1].id + 1 : 1, // if array not empty
             length: length,  
             coverArt: cover,
+            explicit: explicit,
         }])
         //! HIDE POPUP  
         vis.hidePopup() 
@@ -109,12 +111,15 @@ function ChooseSong({ playlist, setPlaylist, search}) {
             <div className="choose-song-wrapper" style={{'display': (isLoading) ? 'none' : 'inline'}}>
                 <h1 className='choose-song-heading'>Choose song to add</h1>
                 {selection && selection.map(song => (
-                <div className='song popup' onClick={() => chooseAddition(song['name'], getArtistNames(song['artists']), milliToMin(song['duration_ms']), song['album']['images'][0]['url'])} key={song.id}>
+                <div className='song popup' onClick={() => chooseAddition(song['name'], getArtistNames(song['artists']), milliToMin(song['duration_ms']), song['album']['images'][0]['url'], song['explicit'])} key={song.id}>
                     <img className='cover-art' src={song['album']['images'][0]['url']}></img>
 
                     <div className='song-info'>  
                         <p className="song-title choose">{song['name']}</p>
-                        <p className="song-artist choose">{getArtistNames(song['artists'])}</p>
+                        <div style={{display:'flex', flexDirection:'row', gap:'0.4rem'}}>
+                            <Explicit style={{display: song.explicit ? 'inline-block' : 'none', height:'1rem'}}/>
+                            <p className="song-artist choose">{getArtistNames(song['artists'])}</p>
+                        </div>
                     </div>
                     <div className='song-length'>
                         <p>{song['duration_ms'] !== undefined ? milliToMin(song['duration_ms']) : '-'}</p>

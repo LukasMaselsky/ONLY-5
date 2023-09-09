@@ -111,7 +111,7 @@ function Customise( { playlist, state, dispatch, anyStylerOpen, setAnyStylerOpen
             <div className="customise-wrapper">
                 <div className="select-colour">
                     <button className="select-colour-btn" onClick={() => showSelectMenu('BGColour')}>Background Colour</button>
-                    <div style={{display:state.BGColourPickerVis, position:"absolute", bottom:'80px'}}>
+                    <div className='background-colour-picker' style={{display:state.BGColourPickerVis}}>
                         <ChromePicker 
                         style={{display:state.BGColourPickerVis}}
                         color={state.BGColour}
@@ -121,14 +121,14 @@ function Customise( { playlist, state, dispatch, anyStylerOpen, setAnyStylerOpen
                 </div>
                 <div className="select-font-type">
                     <button className="select-font-type-btn" onClick={() => showSelectMenu('fontType')}>Font Type</button>
-                    <div className='font-searcher' style={{display:state.fontTypePickerVis, color:'black', position:"absolute", bottom:'80px'}}>  
+                    <div className='font-searcher' style={{display:state.fontTypePickerVis}}>  
                         <input placeholder='Search for font' value={fontSearch} onInput={e => setFontSearch(e.target.value)} onKeyDown={e => e.key === 'Enter' && searchForGoogleFont(fontSearch)}/>
                         <FontAwesomeIcon className='search-button' icon={faMagnifyingGlass} style={{color: "black",}} onClick={() => searchForGoogleFont(fontSearch)}/>
                     </div>
                 </div>
                 <div className="select-font-colour">
                     <button className="select-font-colour-btn" onClick={() => showSelectMenu('fontColour')}> Font Colour</button>
-                    <div style={{display:state.fontColourPickerVis, position:"absolute", bottom:'80px'}}>
+                    <div className='font-colour-picker' style={{display:state.fontColourPickerVis}}>
                         <ChromePicker 
                         style={{display:state.fontColourPickerVis}}
                         color={state.fontColour}

@@ -52,10 +52,16 @@ main {
 
 .search > input {
     height:3rem;
-    width:20rem;
+    width:clamp(15rem, 50vw, 20rem);
     padding: 1rem;
     font-size:1rem;
     border:none;
+
+    border-bottom: 5px solid;
+    border-image-slice: 1;
+    border-width: 2px;
+    border-image-source: linear-gradient(to right, #000000, var(--accent));
+
 }
 
 .search > .search-button {
@@ -83,6 +89,7 @@ input:focus {
     width:70%;
     background-color:var(--text);
     flex-direction: column;
+    background-size:cover;
     align-items: flex-start;
     height: calc(var(--songHeight) * var(--playlistLimit));
 }
@@ -147,6 +154,7 @@ p {
 .choose {
     text-align: left;
 }
+
 
 .song-length, .trash-wrapper {
     font-size:2rem;
@@ -242,6 +250,7 @@ input[type=checkbox] {
     gap:1rem;
     width:100%;
     display:flex;
+    flex-wrap: wrap;
     flex-direction: row;
 }
 
@@ -255,6 +264,7 @@ input[type=checkbox] {
 .select-font-type-btn, 
 .select-font-colour-btn, 
 .upload-background-btn {
+    width:10rem;
     padding:1rem;
     border:none;
     white-space: nowrap;
@@ -271,7 +281,7 @@ input[type=checkbox] {
 }
 
 
-.select-all-btn, .apply-selection-btn {
+.select-all-btn, .apply-selection-btn, .full-background-image-btn {
     padding:0.5rem;
     border:none;
 }
@@ -283,6 +293,15 @@ input[type=checkbox] {
     height: 0;
 }
 
+.background-colour-picker, .font-colour-picker, .font-searcher {
+    position:absolute;
+    bottom:80px;
+}
+
+.background-colour-picker, .font-colour-picker {
+    transform: translateX(-15%); /* APPROXIMATION */
+}
+
 /* google font search input */
 
 .font-searcher {
@@ -291,7 +310,10 @@ input[type=checkbox] {
     align-items:center;
     border:1px solid grey;
     background:white;
-    padding:1px;   
+    width:16rem;
+    padding:1px;  
+    color:'black';
+    transform: translateX(-20%); /* APPROXIMATION */
 }
 
 .font-searcher > input {
@@ -320,3 +342,11 @@ input[type=checkbox] {
     cursor:pointer;
     opacity:0.9;
 }
+
+/* for mobile (less than 800px screen width) */
+@media screen and (max-width: 850px) {
+    .playlist-wrapper {
+        width:90%;
+    }
+}
+

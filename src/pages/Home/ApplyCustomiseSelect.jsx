@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { Visibility } from "../../App";
 
 
-function ApplyCustomiseSelect( { setReadyForFileUpload, playlist, selectedForStyling, setSelectedForStyling, state, dispatch, anyStylerOpen, setAnyStylerOpen } ) {
+function ApplyCustomiseSelect( { setFullBackground, playlist, selectedForStyling, setSelectedForStyling, state, dispatch, anyStylerOpen, setAnyStylerOpen } ) {
 
     const vis = useContext(Visibility)
 
@@ -28,12 +28,13 @@ function ApplyCustomiseSelect( { setReadyForFileUpload, playlist, selectedForSty
                 dispatch({ type:'showFontTypePicker' })
             }
             else if (vis.whichCustomiseOption === 'uploadBackground') {
+                setFullBackground(false)
                 dispatch({type:'readyForUpload', status:true})
             }
         } 
     }
 
-    //! for future, improve to check all boxes visually and let user click 'finish selection' for better UX
+    
     const selectAll = () => {
         const allIds = playlist.map(element => element.id)
         setSelectedForStyling(allIds)
@@ -43,11 +44,21 @@ function ApplyCustomiseSelect( { setReadyForFileUpload, playlist, selectedForSty
         }
     }
 
+    const selectFullBackgroundImage = () => {
+        vis.hideCheckbox()
+        vis.hideSelectButtons()
+        setFullBackground(true)
+        dispatch({type:'readyForUpload', status:true})
+    }
+
     return (
         <div className="customise-select" style={{display:vis.selectButtonsVis}}>
             <div className="customise-select-wrapper">
                 <div className="select-all">
                     <button className="select-all-btn" onClick={() => selectAll()}>Select All</button>
+                </div>
+                <div className="full-background-image" style={{display: (vis.whichCustomiseOption === 'uploadBackground') ? 'inline' : 'none'}}>
+                    <button className="full-background-image-btn" onClick={() => selectFullBackgroundImage()}>Full Background</button>
                 </div>
                 <div className="apply-selection">
                     <button className="apply-selection-btn" onClick={() => finishSelectingForCustomise()}>Finish Selection</button>
