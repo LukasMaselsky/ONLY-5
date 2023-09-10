@@ -33,10 +33,27 @@ main {
     color: var(--text);
     position:relative;
     min-height: 100vh;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.welcome {
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    position:absolute;
+    z-index:0;
+}
+
+.welcome-text {
+    z-index:-1;
+    font-size:clamp(5rem, 30vw,15rem);
 }
 
 .search {
     display:grid;
+    position:relative;
     grid-template-columns: 1fr auto 1fr;
     align-items:center;
     /*
@@ -80,28 +97,31 @@ input:focus {
 
 .playlist {
     width:100%;
-    height:calc(var(--songHeight) * var(--playlistLimit));
+    /*height:calc(var(--songHeight) * var(--playlistLimit));*/
     display:flex;
     justify-content: center;
 }
 
 .playlist-wrapper {
     width:70%;
-    background-color:var(--text);
+    /*background-color:var(--text);*/
     flex-direction: column;
     background-size:cover;
+    background-position: center;
     align-items: flex-start;
-    height: calc(var(--songHeight) * var(--playlistLimit));
+    /*height: calc(var(--songHeight) * var(--playlistLimit));*/
 }
 
 .song {
+    color:var(--background);
     position:relative;
     padding: 0.5rem 1rem;
     height:var(--songHeight);
     display:flex;
     flex-direction: row;
-    background-color: var(--accent);
+    background-color: var(--primary);
     background-size: cover;
+    background-position: center;
     /*border:1px solid var(--text);*/
 }
 
@@ -124,7 +144,7 @@ input:focus {
 }
 
 .song:hover {
-    opacity: 0.5;
+    opacity: 0.9;
 }
 
 .song-info {
@@ -145,7 +165,7 @@ input:focus {
     font-size: 1rem;
 }
 
-p {
+p, h1 {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;

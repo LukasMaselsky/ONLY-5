@@ -4,6 +4,7 @@ import Searchbar from './pages/Home/Searchbar';
 import ChooseSong from './pages/Home/ChooseSong';
 import Customise from './pages/Home/Customise';
 import ApplyCustomiseSelect from './pages/Home/ApplyCustomiseSelect';
+import Welcome from './pages/Home/Welcome';
 import './App.css';
 
 
@@ -151,10 +152,17 @@ function App() {
         }
     }
 
+    const root = document.querySelector(':root')
+    const primary = getComputedStyle(root).getPropertyValue("--primary")
+    const secondary = getComputedStyle(root).getPropertyValue("--secondary")
+    const accent = getComputedStyle(root).getPropertyValue("--accent")
+    const background = getComputedStyle(root).getPropertyValue("--background")
+    const text = getComputedStyle(root).getPropertyValue("--text")
+
     const [state, dispatch] = useReducer(reducer, {
-        BGColour: '#d142f5',
+        BGColour: background,
         BGColourPickerVis: 'none',
-        fontColour: '#f5ebf7', 
+        fontColour: text, 
         fontColourPickerVis: 'none', 
         fontType: 'Almarai',
         fontTypePickerVis: 'none',
@@ -224,6 +232,7 @@ function App() {
                 hideSelectButtons:setSelectButtonsHide,
                 whichCustomiseOption:whichCustomiseOption,
                 setWhichCustomiseOption:setWhichCustomiseOption}}>
+                    <Welcome playlist={playlist}/>
                     <Searchbar search={search} setSearch={setSearch}/>
                     <Playlist fullBackground={fullBackground} playlist={playlist} updatePlaylist={updatePlaylist} handleDelete={handleDelete} selectedForStyling={selectedForStyling} setSelectedForStyling={setSelectedForStyling} state={state} dispatch={dispatch}/>
                     <ChooseSong playlist={playlist} setPlaylist={setPlaylist} search={search}/>

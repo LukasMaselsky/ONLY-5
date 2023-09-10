@@ -13,6 +13,8 @@ function setTrashColour() {
         const background = songs[j].style.backgroundColor
         let rgb = background.match(/[.?\d]+/g)
 
+        if (rgb === null) return;
+
         const brightness = Math.round(((parseInt(rgb[0]) * 299) + (parseInt(rgb[1]) * 587) + (parseInt(rgb[2]) * 114)) / 1000);
         const textColour = (brightness > 125) ? 'black' : 'white';
         const trash = document.getElementsByClassName('trash')[j]
