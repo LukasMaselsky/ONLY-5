@@ -48,7 +48,9 @@ main {
 
 .welcome-text {
     z-index:-1;
-    font-size:clamp(5rem, 30vw,15rem);
+    padding:2rem;
+    transition: all 1.5s;
+    font-size:clamp(5rem, 25vw,15rem);
 }
 
 .search {

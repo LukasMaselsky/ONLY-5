@@ -75,7 +75,7 @@ function ChooseSong({ playlist, setPlaylist, search}) {
         setPlaylist((prevItems) => [...prevItems, {
             title: title, 
             artist: artist, 
-            id: playlist.length !== 0 ? playlist[playlist.length - 1].id + 1 : 1, // if array not empty
+            id: playlist.length !== 0 ? playlist[playlist.length - 1].id + 1 : 0, // if array not empty
             length: length,  
             coverArt: cover,
             explicit: explicit,
