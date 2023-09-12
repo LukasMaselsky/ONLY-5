@@ -5,6 +5,7 @@ import ChooseSong from './pages/Home/ChooseSong';
 import Customise from './pages/Home/Customise';
 import ApplyCustomiseSelect from './pages/Home/ApplyCustomiseSelect';
 import Welcome from './pages/Home/Welcome';
+import Navbar from './components/Navbar';
 import './App.css';
 
 
@@ -178,6 +179,12 @@ function App() {
     }
 
     const handleDelete = (id) => {
+        dispatch({ type:'hideBGColourPicker' })
+        dispatch({ type:'hideFontColourPicker' })
+        dispatch({ type:'hideFontTypePicker' })
+        setAnyStylerOpen(false)
+        // close all stylers to prevent error where style changes on a deleted element
+
         const newPlaylist = playlist.filter(song => song.id !== id);
         setPlaylist(newPlaylist)
     }
@@ -219,7 +226,10 @@ function App() {
     }, []);
 
     return (
-        <main>
+        <>
+        <Navbar playlist={playlist}/>
+        <main style={{overflow: (playlist.length > 0) ? 'scroll' : 'hidden', 
+        minHeight: (playlist.length > 0) ? '90vh' : '100vh'}}>
             <Visibility.Provider value={{
                 popupVis:popupVisibility, 
                 showPopup:setPopupVisible, 
@@ -240,6 +250,7 @@ function App() {
                     <Customise playlist={playlist} state={state} dispatch={dispatch} anyStylerOpen={anyStylerOpen} setAnyStylerOpen={setAnyStylerOpen} setSelectedForStyling={setSelectedForStyling}/>
             </Visibility.Provider>
         </main>
+        </>
     );
 }
 

@@ -11,19 +11,22 @@
     --playlistLimit: 5;
 }
 
+html {
+    min-height:100%;
+}
+
 * {
     margin:0;
     box-sizing: border-box;
 }
 
-a {
-    text-decoration: none;
-}
 
 body {
     background-color: var(--background);
     font-family: 'Almarai', sans-serif;
     overflow-x: hidden;
+    min-height:100%;
+    margin:0;
 }
 
 main {
@@ -32,10 +35,89 @@ main {
     background-color: var(--background);
     color: var(--text);
     position:relative;
-    min-height: 100vh;
+    min-height: 90vh;
     display:flex;
     flex-direction: column;
     justify-content: center;
+}
+
+nav {
+    box-sizing: border-box;
+    min-height: 10vh;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    max-width: 100%;
+    background-color: var(--background);
+    /*border-bottom: 1px solid var(--primary);*/    
+}
+
+.nav-section {
+    height: 10vh;
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 0 1rem;
+    color:var(--text);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.35s ease-in-out;
+}
+
+.nav-button:hover {
+    cursor:pointer;
+}
+
+.nav-button {
+    display:flex;
+    justify-content:center;
+    align-items: center;
+    text-decoration: none;
+    position:relative;
+    transition:all 0.3s;
+}
+
+.nav-button:after {
+    content:'';
+    position:absolute;
+    background-color: var(--accent);
+    height:2px;
+    width:0;
+    left:50%;
+    transform:translateX(-50%);
+    bottom:0;
+    transition: all 0.3s;
+}
+
+.nav-button:hover:after {
+    width:100%;
+}
+
+#nav-button-account:after {
+    height:0px;
+}
+
+#nav-button-account:hover {
+    color:var(--accent)
+}
+
+#nav-logo-section {
+    flex-grow:1;
+    justify-content: flex-start;
+    font-size:1.5rem;
+    margin-right:auto;
+    position:relative;
+
+}
+
+.logo {
+    position:absolute;
+    z-index:0;
+}
+
+.logo-text {
+    z-index:-1;
 }
 
 .welcome {
@@ -210,10 +292,9 @@ input[type=checkbox] {
     align-items: center;
     justify-content: center;
     padding:2rem;
-    left: 50%; /* center on X axis*/
-    transform:translateX(-50%);
-    top:0;
-    margin-top:5rem;
+    left: 50%; 
+    top:50%;
+    transform:translate(-50%, -50%);
     border-radius:5%;
     z-index:1
 }

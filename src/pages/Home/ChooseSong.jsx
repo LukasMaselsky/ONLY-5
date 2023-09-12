@@ -80,9 +80,9 @@ function ChooseSong({ playlist, setPlaylist, search}) {
             coverArt: cover,
             explicit: explicit,
         }])
-        //! HIDE POPUP  
+        //! HIDE POPUP
         vis.hidePopup() 
-        setIsChoosing(false)   
+        setIsChoosing(false)  
     }
 
     const exitChoosing = () => {
@@ -96,7 +96,7 @@ function ChooseSong({ playlist, setPlaylist, search}) {
     }
 
     return (   
-        <div className="choose-song" style={{'visibility':vis.popupVis}}>
+        <div className="choose-song" style={{display:(vis.popupVis == 'visible') ? 'flex' : 'none'}}>
             <FontAwesomeIcon className='exit' icon={faX} style={{color: "#000000",}} onClick={exitChoosing}/>
             <ScaleLoader
                 color={getComputedStyle(document.querySelector(':root')).getPropertyValue("--background")}

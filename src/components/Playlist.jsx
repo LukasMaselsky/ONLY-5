@@ -118,6 +118,7 @@ function Playlist({ fullBackground, playlist, updatePlaylist, handleDelete, sele
     }, [state.uploadBG])
 
     useEffect(() => {
+        console.table(playlist) 
         if (fullBackground) {
             for (let i = 0;i < playlist.length;i++) {
                 const song = document.getElementsByClassName('song')[i]
