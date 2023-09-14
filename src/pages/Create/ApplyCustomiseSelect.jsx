@@ -16,8 +16,8 @@ function ApplyCustomiseSelect( { setFullBackground, playlist, selectedForStyling
             }
 
             
-            vis.hideCheckbox()
-            vis.hideSelectButtons()
+            vis.setIsCheckboxVis(false)
+            vis.setIsSelectButtonsVis(false)
             if (vis.whichCustomiseOption === 'BGColour') {
                 dispatch({ type:'showBGColourPicker' })
             }
@@ -45,14 +45,14 @@ function ApplyCustomiseSelect( { setFullBackground, playlist, selectedForStyling
     }
 
     const selectFullBackgroundImage = () => {
-        vis.hideCheckbox()
-        vis.hideSelectButtons()
+        vis.setIsCheckboxVis(false)
+        vis.setIsSelectButtonsVis(false)
         setFullBackground(true)
         dispatch({type:'readyForUpload', status:true})
     }
 
     return (
-        <div className="customise-select" style={{display:vis.selectButtonsVis}}>
+        <div className="customise-select" style={{display:(vis.isSelectButtonsVis) ? 'flex' : 'none'}}>
             <div className="customise-select-wrapper">
                 <div className="select-all">
                     <button className="select-all-btn" onClick={() => selectAll()}>Select All</button>

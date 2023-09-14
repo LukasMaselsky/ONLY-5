@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Visibility } from "../../App";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSquareCheck } from '@fortawesome/free-solid-svg-icons'
-import { faShareFromSquare } from '@fortawesome/free-solid-svg-icons'
+import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { ChromePicker } from 'react-color';
 import WebFont from "webfontloader"
@@ -62,8 +62,8 @@ function Customise( { playlist, state, dispatch, anyStylerOpen, setAnyStylerOpen
             }
 
             setSelectedForStyling([]) // deselect all when any button clicked
-            vis.showCheckbox()
-            vis.showSelectButtons()
+            vis.setIsCheckboxVis(true)
+            vis.setIsSelectButtonsVis(true)
             // hide all customiser when clicking a button
             hideAllCustomisers()
             setAnyStylerOpen(false)
@@ -107,7 +107,7 @@ function Customise( { playlist, state, dispatch, anyStylerOpen, setAnyStylerOpen
 
     return (
         <>
-        <div className="customise" style={{display: (playlist.length > 0) ? 'flex' : 'none'}}>
+        <div className="customise">
             <div className="customise-wrapper">
                 <div className="select-colour">
                     <button className="select-colour-btn" onClick={() => showSelectMenu('BGColour')}>Background Colour</button>
@@ -143,8 +143,8 @@ function Customise( { playlist, state, dispatch, anyStylerOpen, setAnyStylerOpen
                 <div className="close-styler" style={(anyStylerOpen) ? {display:'flex'} : {display:'none'}}>
                     <FontAwesomeIcon className="close-style-btn" icon={faSquareCheck} style={{color: "#86DA98", height:"3rem"}} onClick={() => finishStyling()}/>
                 </div>
-                <div className="share">
-                    <FontAwesomeIcon className='share-btn' icon={faShareFromSquare} style={{height:"2rem"}}/>
+                <div className="save">
+                    <FontAwesomeIcon className='save-btn' icon={faFloppyDisk} style={{height:"2rem"}}/>
                 </div>
             </div>
         </div>

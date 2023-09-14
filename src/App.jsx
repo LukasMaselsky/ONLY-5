@@ -1,25 +1,21 @@
 import { useState, createContext, useReducer, useEffect} from 'react';
-import Playlist from './components/Playlist';
-import Searchbar from './pages/Home/Searchbar';
-import ChooseSong from './pages/Home/ChooseSong';
-import Customise from './pages/Home/Customise';
-import ApplyCustomiseSelect from './pages/Home/ApplyCustomiseSelect';
-import Welcome from './pages/Home/Welcome';
-import Navbar from './components/Navbar';
+import Home from './pages/Home/Home';
+import Create from './pages/Create/Create';
+import { createBrowserRouter, RouterProvider, Route } from 'react-router-dom';
 import './App.css';
 
 
-export const Visibility = createContext({popupVis:null, showPopup:null, hidePopup:null, checkboxVis:null, showCheckbox:null, hideCheckbox:null})
+export const Visibility = createContext({isPopupVis:null,setIsPopupVis:null,isCheckboxVis:null, setIsCheckboxVis:null,isSelectButtonsVis:null,setIsSelectButtonsVis:null,whichCustomiseOption:null,setWhichCustomiseOption:null})
 
 function App() {
 
     const [playlist, setPlaylist] = useState([])
 
     const [search, setSearch] = useState()
-    const [popupVisibility, setPopupVisibility] = useState('hidden')
+    const [isPopupVis, setIsPopupVis] = useState(false)
 
-    const [selectCustomiseVisibility, setSelectCustomiseVisibility] = useState('hidden')
-    const [selectButtonsDisplay, setSelectButtonsDisplay] = useState('none')
+    const [isCheckboxVis, setIsCheckboxVis] = useState(false)
+    const [isSelectButtonsVis, setIsSelectButtonsVis] = useState(false)
 
     const [selectedForStyling, setSelectedForStyling] = useState([])
 
@@ -31,123 +27,58 @@ function App() {
         switch(action.type) {
             case 'showBGColourPicker':
                 return {
-                    BGColour: state.BGColour,
+                    ...state, 
                     BGColourPickerVis: 'flex',
-                    fontColour: state.fontColour, 
-                    fontColourPickerVis: state.fontColourPickerVis, 
-                    fontType: state.fontType,
-                    fontTypePickerVis: state.fontTypePickerVis,
-                    uploadBG: state.uploadBG,
-                    readyForUpload: state.readyForUpload,
                 }
             case 'hideBGColourPicker':
                 return {
-                    BGColour: state.BGColour,
+                    ...state, 
                     BGColourPickerVis: 'none',
-                    fontColour: state.fontColour, 
-                    fontColourPickerVis: state.fontColourPickerVis, 
-                    fontType: state.fontType,
-                    fontTypePickerVis: state.fontTypePickerVis,
-                    uploadBG: state.uploadBG,
-                    readyForUpload: state.readyForUpload,
                 }
             case 'setBGColour':
                 return {
+                    ...state, 
                     BGColour: action.colour,
-                    BGColourPickerVis: state.BGColourPickerVis,
-                    fontColour: state.fontColour, 
-                    fontColourPickerVis: state.fontColourPickerVis, 
-                    fontType: state.fontType,
-                    fontTypePickerVis: state.fontTypePickerVis,
-                    uploadBG: state.uploadBG,
-                    readyForUpload: state.readyForUpload,
                 }
             case 'showFontColourPicker':
                 return {
-                    BGColour: state.BGColour,
-                    BGColourPickerVis: state.BGColourPickerVis,
-                    fontColour: state.fontColour, 
+                    ...state,
                     fontColourPickerVis: 'flex', 
-                    fontType: state.fontType,
-                    fontTypePickerVis: state.fontTypePickerVis,
-                    uploadBG: state.uploadBG,
-                    readyForUpload: state.readyForUpload,
                 }
             case 'hideFontColourPicker':
                 return {
-                    BGColour: state.BGColour,
-                    BGColourPickerVis: state.BGColourPickerVis,
-                    fontColour: state.fontColour, 
+                    ...state,
                     fontColourPickerVis: 'none', 
-                    fontType: state.fontType,
-                    fontTypePickerVis: state.fontTypePickerVis,
-                    uploadBG: state.uploadBG,
-                    readyForUpload: state.readyForUpload,
                 }
             case 'setFontColour':
                 return {
-                    BGColour: state.BGColour,
-                    BGColourPickerVis: state.BGColourPickerVis,
+                    ...state,
                     fontColour: action.colour, 
-                    fontColourPickerVis: state.fontColourPickerVis, 
-                    fontType: state.fontType,
-                    fontTypePickerVis: state.fontTypePickerVis,
-                    uploadBG: state.uploadBG,
-                    readyForUpload: state.readyForUpload,
                 }
             case 'showFontTypePicker':
                 return {
-                    BGColour: state.BGColour,
-                    BGColourPickerVis: state.BGColourPickerVis,
-                    fontColour: state.fontColour, 
-                    fontColourPickerVis: state.fontColourPickerVis, 
-                    fontType: state.fontType,
+                    ...state,
                     fontTypePickerVis: 'flex',
-                    uploadBG: state.uploadBG,
-                    readyForUpload: state.readyForUpload,
                 }
             case 'hideFontTypePicker':
                 return {
-                    BGColour: state.BGColour,
-                    BGColourPickerVis: state.BGColourPickerVis,
-                    fontColour: state.fontColour, 
-                    fontColourPickerVis: state.fontColourPickerVis, 
-                    fontType: state.fontType,
+                    ...state,
                     fontTypePickerVis: 'none',
-                    uploadBG: state.uploadBG,
-                    readyForUpload: state.readyForUpload,
                 }
             case 'setFontType':
                 return {
-                    BGColour: state.BGColour,
-                    BGColourPickerVis: state.BGColourPickerVis,
-                    fontColour: state.fontColour, 
-                    fontColourPickerVis: state.fontColourPickerVis, 
+                    ...state,
                     fontType: action.font,
-                    fontTypePickerVis: state.fontTypePickerVis,
-                    uploadBG: state.uploadBG,
-                    readyForUpload: state.readyForUpload,
                 }
             case 'uploadBG':
                 return {
-                    BGColour: state.BGColour,
-                    BGColourPickerVis: state.BGColourPickerVis,
-                    fontColour: state.fontColour, 
-                    fontColourPickerVis: state.fontColourPickerVis, 
-                    fontType: state.fontType,
-                    fontTypePickerVis: state.fontTypePickerVis,
+                    ...state,
                     uploadBG: action.file,
-                    readyForUpload: state.readyForUpload,
+
                 }
             case 'readyForUpload':
                 return {
-                    BGColour: state.BGColour,
-                    BGColourPickerVis: state.BGColourPickerVis,
-                    fontColour: state.fontColour, 
-                    fontColourPickerVis: state.fontColourPickerVis, 
-                    fontType: state.fontType,
-                    fontTypePickerVis: state.fontTypePickerVis,
-                    uploadBG: state.uploadBG,
+                    ...state,
                     readyForUpload: action.status,
                 }
         }
@@ -189,30 +120,6 @@ function App() {
         setPlaylist(newPlaylist)
     }
 
-    const setPopupVisible = () => {
-        setPopupVisibility('visible')
-    } 
-
-    const setPopupHidden = () => {
-        setPopupVisibility('hidden')
-    }
-
-    const setSelectCustomiseVisible = () => {
-        setSelectCustomiseVisibility('visible')
-    }
-
-    const setSelectCustomiseHidden = () => {
-        setSelectCustomiseVisibility('hidden')
-    }
-
-    const setSelectButtonsShow = () => {
-        setSelectButtonsDisplay('flex')
-    }
-
-    const setSelectButtonsHide = () => {
-        setSelectButtonsDisplay('none')
-    }
-
     // ask before reload or leave page
     useEffect(() => {
         const unloadCallback = (event) => {
@@ -225,32 +132,47 @@ function App() {
         return () => window.removeEventListener("beforeunload", unloadCallback);
     }, []);
 
+
+    const router = createBrowserRouter([
+        {   
+            path: '/',
+            element: <Home />,
+        },
+        {
+            path: '/create',
+            element: <Create 
+                playlist={playlist} 
+                setPlaylist={setPlaylist} 
+                updatePlaylist={updatePlaylist}
+                handleDelete={handleDelete}
+                search={search} 
+                setSearch={setSearch}
+                fullBackground={fullBackground}
+                setFullBackground={setFullBackground}
+                state={state}
+                dispatch={dispatch}
+                anyStylerOpen={anyStylerOpen}
+                setAnyStylerOpen={setAnyStylerOpen}
+                selectedForStyling={selectedForStyling}
+                setSelectedForStyling={setSelectedForStyling}
+
+            />
+        }
+    ])
+
+
     return (
-        <>
-        <Navbar playlist={playlist}/>
-        <main style={{overflow: (playlist.length > 0) ? 'scroll' : 'hidden', 
-        minHeight: (playlist.length > 0) ? '90vh' : '100vh'}}>
-            <Visibility.Provider value={{
-                popupVis:popupVisibility, 
-                showPopup:setPopupVisible, 
-                hidePopup:setPopupHidden, 
-                checkboxVis:selectCustomiseVisibility, 
-                showCheckbox:setSelectCustomiseVisible, 
-                hideCheckbox:setSelectCustomiseHidden,
-                selectButtonsVis:selectButtonsDisplay,
-                showSelectButtons:setSelectButtonsShow,
-                hideSelectButtons:setSelectButtonsHide,
-                whichCustomiseOption:whichCustomiseOption,
-                setWhichCustomiseOption:setWhichCustomiseOption}}>
-                    <Welcome playlist={playlist}/>
-                    <Searchbar search={search} setSearch={setSearch}/>
-                    <Playlist fullBackground={fullBackground} playlist={playlist} updatePlaylist={updatePlaylist} handleDelete={handleDelete} selectedForStyling={selectedForStyling} setSelectedForStyling={setSelectedForStyling} state={state} dispatch={dispatch}/>
-                    <ChooseSong playlist={playlist} setPlaylist={setPlaylist} search={search}/>
-                    <ApplyCustomiseSelect setFullBackground={setFullBackground} playlist={playlist} selectedForStyling={selectedForStyling} setSelectedForStyling={setSelectedForStyling} state={state} dispatch={dispatch} anyStylerOpen={anyStylerOpen} setAnyStylerOpen={setAnyStylerOpen}/>
-                    <Customise playlist={playlist} state={state} dispatch={dispatch} anyStylerOpen={anyStylerOpen} setAnyStylerOpen={setAnyStylerOpen} setSelectedForStyling={setSelectedForStyling}/>
-            </Visibility.Provider>
-        </main>
-        </>
+    <Visibility.Provider value={{
+        isPopupVis:isPopupVis,
+        setIsPopupVis:setIsPopupVis,
+        isCheckboxVis: isCheckboxVis, 
+        setIsCheckboxVis:setIsCheckboxVis,
+        isSelectButtonsVis:isSelectButtonsVis,
+        setIsSelectButtonsVis: setIsSelectButtonsVis,
+        whichCustomiseOption:whichCustomiseOption,
+        setWhichCustomiseOption:setWhichCustomiseOption}}>
+            <RouterProvider router={router} />
+    </Visibility.Provider>
     );
 }
 

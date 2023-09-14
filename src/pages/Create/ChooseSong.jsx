@@ -33,7 +33,7 @@ function ChooseSong({ playlist, setPlaylist, search}) {
         if (search != null && !isChoosing && playlist.length < 5) {
             setIsChoosing(true)
             setIsLoading(true)
-            vis.showPopup()
+            vis.setIsPopupVis(true)
               
             axios('https://accounts.spotify.com/api/token', {
                 headers: {
@@ -81,12 +81,12 @@ function ChooseSong({ playlist, setPlaylist, search}) {
             explicit: explicit,
         }])
         //! HIDE POPUP
-        vis.hidePopup() 
+        vis.setIsPopupVis(false) 
         setIsChoosing(false)  
     }
 
     const exitChoosing = () => {
-        vis.hidePopup()
+        vis.setIsPopupVis(false) 
         setIsChoosing(false)
         setIsLoading(false)
     }
@@ -96,7 +96,7 @@ function ChooseSong({ playlist, setPlaylist, search}) {
     }
 
     return (   
-        <div className="choose-song" style={{display:(vis.popupVis == 'visible') ? 'flex' : 'none'}}>
+        <div className="choose-song" style={{display:(vis.isPopupVis) ? 'flex' : 'none'}}>
             <FontAwesomeIcon className='exit' icon={faX} style={{color: "#000000",}} onClick={exitChoosing}/>
             <ScaleLoader
                 color={getComputedStyle(document.querySelector(':root')).getPropertyValue("--background")}
@@ -115,7 +115,7 @@ function ChooseSong({ playlist, setPlaylist, search}) {
                     <img className='cover-art' src={song['album']['images'][0]['url']}></img>
 
                     <div className='song-info'>  
-                        <p className="song-title choose">{song['name']}</p>
+                        <p className="song-title choose" style={{fontSize:'1.5rem'}}>{song['name']}</p>
                         <div style={{display:'flex', flexDirection:'row', gap:'0.4rem'}}>
                             <Explicit style={{display: song.explicit ? 'inline-block' : 'none', height:'1rem'}}/>
                             <p className="song-artist choose">{getArtistNames(song['artists'])}</p>

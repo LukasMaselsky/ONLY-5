@@ -5,7 +5,7 @@
     --text: #f3efef;
     --background: #121F0A;
     --primary: #EFBCD5;
-    --secondary: #450920;
+    --secondary: #4b2376;
     --accent: #ee74af;
     --songHeight: 5rem;
     --playlistLimit: 5;
@@ -69,7 +69,12 @@ nav {
     cursor:pointer;
 }
 
+.nav-button:visited {
+    color:var(--text);
+}
+
 .nav-button {
+    color:var(--text);
     display:flex;
     justify-content:center;
     align-items: center;
@@ -130,9 +135,25 @@ nav {
 
 .welcome-text {
     z-index:-1;
-    padding:2rem;
     transition: all 1.5s;
     font-size:clamp(5rem, 25vw,15rem);
+}
+
+.enter-link { 
+    padding:1rem;
+    display:flex; 
+    justify-content:center;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, clamp(2.5rem, 12.5vw, 7.5rem));
+    position:absolute;
+    font-size: clamp(1.25rem, 6.25vw, 3.75rem);
+    
+}
+
+.enter-link > a {
+    color:var(--text);
+    text-decoration: none;
 }
 
 .search {
@@ -378,7 +399,7 @@ input[type=checkbox] {
 .select-font-type-btn:hover, 
 .select-font-colour-btn:hover, 
 .upload-background-btn:hover,
-.share-btn:hover,
+.save-btn:hover,
 .close-style-btn:hover{
     cursor:pointer;
 }

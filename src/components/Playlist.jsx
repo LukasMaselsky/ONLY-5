@@ -118,7 +118,6 @@ function Playlist({ fullBackground, playlist, updatePlaylist, handleDelete, sele
     }, [state.uploadBG])
 
     useEffect(() => {
-        console.table(playlist) 
         if (fullBackground) {
             for (let i = 0;i < playlist.length;i++) {
                 const song = document.getElementsByClassName('song')[i]
@@ -153,7 +152,7 @@ function Playlist({ fullBackground, playlist, updatePlaylist, handleDelete, sele
                                         <div className="trash-wrapper">
                                             <FontAwesomeIcon className='trash' icon={faTrash} style={{color: "#ffffff",}} onClick={() => handleDelete(song.id)}/>
                                         </div>
-                                        <div className="checkbox" style={{'visibility':vis.checkboxVis}}>
+                                        <div className="checkbox" style={{'visibility':(vis.isCheckboxVis) ? 'visible' : 'hidden'}}>
                                             <input type='checkbox' onClick={(e) => handleCheckboxChange(e, song.id)}></input>
                                         </div>
                                     </div>

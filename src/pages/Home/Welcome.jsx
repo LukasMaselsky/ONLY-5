@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
 
-function Welcome({ playlist }) {
+function Welcome() {
 
     const root = document.querySelector(':root')
     const primary = getComputedStyle(root).getPropertyValue("--primary")
@@ -13,9 +14,10 @@ function Welcome({ playlist }) {
         setPageLoaded(true)
     }, [])
 
+
     return (
         <>
-        <div style={{display: (playlist.length < 1) ? 'inline' : 'none'}}>
+        <div style={{height:'100vh', overflow:'hidden', position:'relative'}}>
             <div className="welcome">
                 <h1 className="welcome-text" style={{color:accent, transform: (!pageLoaded) ? 'translate(50%, 50%)' : 'translate(1%, 0%)', zIndex:'-1'}}>ONLY 5</h1>
             </div>
@@ -25,8 +27,12 @@ function Welcome({ playlist }) {
             <div className="welcome">
                 <h1 className="welcome-text" style={{color:primary, transform: (!pageLoaded) ? 'translate(-50%, -50%)' : 'translate(-1%, 0%)'}}>ONLY 5</h1>
             </div>
+            <div className='enter-link'>
+                <Link to='/create'>
+                    ENTER
+                </Link>
+             </div>
         </div>
-
         </>
     )
 }
