@@ -23,9 +23,10 @@ function ChooseSong({ playlist, setPlaylist, search}) {
 
     const [token, setToken] = useState('')
 
+
     const spotify = {
-        ClientId: 'cb20116d67d6469fb4ea1b43fd8a1768',
-        ClientSecret: 'd3d27af19bf54837834de2df497db0ae'
+        ClientId: import.meta.env.VITE_SPOTIFY_CLIENT_ID,
+        ClientSecret: import.meta.env.VITE_SPOTIFY_CLIENT_SECRET,
     }
 
     useEffect(() => {
@@ -83,6 +84,7 @@ function ChooseSong({ playlist, setPlaylist, search}) {
         //! HIDE POPUP
         vis.setIsPopupVis(false) 
         setIsChoosing(false)  
+        console.log(playlist)
     }
 
     const exitChoosing = () => {

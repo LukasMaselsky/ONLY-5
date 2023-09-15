@@ -107,7 +107,7 @@ function Customise( { playlist, state, dispatch, anyStylerOpen, setAnyStylerOpen
 
     return (
         <>
-        <div className="customise">
+        <div className="customise" style={{display:(playlist.length > 0) ? 'flex' : 'none'}}>
             <div className="customise-wrapper">
                 <div className="select-colour">
                     <button className="select-colour-btn" onClick={() => showSelectMenu('BGColour')}>Background Colour</button>
