@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 import { Visibility } from "../../App";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faX } from '@fortawesome/free-solid-svg-icons'
@@ -16,6 +16,7 @@ const milliToMin = (millis) => {
 
 function ChooseSong({ playlist, setPlaylist, search}) {
 
+
     const [selection, setSelection] = useState(null)
     const vis = useContext(Visibility)
     const [isChoosing, setIsChoosing] = useState(false) //* var to know if song is being chosen to prevent spamming of search button
@@ -23,18 +24,17 @@ function ChooseSong({ playlist, setPlaylist, search}) {
 
     const [token, setToken] = useState('')
 
-
+    
     const spotify = {
         ClientId: import.meta.env.VITE_SPOTIFY_CLIENT_ID,
         ClientSecret: import.meta.env.VITE_SPOTIFY_CLIENT_SECRET,
     }
-
+    
     useEffect(() => {
         //! this if statement to prevent firing on initialization of search when it is null
         if (search != null && !isChoosing && playlist.length < 5) {
             setIsChoosing(true)
             setIsLoading(true)
-            vis.setIsPopupVis(true)
               
             axios('https://accounts.spotify.com/api/token', {
                 headers: {
@@ -46,7 +46,7 @@ function ChooseSong({ playlist, setPlaylist, search}) {
             })
             .then(tokenResponse => {      
                 setToken(tokenResponse.data.access_token);
-
+                
                 axios('https://api.spotify.com/v1/search?q=' + search.title + '&type=track&market=ES&limit=5&offset=0', {
                     method: 'GET',
                     headers: { 'Authorization' : 'Bearer ' + tokenResponse.data.access_token}
@@ -65,12 +65,12 @@ function ChooseSong({ playlist, setPlaylist, search}) {
             .catch((err) => {
                 console.log(err)
             })
-        
+            
         }
     }, [search]);
-
-        
-        
+    
+    
+    
     const chooseAddition = (title, artist, length, cover, explicit) => {
         // update playlist with new song after selection from options
         setPlaylist((prevItems) => [...prevItems, {
@@ -82,23 +82,34 @@ function ChooseSong({ playlist, setPlaylist, search}) {
             explicit: explicit,
         }])
         //! HIDE POPUP
-        vis.setIsPopupVis(false) 
         setIsChoosing(false)  
         console.log(playlist)
     }
-
+    
     const exitChoosing = () => {
-        vis.setIsPopupVis(false) 
         setIsChoosing(false)
         setIsLoading(false)
     }
-
+    
     const getArtistNames = (arr) => {
         return arr.map((artist) => artist.name).join(', ')
     }
-
+    
+    const modalRef = useRef(null)
+    
+    useEffect(() => {
+        if (isChoosing) {
+            modalRef.current.showModal()
+            modalRef.current.style.display = 'flex'
+        }
+        else {
+            modalRef.current.close()
+            modalRef.current.style.display = 'none' // weird hack cause flex in css sheet causes modal to not dissapear
+        }
+    }, [isChoosing])
+    
     return (   
-        <div className="choose-song" style={{display:(vis.isPopupVis) ? 'flex' : 'none'}}>
+        <dialog ref={modalRef} className="choose-song">
             <FontAwesomeIcon className='exit' icon={faX} style={{color: "#000000",}} onClick={exitChoosing}/>
             <ScaleLoader
                 color={getComputedStyle(document.querySelector(':root')).getPropertyValue("--background")}
@@ -108,12 +119,12 @@ function ChooseSong({ playlist, setPlaylist, search}) {
                 radius={4}
                 aria-label="Loading Spinner"
                 data-testid="loader"
-            />
+                />
             
             <div className="choose-song-wrapper" style={{'display': (isLoading) ? 'none' : 'inline'}}>
                 <h1 className='choose-song-heading'>Choose song to add</h1>
                 {selection && selection.map(song => (
-                <div className='song popup' onClick={() => chooseAddition(song['name'], getArtistNames(song['artists']), milliToMin(song['duration_ms']), song['album']['images'][0]['url'], song['explicit'])} key={song.id}>
+                    <div className='song popup' onClick={() => chooseAddition(song['name'], getArtistNames(song['artists']), milliToMin(song['duration_ms']), song['album']['images'][0]['url'], song['explicit'])} key={song.id}>
                     <img className='cover-art' src={song['album']['images'][0]['url']}></img>
 
                     <div className='song-info'>  
@@ -129,7 +140,7 @@ function ChooseSong({ playlist, setPlaylist, search}) {
                 </div>
                 ))}
             </div>
-        </div>
+        </dialog>
     )
 }
 

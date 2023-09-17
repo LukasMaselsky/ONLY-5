@@ -26,12 +26,15 @@ app.get("/posts", (req, res) => {
   });
 });
 
+let lastPostId;
 app.post("/posts", (req, res) => {
-  const q = "INSERT INTO posts ('id', 'title', 'author', 'date') VALUES (?)"; // ? for security idk why
+  const q = "INSERT INTO posts (title, author, date) VALUES (?)"; // ? for security idk why
   const values = [req.body.title, req.body.author, req.body.date];
 
   db.query(q, [values], (err, data) => {
     if (err) return res.json(err);
+    lastPostId = data.insertId; // solution only works if client submits post -> then songs
+    // also restarting server means losing this value (obviously)
     return res.json("Post created succesfully");
   });
 });
@@ -45,7 +48,7 @@ app.post("/songs", (req, res) => {
     req.body.length,
     req.body.explicit,
     req.body.cover,
-    req.body.postId,
+    lastPostId,
   ];
 
   db.query(q, [values], (err, data) => {

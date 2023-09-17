@@ -17,7 +17,7 @@ const handleGoogleFontError = () => {
     console.log('error')
 }
 
-function Customise( { playlist, state, dispatch, anyStylerOpen, setAnyStylerOpen, setSelectedForStyling } ) {
+function Customise( { playlist, state, dispatch, anyStylerOpen, setAnyStylerOpen, setSelectedForStyling, setIsSaveModalOpen } ) {
 
     const vis = useContext(Visibility)
     const [fontSearch, setFontSearch] = useState('')
@@ -143,7 +143,7 @@ function Customise( { playlist, state, dispatch, anyStylerOpen, setAnyStylerOpen
                     <FontAwesomeIcon className="close-style-btn" icon={faSquareCheck} style={{color: "#86DA98", height:"3rem"}} onClick={() => finishStyling()}/>
                 </div>
                 <div className="save">
-                    <FontAwesomeIcon className='save-btn' icon={faFloppyDisk} style={{height:"2rem"}}/>
+                    <FontAwesomeIcon className='save-btn' icon={faFloppyDisk} style={{height:"2rem"}} onClick={() => setIsSaveModalOpen(true)}/>
                 </div>
             </div>
         </div>

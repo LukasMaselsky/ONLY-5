@@ -5,14 +5,13 @@ import { createBrowserRouter, RouterProvider, Route } from 'react-router-dom';
 import './App.css';
 
 
-export const Visibility = createContext({isPopupVis:null,setIsPopupVis:null,isCheckboxVis:null, setIsCheckboxVis:null,isSelectButtonsVis:null,setIsSelectButtonsVis:null,whichCustomiseOption:null,setWhichCustomiseOption:null})
+export const Visibility = createContext({isCheckboxVis:null, setIsCheckboxVis:null,isSelectButtonsVis:null,setIsSelectButtonsVis:null,whichCustomiseOption:null,setWhichCustomiseOption:null})
 
 function App() {
 
     const [playlist, setPlaylist] = useState([])
 
     const [search, setSearch] = useState()
-    const [isPopupVis, setIsPopupVis] = useState(false)
 
     const [isCheckboxVis, setIsCheckboxVis] = useState(false)
     const [isSelectButtonsVis, setIsSelectButtonsVis] = useState(false)
@@ -22,6 +21,9 @@ function App() {
     const [anyStylerOpen, setAnyStylerOpen] = useState(false)
 
     const [fullBackground, setFullBackground] = useState(false)
+
+    const [isSaveModalOpen, setIsSaveModalOpen] = useState(false)
+
 
     function reducer(state, action) {
         switch(action.type) {
@@ -155,7 +157,8 @@ function App() {
                 setAnyStylerOpen={setAnyStylerOpen}
                 selectedForStyling={selectedForStyling}
                 setSelectedForStyling={setSelectedForStyling}
-
+                isSaveModalOpen={isSaveModalOpen}
+                setIsSaveModalOpen={setIsSaveModalOpen}
             />
         }
     ])
@@ -163,8 +166,6 @@ function App() {
 
     return (
     <Visibility.Provider value={{
-        isPopupVis:isPopupVis,
-        setIsPopupVis:setIsPopupVis,
         isCheckboxVis: isCheckboxVis, 
         setIsCheckboxVis:setIsCheckboxVis,
         isSelectButtonsVis:isSelectButtonsVis,
