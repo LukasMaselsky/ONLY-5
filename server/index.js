@@ -12,13 +12,10 @@ dotenv.config({ path: "./.env" });
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
-    db(null, "public/playlist-images");
+    callback(null, "public/playlist-images"); // path to folder with images
   },
   filename: (req, file, callback) => {
-    db(
-      null,
-      file.fieldname + "_" + Date.now() + path.extname(file.originalname)
-    );
+    callback(null, file.fieldname + "_" + Date.now() + ".png");
   },
 });
 
@@ -27,7 +24,18 @@ const upload = multer({
 });
 
 app.post("/posts", upload.single("image"), (req, res) => {
-  console.log(req.file);
+  const q = "INSERT INTO posts (title, author, date, image) VALUES (?)"; // ? for security idk why
+  const values = [
+    req.body.title,
+    req.body.author,
+    req.body.date,
+    req.file.filename,
+  ];
+
+  db.query(q, [values], (err, data) => {
+    if (err) return res.json(err);
+    return res.json("Post created succesfully");
+  });
 });
 
 const db = mysql.createConnection({
@@ -45,22 +53,6 @@ app.get("/posts", (req, res) => {
   db.query(q, (err, data) => {
     if (err) return res.json(err);
     return res.json(data);
-  });
-});
-
-
-app.post("/posts", upload.single("image"), (req, res) => {
-  const q = "INSERT INTO posts (title, author, date, image) VALUES (?)"; // ? for security idk why
-  const values = [
-    req.body.title,
-    req.body.author,
-    req.body.date,
-    req.body.image,
-  ];
-
-  db.query(q, [values], (err, data) => {
-    if (err) return res.json(err);
-    return res.json("Post created succesfully");
   });
 });
 

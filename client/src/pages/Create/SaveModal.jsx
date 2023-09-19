@@ -11,6 +11,7 @@ function SaveModal({ isSaveModalOpen, setIsSaveModalOpen, playlist }) {
         title: '',
         author: '',
         date: new Date().toISOString().slice(0, 10),
+        image: '',
     })
 
     const modalRef = useRef(null)
@@ -26,22 +27,36 @@ function SaveModal({ isSaveModalOpen, setIsSaveModalOpen, playlist }) {
         setIsSaveModalOpen(false)
     }
 
-    const download = useCallback(() => {
+    const download = async () => {
         if (element === null) {
           return
         }
     
-        toJpeg(element, { cacheBust: true, })
-          .then((dataUrl) => {
-            const link = document.createElement('a')
-            link.download = 'image.jpeg'
-            link.href = dataUrl
-            link.click()
+        toBlob(element, { cacheBust: true, })
+          .then((blob) => {
+            const newImage = new File([blob], 'image', {type:'image/png'})
+
+            setPost(prev => ({...prev, image:newImage}))
           })
           .catch((err) => {
             console.log(err)
-          })
-      }, [element])
+        })
+
+        try {
+            const formData = new FormData()
+            formData.append('image', post.image)
+            formData.append('title', post.title)
+            formData.append('author', post.author)
+            formData.append('date', post.date)
+            
+            modalRef.current.close()
+            setIsSaveModalOpen(false)
+            await axios.post("http://localhost:8800/posts", formData)
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
 
     
     const save = async (e) => {
@@ -56,28 +71,8 @@ function SaveModal({ isSaveModalOpen, setIsSaveModalOpen, playlist }) {
         catch (err) {
             console.log(err)
         }
-        try{
-            saveSongs()
-        }
-        catch (err) {
-            console.log(err)
-        }
     }
 
-    function saveSongs() {
-        let promises = []
-        for (let i = 0;i < playlist.length; i++) {
-            console.log(i)
-            promises.push(axios.post("http://localhost:8800/songs", {
-                title: playlist[i].title,
-                artist: playlist[i].artist,
-                length: playlist[i].length,
-                cover: playlist[i].coverArt,
-                explicit: playlist[i].explicit,
-            }))
-        }
-        Promise.all(promises).then(() => console.log('pushed songs'))
-    }
 
     // detect esc pressed to exit
     useEffect(() => {
