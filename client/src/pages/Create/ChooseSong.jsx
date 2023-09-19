@@ -108,6 +108,24 @@ function ChooseSong({ playlist, setPlaylist, search}) {
         }
     }, [isChoosing])
     
+
+    // detect esc pressed to exit
+    useEffect(() => {
+        function handleKeyDown(e) {
+            if (e.keyCode == 27) {  
+                modalRef.current.close()
+                setIsChoosing(false)
+            }
+        }
+    
+        document.addEventListener('keydown', handleKeyDown);
+    
+        // Don't forget to clean up
+        return function cleanup() {
+          document.removeEventListener('keydown', handleKeyDown);
+        }
+    }, []);
+
     return (   
         <dialog ref={modalRef} className="choose-song">
             <FontAwesomeIcon className='exit' icon={faX} style={{color: "#000000",}} onClick={exitChoosing}/>

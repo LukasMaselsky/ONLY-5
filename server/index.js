@@ -3,10 +3,32 @@ import mysql from "mysql2";
 //https://stackoverflow.com/questions/50093144/mysql-8-0-client-does-not-support-authentication-protocol-requested-by-server
 import dotenv from "dotenv";
 import cors from "cors";
+import path from "path";
+import multer from "multer";
 
 const app = express();
 
 dotenv.config({ path: "./.env" });
+
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    db(null, "public/playlist-images");
+  },
+  filename: (req, file, callback) => {
+    db(
+      null,
+      file.fieldname + "_" + Date.now() + path.extname(file.originalname)
+    );
+  },
+});
+
+const upload = multer({
+  storage: storage,
+});
+
+app.post("/posts", upload.single("image"), (req, res) => {
+  console.log(req.file);
+});
 
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
@@ -26,34 +48,19 @@ app.get("/posts", (req, res) => {
   });
 });
 
-let lastPostId;
-app.post("/posts", (req, res) => {
-  const q = "INSERT INTO posts (title, author, date) VALUES (?)"; // ? for security idk why
-  const values = [req.body.title, req.body.author, req.body.date];
 
-  db.query(q, [values], (err, data) => {
-    if (err) return res.json(err);
-    lastPostId = data.insertId; // solution only works if client submits post -> then songs
-    // also restarting server means losing this value (obviously)
-    return res.json("Post created succesfully");
-  });
-});
-
-app.post("/songs", (req, res) => {
-  const q =
-    "INSERT INTO songs (title, artist, length, explicit, cover, postId) VALUES (?)";
+app.post("/posts", upload.single("image"), (req, res) => {
+  const q = "INSERT INTO posts (title, author, date, image) VALUES (?)"; // ? for security idk why
   const values = [
     req.body.title,
-    req.body.artist,
-    req.body.length,
-    req.body.explicit,
-    req.body.cover,
-    lastPostId,
+    req.body.author,
+    req.body.date,
+    req.body.image,
   ];
 
   db.query(q, [values], (err, data) => {
     if (err) return res.json(err);
-    return res.json("song sent");
+    return res.json("Post created succesfully");
   });
 });
 

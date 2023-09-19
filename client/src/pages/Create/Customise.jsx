@@ -99,7 +99,6 @@ function Customise( { playlist, state, dispatch, anyStylerOpen, setAnyStylerOpen
         }
         // 👇️ reset file input
         event.target.value = null;
-
         // 👇️ can still access file object here
         dispatch({type:'uploadBG', file: fileObj})
     }
