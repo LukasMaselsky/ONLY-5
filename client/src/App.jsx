@@ -1,6 +1,7 @@
-import { useState, createContext, useReducer, useEffect} from 'react';
+import { useState, createContext, useReducer, useEffect, useRef } from 'react';
 import Home from './pages/Home/Home';
 import Create from './pages/Create/Create';
+import Explore from './pages/Explore/Explore';
 import { createBrowserRouter, RouterProvider, Route } from 'react-router-dom';
 import './App.css';
 
@@ -24,6 +25,7 @@ function App() {
 
     const [isSaveModalOpen, setIsSaveModalOpen] = useState(false)
 
+    const playlistRef = useRef(null)
 
     function reducer(state, action) {
         switch(action.type) {
@@ -76,7 +78,6 @@ function App() {
                 return {
                     ...state,
                     uploadBG: action.file,
-
                 }
             case 'readyForUpload':
                 return {
@@ -159,6 +160,13 @@ function App() {
                 setSelectedForStyling={setSelectedForStyling}
                 isSaveModalOpen={isSaveModalOpen}
                 setIsSaveModalOpen={setIsSaveModalOpen}
+                playlistRef={playlistRef}
+            />
+        },
+        {
+            path: '/explore',
+            element: <Explore 
+                playlist={playlist}
             />
         }
     ])

@@ -1,17 +1,15 @@
 import {useEffect, useState, useRef, useCallback} from 'react'
 import axios from 'axios'
-import { toPng, toJpeg, toBlob, toPixelData, toSvg } from 'html-to-image';
+import html2canvas from 'html2canvas'
 
+function SaveModal({ isSaveModalOpen, setIsSaveModalOpen, playlistRef }) {
 
-function SaveModal({ isSaveModalOpen, setIsSaveModalOpen, playlist }) {
-
-    const element = document.getElementsByClassName('playlist')[0]
+    const element = document.getElementsByClassName('playlist-wrapper')[0]
 
     const [post, setPost] = useState({
         title: '',
         author: '',
         date: new Date().toISOString().slice(0, 10),
-        image: '',
     })
 
     const modalRef = useRef(null)
@@ -27,24 +25,28 @@ function SaveModal({ isSaveModalOpen, setIsSaveModalOpen, playlist }) {
         setIsSaveModalOpen(false)
     }
 
-    const download = async () => {
+    const save = async () => {
         if (element === null) {
           return
         }
-    
-        toBlob(element, { cacheBust: true, })
-          .then((blob) => {
-            const newImage = new File([blob], 'image', {type:'image/png'})
 
-            setPost(prev => ({...prev, image:newImage}))
-          })
-          .catch((err) => {
+        html2canvas(element, 
+            {windowWidth:'1000', useCORS: true, logging:false}) // windowWidth should be consistent var and take into account 70% width of wrapper
+        .then((canvas) => {
+            canvas.toBlob((blob) => {
+                const newImage = new File([blob], 'image', {type:'image/png'})
+                postData(newImage)
+            })
+        })
+        .catch((err) => {
             console.log(err)
         })
+    }
 
+    const postData = async (newImage) => {
         try {
             const formData = new FormData()
-            formData.append('image', post.image)
+            formData.append('image', newImage)
             formData.append('title', post.title)
             formData.append('author', post.author)
             formData.append('date', post.date)
@@ -52,21 +54,6 @@ function SaveModal({ isSaveModalOpen, setIsSaveModalOpen, playlist }) {
             modalRef.current.close()
             setIsSaveModalOpen(false)
             await axios.post("http://localhost:8800/posts", formData)
-        }
-        catch (err) {
-            console.log(err)
-        }
-    }
-
-    
-    const save = async (e) => {
-        e.preventDefault()
-        
-        modalRef.current.close()
-        setIsSaveModalOpen(false)
-
-        try {
-            await axios.post("http://localhost:8800/posts", post)
         }
         catch (err) {
             console.log(err)
@@ -103,7 +90,7 @@ function SaveModal({ isSaveModalOpen, setIsSaveModalOpen, playlist }) {
                 <input type='text' placeholder='Enter your username' name='author' onChange={handleChange}></input>
                 <div className='modal-btn-wrapper'>
                     <button className='modal-cancel-btn' onClick={cancelModal}>Cancel</button>
-                    <button className='modal-save-btn' onClick={download}>Save</button>
+                    <button className='modal-save-btn' onClick={save}>Save</button>
                 </div>
             </div>
         </dialog>

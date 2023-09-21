@@ -14,7 +14,7 @@ const milliToMin = (millis) => {
     return `${minutes}:${(seconds < 10 ? "0" : "")}${seconds}`;
 }
 
-function ChooseSong({ playlist, setPlaylist, search}) {
+function ChooseSong({ playlist, setPlaylist, search, setSearch}) {
 
 
     const [selection, setSelection] = useState(null)
@@ -47,11 +47,12 @@ function ChooseSong({ playlist, setPlaylist, search}) {
             .then(tokenResponse => {      
                 setToken(tokenResponse.data.access_token);
                 
-                axios('https://api.spotify.com/v1/search?q=' + search.title + '&type=track&market=ES&limit=5&offset=0', {
+                axios('https://api.spotify.com/v1/search?q=' + search + '&type=track&market=ES&limit=5&offset=0', {
                     method: 'GET',
                     headers: { 'Authorization' : 'Bearer ' + tokenResponse.data.access_token}
                 })
-                .then (response => {   
+                .then (response => {
+                    setSearch(null)  // prevents choose song api call firing if leaving page and coming back 
                     //console.log(response)     
                     let data = response['data']['tracks']['items']
                     data.sort((a, b) => b.popularity - a.popularity) // sort by highest popularity
@@ -83,7 +84,6 @@ function ChooseSong({ playlist, setPlaylist, search}) {
         }])
         //! HIDE POPUP
         setIsChoosing(false)  
-        console.log(playlist)
     }
     
     const exitChoosing = () => {

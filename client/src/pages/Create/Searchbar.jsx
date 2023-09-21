@@ -2,14 +2,14 @@ import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 
-function Searchbar({ search, setSearch}) {
+function Searchbar({ setSearch }) {
     const [titleSearch, setTitleSearch] = useState('')
     
 
     const handleSearch = (e) => {
         e.preventDefault();
 
-        setSearch({title:titleSearch})
+        setSearch(titleSearch)
     }
 
     return (

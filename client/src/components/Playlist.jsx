@@ -22,7 +22,7 @@ function setTrashColour() {
     }  
 }
 
-function Playlist({ fullBackground, playlist, updatePlaylist, handleDelete, selectedForStyling, setSelectedForStyling, state, dispatch}) {
+function Playlist({ playlistRef, fullBackground, playlist, updatePlaylist, handleDelete, selectedForStyling, setSelectedForStyling, state, dispatch}) {
     
     const vis = useContext(Visibility)
 
@@ -132,8 +132,7 @@ function Playlist({ fullBackground, playlist, updatePlaylist, handleDelete, sele
             <DragDropContext onDragEnd={handleOnDragEnd}>
                 <Droppable droppableId='songs'>
                 {(provided) => (
-
-                    <div className="playlist-wrapper" {...provided.droppableProps} ref={provided.innerRef}>
+                    <div className="playlist-wrapper" {...provided.droppableProps} ref={el => {provided.innerRef(el); playlistRef.current = el}}>
                         {playlist.map((song, index) => (
                             <Draggable key={song.id} draggableId={String(song.id)} index={index}>
                                 {(provided) => (

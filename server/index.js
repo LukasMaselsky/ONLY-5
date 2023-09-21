@@ -7,6 +7,9 @@ import path from "path";
 import multer from "multer";
 
 const app = express();
+app.use(express.json()); // allows to send json file using client
+app.use(cors());
+app.use(express.static('public'))
 
 dotenv.config({ path: "./.env" });
 
@@ -44,9 +47,6 @@ const db = mysql.createConnection({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
 });
-
-app.use(express.json()); // allows to send json file using client
-app.use(cors());
 
 app.get("/posts", (req, res) => {
   const q = "SELECT * FROM posts";
