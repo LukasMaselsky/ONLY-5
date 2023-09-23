@@ -9,7 +9,7 @@ import multer from "multer";
 const app = express();
 app.use(express.json()); // allows to send json file using client
 app.use(cors());
-app.use(express.static('public'))
+app.use(express.static("public"));
 
 dotenv.config({ path: "./.env" });
 

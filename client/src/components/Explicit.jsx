@@ -1,4 +1,3 @@
-
 const Explicit = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -25,5 +24,5 @@ const Explicit = (props) => (
       {"E"}
     </text>
   </svg>
-)
+);
 export default Explicit;
