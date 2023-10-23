@@ -1,8 +1,16 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import axios from "axios";
 import html2canvas from "html2canvas";
+import ScaleLoader from "react-spinners/ScaleLoader";
 
-function SaveModal({ isSaveModalOpen, setIsSaveModalOpen, playlistRef }) {
+function SaveModal({
+    isSaveModalOpen,
+    setIsSaveModalOpen,
+    playlistRef,
+    playlist,
+}) {
+    const postWidth = "1000px";
+    const [isSaving, setIsSaving] = useState(false);
     const element = document.getElementsByClassName("playlist-wrapper")[0];
 
     const [post, setPost] = useState({
@@ -25,14 +33,17 @@ function SaveModal({ isSaveModalOpen, setIsSaveModalOpen, playlistRef }) {
     };
 
     const save = async () => {
-        if (element === null) {
+        setIsSaving(true);
+        //! handle playlist.length message to user
+        if (element === null || playlist.length < 5) {
             return;
         }
 
         html2canvas(element, {
-            windowWidth: "1000px",
+            windowWidth: postWidth,
             useCORS: true,
             logging: false,
+            scale: 2.5, // 2.5 times the quality
         }) // windowWidth should be consistent var and take into account 70% width of wrapper
             .then((canvas) => {
                 canvas.toBlob((blob) => {
@@ -47,7 +58,7 @@ function SaveModal({ isSaveModalOpen, setIsSaveModalOpen, playlistRef }) {
                     console.log(img);
                     // ! EXPERIMENT
 
-                    //postData(newImage);
+                    postData(newImage);
                 });
             })
             .catch((err) => {
@@ -64,6 +75,7 @@ function SaveModal({ isSaveModalOpen, setIsSaveModalOpen, playlistRef }) {
             formData.append("date", post.date);
 
             modalRef.current.close();
+            setIsSaving(false);
             setIsSaveModalOpen(false);
             await axios.post("http://localhost:8800/posts", formData);
         } catch (err) {
@@ -94,7 +106,27 @@ function SaveModal({ isSaveModalOpen, setIsSaveModalOpen, playlistRef }) {
 
     return (
         <dialog className="save-modal" ref={modalRef}>
-            <div className="save-modal-wrapper">
+            <ScaleLoader
+                color={getComputedStyle(
+                    document.querySelector(":root")
+                ).getPropertyValue("--background")}
+                loading={isSaving}
+                height={75}
+                width={8}
+                radius={4}
+                aria-label="Loading Spinner"
+                data-testid="loader"
+                style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                }}
+            />
+            <div
+                className="save-modal-wrapper"
+                style={{ visibility: isSaving ? "hidden" : "visible" }}
+            >
                 <h1>Save Playlist</h1>
                 <input
                     type="text"

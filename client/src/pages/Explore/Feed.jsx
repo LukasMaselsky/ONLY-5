@@ -1,6 +1,12 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+function convertDate(date) {
+    var myDate = new Date(date);
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return myDate.toLocaleDateString("en-GB", options);
+}
+
 function Feed() {
     const [posts, setPosts] = useState([]);
 
@@ -26,8 +32,22 @@ function Feed() {
                                 "http://localhost:8800/playlist-images/" +
                                 post.image
                             }
-                            style={{ height: "400px" }} // has to be 400px since for some reason html2canvas defaults to 120px per song = 120 x 5 = 600px
                         ></img>
+                        <div className="post-info">
+                            <div className="title">
+                                <p>{post.title}</p>
+                            </div>
+                            <div className="date">
+                                <p>{convertDate(post.date)}</p>
+                            </div>
+                            <div className="author">
+                                <p>
+                                    <span>by </span>
+                                    {post.author}
+                                </p>
+                            </div>
+                            <div></div>
+                        </div>
                     </div>
                 ))}
             </div>

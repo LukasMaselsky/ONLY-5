@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Lexend:wght@100;200;300;400;500;600;700;800;900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Bungee+Outline&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap");
 
 :root {
     --text: #f3efef;
@@ -22,7 +23,8 @@ html {
 
 body {
     background-color: var(--background);
-    font-family: "Almarai", sans-serif;
+    font-family: "Manrope", sans-serif;
+    font-weight: 500;
     overflow-x: hidden;
     min-height: 100%;
     margin: 0;
@@ -487,8 +489,7 @@ input[type="checkbox"] {
 }
 
 .background-colour-picker,
-.font-colour-picker,
-.font-searcher {
+.font-colour-picker {
     position: absolute;
     bottom: 80px;
 }
@@ -500,16 +501,29 @@ input[type="checkbox"] {
 
 /* google font search input */
 
+.font-searcher-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: absolute;
+    bottom: 80px;
+    background: white;
+    width: 18rem;
+    height: 15rem;
+    padding: 1rem;
+    transform: translateX(-20%);
+}
+
 .font-searcher {
     display: flex;
     flex-direction: row;
     align-items: center;
     border: 1px solid grey;
     background: white;
+    height: 3.5rem;
     width: 16rem;
     padding: 1px;
     color: "black";
-    transform: translateX(-20%); /* APPROXIMATION */
 }
 
 .font-searcher > input {
@@ -527,16 +541,27 @@ input[type="checkbox"] {
     outline: 1px solid blue;
 }
 
-.font-searcher > .search-button {
-    color: black;
-    border: none;
-    font-size: 1.5rem;
-    margin-right: 10px;
+.font-list {
+    height: 100%;
+    width: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
-.font-searcher > .search-button:hover {
+.font-list > .font {
+    height: 3rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: var(--background);
+    width: 100%;
+    padding: 0.5rem;
+    border-bottom: 1px solid lightgrey;
+}
+
+.font-list > .font:hover {
     cursor: pointer;
-    opacity: 0.9;
+    opacity: 0.5;
 }
 
 .save-modal {
@@ -613,20 +638,69 @@ input[type="checkbox"] {
 .feed-wrapper {
     width: 70%;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 1rem;
+    gap: 3rem;
 }
 
 .post {
+    width: 100%;
+    position: relative;
 }
 
 .post > img {
+    width: 100%;
+    object-fit: contain;
+    aspect-ratio: 1.75 / 1;
+}
+
+.post-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    padding: 0rem;
+    width: 100%;
+}
+
+.post-info > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0rem 1rem;
+    font-size: clamp(1rem, 5vw, 2rem);
+}
+
+.post-info > .date {
+    font-weight: 200;
+    font-size: clamp(0.5rem, 3vw, 1.5rem);
+    justify-content: flex-end;
+}
+
+.post-info > .author {
+    font-size: clamp(0.5rem, 3vw, 1.5rem);
+    font-weight: 300;
+}
+
+.post-info > .author > p > span {
+    opacity: 0.7;
+    font-weight: 200;
 }
 
 /* for mobile (less than 800px screen width) */
 @media screen and (max-width: 800px) {
     .playlist-wrapper {
         width: 90%;
+    }
+
+    .feed-wrapper {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .customise-wrapper {
+        flex-direction: column;
     }
 }
