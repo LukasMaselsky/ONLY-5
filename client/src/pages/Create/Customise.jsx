@@ -7,10 +7,6 @@ import { ChromePicker } from "react-color";
 import WebFont from "webfontloader";
 import axios from "axios";
 
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
 //! add message for user not in console
 //!! WHY DOES STILL TRIGGER WHEN THERE ISNT ERROR
 const handleGoogleFontError = () => {
@@ -30,6 +26,7 @@ function Customise({
     const vis = useContext(Visibility);
     const [fontSearch, setFontSearch] = useState("");
     const fileUploadRef = useRef(null);
+    const [isToggled, setIsToggled] = useState(false);
 
     const searchForGoogleFont = (family) => {
         const WebFontConfig = {
@@ -72,11 +69,25 @@ function Customise({
         dispatch({ type: "hideFontTypePicker" });
     };
 
+    async function togglePopup(index, time) {
+        setIsToggled(true);
+        let popup = document.getElementsByClassName("customise-popup")[index];
+        popup.classList.toggle("show");
+        return new Promise((resolve) => {
+            setTimeout(resolve, time);
+        }).then(() => {
+            popup.classList.toggle("show");
+            setIsToggled(false);
+        });
+    }
+
     const showSelectMenu = (payload) => {
         if (playlist.length == 0) {
-            alert("no songs added to playlist"); //!
+            alert("no songs added to playlist"); //! doesn't apply since customise not visible @ length == 0
         } else if (anyStylerOpen) {
-            alert("finish your current styling by clicking the green button");
+            if (!isToggled) {
+                togglePopup(0, 3000);
+            }
         } else {
             // uncheck boxes
             let checkboxes = document.querySelectorAll("input[type=checkbox]");
@@ -135,6 +146,12 @@ function Customise({
                 style={{ display: playlist.length > 0 ? "flex" : "none" }}
             >
                 <div className="customise-wrapper">
+                    <div className="customise-popup">
+                        <p>
+                            Finish your current styling by clicking the green
+                            check
+                        </p>
+                    </div>
                     <div className="select-colour">
                         <button
                             className="select-colour-btn"

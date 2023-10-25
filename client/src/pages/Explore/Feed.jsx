@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import LazyImage from "../../components/LazyImage";
 
 function convertDate(date) {
     var myDate = new Date(date);
@@ -27,12 +28,12 @@ function Feed() {
             <div className="feed-wrapper">
                 {posts.map((post, index) => (
                     <div className="post" key={post.id}>
-                        <img
+                        <LazyImage
                             src={
                                 "http://localhost:8800/playlist-images/" +
                                 post.image
                             }
-                        ></img>
+                        />
                         <div className="post-info">
                             <div className="title">
                                 <p>{post.title}</p>

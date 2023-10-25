@@ -192,6 +192,7 @@ function ChooseSong({ playlist, setPlaylist, search, setSearch }) {
                                     style={{
                                         display: "flex",
                                         flexDirection: "row",
+                                        alignItems:"center",
                                         gap: "0.4rem",
                                     }}
                                 >

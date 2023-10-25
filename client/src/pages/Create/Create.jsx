@@ -29,7 +29,7 @@ function Create({
         <>
             <Navbar playlist={playlist} />
             <main style={{ minHeight: "90vh" }}>
-                <Searchbar setSearch={setSearch} />
+                <Searchbar setSearch={setSearch} playlist={playlist} />
                 <Playlist
                     playlistRef={playlistRef}
                     fullBackground={fullBackground}
