@@ -21,10 +21,65 @@ function ChooseSong({ playlist, setPlaylist, search, setSearch }) {
     const [isLoading, setIsLoading] = useState(false);
 
     const [token, setToken] = useState("");
+    const [offsetCounter, setOffsetCounter] = useState(5);
+    const [previousSearch, setPreviousSearch] = useState("");
 
     const spotify = {
         ClientId: import.meta.env.VITE_SPOTIFY_CLIENT_ID,
         ClientSecret: import.meta.env.VITE_SPOTIFY_CLIENT_SECRET,
+    };
+
+    const callSongs = (offset) => {
+        console.log(offset);
+        const searchTerm = offset == 0 ? search : previousSearch; // if offset isn't 0 then load more was pressed
+
+        setIsChoosing(true);
+        setIsLoading(true);
+
+        axios("https://accounts.spotify.com/api/token", {
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                Authorization:
+                    "Basic " +
+                    btoa(spotify.ClientId + ":" + spotify.ClientSecret),
+            },
+            data: "grant_type=client_credentials",
+            method: "POST",
+        })
+            .then((tokenResponse) => {
+                setToken(tokenResponse.data.access_token);
+
+                axios(
+                    "https://api.spotify.com/v1/search?q=" +
+                        searchTerm +
+                        "&type=track&market=ES&limit=5&offset=" +
+                        String(offset),
+                    {
+                        method: "GET",
+                        headers: {
+                            Authorization:
+                                "Bearer " + tokenResponse.data.access_token,
+                        },
+                    }
+                )
+                    .then((response) => {
+                        if (offset == 0) {
+                            setPreviousSearch(search); // save search term for if user presses load more
+                        }
+                        setSearch(null); // prevents choose song api call firing if leaving page and coming back
+                        //console.log(response)
+                        let data = response["data"]["tracks"]["items"];
+                        data.sort((a, b) => b.popularity - a.popularity); // sort by highest popularity
+                        setSelection(data);
+                        setIsLoading(false);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     };
 
     useEffect(() => {
@@ -32,51 +87,15 @@ function ChooseSong({ playlist, setPlaylist, search, setSearch }) {
 
         //! this if statement to prevent firing on initialization of search when it is null
         if (search != null && !isChoosing && playlist.length < 5) {
-            setIsChoosing(true);
-            setIsLoading(true);
-
-            axios("https://accounts.spotify.com/api/token", {
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                    Authorization:
-                        "Basic " +
-                        btoa(spotify.ClientId + ":" + spotify.ClientSecret),
-                },
-                data: "grant_type=client_credentials",
-                method: "POST",
-            })
-                .then((tokenResponse) => {
-                    setToken(tokenResponse.data.access_token);
-
-                    axios(
-                        "https://api.spotify.com/v1/search?q=" +
-                            search +
-                            "&type=track&market=ES&limit=5&offset=0",
-                        {
-                            method: "GET",
-                            headers: {
-                                Authorization:
-                                    "Bearer " + tokenResponse.data.access_token,
-                            },
-                        }
-                    )
-                        .then((response) => {
-                            setSearch(null); // prevents choose song api call firing if leaving page and coming back
-                            //console.log(response)
-                            let data = response["data"]["tracks"]["items"];
-                            data.sort((a, b) => b.popularity - a.popularity); // sort by highest popularity
-                            setSelection(data);
-                            setIsLoading(false);
-                        })
-                        .catch((err) => {
-                            console.log(err);
-                        });
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
+            setOffsetCounter(5); // set offset to default on each new search
+            callSongs(0);
         }
     }, [search]);
+
+    const loadMoreSongs = () => {
+        callSongs(offsetCounter);
+        setOffsetCounter((counter) => counter + 5);
+    };
 
     const chooseAddition = (title, artist, length, cover, explicit) => {
         // update playlist with new song after selection from options
@@ -155,7 +174,6 @@ function ChooseSong({ playlist, setPlaylist, search, setSearch }) {
                 aria-label="Loading Spinner"
                 data-testid="loader"
             />
-
             <div
                 className="choose-song-wrapper"
                 style={{ display: isLoading ? "none" : "inline" }}
@@ -192,7 +210,7 @@ function ChooseSong({ playlist, setPlaylist, search, setSearch }) {
                                     style={{
                                         display: "flex",
                                         flexDirection: "row",
-                                        alignItems:"center",
+                                        alignItems: "center",
                                         gap: "0.4rem",
                                     }}
                                 >
@@ -218,6 +236,9 @@ function ChooseSong({ playlist, setPlaylist, search, setSearch }) {
                             </div>
                         </div>
                     ))}
+                <span className="load-more" onClick={() => loadMoreSongs()}>
+                    Load More
+                </span>
             </div>
         </dialog>
     );

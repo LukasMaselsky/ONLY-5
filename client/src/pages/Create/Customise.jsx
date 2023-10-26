@@ -46,7 +46,8 @@ function Customise({
             // fetch list of all fonts when font search bar appears for the first time
             axios
                 .get(
-                    "https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyDn-RNX3Mcqu1kOa93wSdYmRMpWwEaa0EY"
+                    "https://www.googleapis.com/webfonts/v1/webfonts?key=" +
+                        import.meta.env.VITE_GOOGLE_FONTS_API_KEY
                 )
                 .then((response) => {
                     setListOfAllFonts(response.data.items); // array
@@ -183,7 +184,7 @@ function Customise({
                         >
                             <div className="font-searcher">
                                 <input
-                                    placeholder="Search for font"
+                                    placeholder="Search for a Google font"
                                     value={fontSearch}
                                     onInput={(e) =>
                                         setFontSearch(e.target.value)
