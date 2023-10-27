@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import useTogglePopup from "../../hooks/useTogglePopup";
 
 function Searchbar({ setSearch, playlist }) {
     const [titleSearch, setTitleSearch] = useState("");
-    const [isToggled, setIsToggled] = useState(false);
+    const [isToggled, togglePopup] = useTogglePopup();
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -15,23 +16,11 @@ function Searchbar({ setSearch, playlist }) {
 
     const handlePopup = () => {
         if (titleSearch == "" && !isToggled) {
-            togglePopup(1, 5000);
+            togglePopup(1, 5000, "search-popup");
         } else if (playlist.length == 5 && !isToggled) {
-            togglePopup(0, 5000);
+            togglePopup(0, 5000, "search-popup");
         }
     };
-
-    async function togglePopup(index, time) {
-        setIsToggled(true);
-        let popup = document.getElementsByClassName("search-popup")[index];
-        popup.classList.toggle("show");
-        return new Promise((resolve) => {
-            setTimeout(resolve, time);
-        }).then(() => {
-            popup.classList.toggle("show");
-            setIsToggled(false);
-        });
-    }
 
     return (
         <div className="search">

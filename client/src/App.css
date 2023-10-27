@@ -266,7 +266,8 @@ nav {
 }
 
 .search-popup,
-.customise-popup {
+.customise-popup,
+.select-popup {
     visibility: hidden;
     left: 50%;
     transform: translateX(-50%);
@@ -492,15 +493,14 @@ input[type="checkbox"] {
 /* CUSTOMISE */
 
 .customise,
-.customise-select,
-.change-style {
+.customise-select {
     width: 100%;
     display: flex;
     justify-content: center;
 }
 
-.customise-select-wrapper,
-.change-style-wrapper {
+.customise-select-wrapper {
+    position: relative;
     padding: 1rem;
     justify-content: center;
     gap: 1rem;

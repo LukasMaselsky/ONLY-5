@@ -30,7 +30,6 @@ function ChooseSong({ playlist, setPlaylist, search, setSearch }) {
     };
 
     const callSongs = (offset) => {
-        console.log(offset);
         const searchTerm = offset == 0 ? search : previousSearch; // if offset isn't 0 then load more was pressed
 
         setIsChoosing(true);

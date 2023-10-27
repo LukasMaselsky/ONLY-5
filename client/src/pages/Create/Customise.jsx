@@ -6,6 +6,7 @@ import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import { ChromePicker } from "react-color";
 import WebFont from "webfontloader";
 import axios from "axios";
+import useTogglePopup from "../../hooks/useTogglePopup";
 
 //! add message for user not in console
 //!! WHY DOES STILL TRIGGER WHEN THERE ISNT ERROR
@@ -26,7 +27,7 @@ function Customise({
     const vis = useContext(Visibility);
     const [fontSearch, setFontSearch] = useState("");
     const fileUploadRef = useRef(null);
-    const [isToggled, setIsToggled] = useState(false);
+    const [isToggled, togglePopup] = useTogglePopup();
 
     const searchForGoogleFont = (family) => {
         const WebFontConfig = {
@@ -70,24 +71,10 @@ function Customise({
         dispatch({ type: "hideFontTypePicker" });
     };
 
-    async function togglePopup(index, time) {
-        setIsToggled(true);
-        let popup = document.getElementsByClassName("customise-popup")[index];
-        popup.classList.toggle("show");
-        return new Promise((resolve) => {
-            setTimeout(resolve, time);
-        }).then(() => {
-            popup.classList.toggle("show");
-            setIsToggled(false);
-        });
-    }
-
     const showSelectMenu = (payload) => {
-        if (playlist.length == 0) {
-            alert("no songs added to playlist"); //! doesn't apply since customise not visible @ length == 0
-        } else if (anyStylerOpen) {
+        if (anyStylerOpen) {
             if (!isToggled) {
-                togglePopup(0, 3000);
+                togglePopup(0, 3000, "customise-popup");
             }
         } else {
             // uncheck boxes
@@ -247,6 +234,7 @@ function Customise({
                             ref={fileUploadRef}
                             onChange={handleFileChange}
                             type="file"
+                            accept="image/*"
                             className="file-upload"
                         ></input>
                     </div>
