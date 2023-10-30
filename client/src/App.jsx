@@ -12,6 +12,8 @@ export const Visibility = createContext({
     setIsSelectButtonsVis: null,
     whichCustomiseOption: null,
     setWhichCustomiseOption: null,
+    isTrashVis: null,
+    setIsTrashVis: null,
 });
 
 function App() {
@@ -29,6 +31,7 @@ function App() {
     const [fullBackground, setFullBackground] = useState(false);
 
     const [isSaveModalOpen, setIsSaveModalOpen] = useState(false);
+    const [isTrashVis, setIsTrashVis] = useState(false);
 
     const playlistRef = useRef(null);
 
@@ -183,6 +186,8 @@ function App() {
                 setIsSelectButtonsVis: setIsSelectButtonsVis,
                 whichCustomiseOption: whichCustomiseOption,
                 setWhichCustomiseOption: setWhichCustomiseOption,
+                isTrashVis: isTrashVis,
+                setIsTrashVis: setIsTrashVis,
             }}
         >
             <RouterProvider router={router} />

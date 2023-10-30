@@ -55,6 +55,15 @@ function ApplyCustomiseSelect({
         dispatch({ type: "readyForUpload", status: true });
     };
 
+    const cancel = () => {
+        setAnyStylerOpen(false);
+        dispatch({ type: "hideBGColourPicker" });
+        dispatch({ type: "hideFontColourPicker" });
+        dispatch({ type: "hideFontTypePicker" });
+        vis.setIsCheckboxVis(false);
+        vis.setIsSelectButtonsVis(false);
+    };
+
     return (
         <div
             className="customise-select"
@@ -63,6 +72,11 @@ function ApplyCustomiseSelect({
             <div className="customise-select-wrapper">
                 <div className="select-popup">
                     <p>Nothing selected</p>
+                </div>
+                <div className="cancel">
+                    <button className="cancel-btn" onClick={() => cancel()}>
+                        Cancel
+                    </button>
                 </div>
                 <div className="select-all">
                     <button

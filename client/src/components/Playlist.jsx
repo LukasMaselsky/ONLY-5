@@ -204,7 +204,13 @@ function Playlist({
                                                 <FontAwesomeIcon
                                                     className="trash"
                                                     icon={faTrash}
-                                                    style={{ color: "#ffffff" }}
+                                                    style={{
+                                                        color: "#ffffff",
+                                                        visibility:
+                                                            vis.isTrashVis
+                                                                ? "visible"
+                                                                : "hidden",
+                                                    }}
                                                     onClick={() =>
                                                         handleDelete(song.id)
                                                     }

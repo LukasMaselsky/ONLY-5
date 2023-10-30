@@ -1,12 +1,16 @@
 import { useState, useEffect, useContext, useRef } from "react";
 import { Visibility } from "../../App";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSquareCheck } from "@fortawesome/free-solid-svg-icons";
-import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
-import { ChromePicker } from "react-color";
+import Share from "./Share";
 import WebFont from "webfontloader";
 import axios from "axios";
 import useTogglePopup from "../../hooks/useTogglePopup";
+import { Save } from "./Save";
+import { CloseStyler } from "./CloseStyler";
+import { UploadBackground } from "./UploadBackground";
+import { SelectFontColour } from "./SelectFontColour";
+import { SelectFontType } from "./SelectFontType";
+import { SelectColour } from "./SelectColour";
+import { Delete } from "./Delete";
 
 //! add message for user not in console
 //!! WHY DOES STILL TRIGGER WHEN THERE ISNT ERROR
@@ -127,6 +131,12 @@ function Customise({
         dispatch({ type: "uploadBG", file: fileObj });
     };
 
+    useEffect(() => {
+        if (playlist.length == 0) {
+            vis.setIsTrashVis(false); // hide trash icons when customise bar dissapears
+        }
+    }, [playlist]);
+
     return (
         <>
             <div
@@ -140,127 +150,36 @@ function Customise({
                             check
                         </p>
                     </div>
-                    <div className="select-colour">
-                        <button
-                            className="select-colour-btn"
-                            onClick={() => showSelectMenu("BGColour")}
-                        >
-                            Background Colour
-                        </button>
-                        <div
-                            className="background-colour-picker"
-                            style={{ display: state.BGColourPickerVis }}
-                        >
-                            <ChromePicker
-                                style={{ display: state.BGColourPickerVis }}
-                                color={state.BGColour}
-                                onChangeComplete={handleBGColourChange}
-                            />
-                        </div>
-                    </div>
-                    <div className="select-font-type">
-                        <button
-                            className="select-font-type-btn"
-                            onClick={() => showSelectMenu("fontType")}
-                        >
-                            Font Type
-                        </button>
-                        <div
-                            className="font-searcher-wrapper"
-                            style={{ display: state.fontTypePickerVis }}
-                        >
-                            <div className="font-searcher">
-                                <input
-                                    placeholder="Search for a Google font"
-                                    value={fontSearch}
-                                    onInput={(e) =>
-                                        setFontSearch(e.target.value)
-                                    }
-                                />
-                            </div>
-                            <div className="font-list">
-                                {listOfAllFonts &&
-                                    listOfAllFonts
-                                        .filter((name) =>
-                                            name.family
-                                                .toLowerCase()
-                                                .includes(
-                                                    fontSearch.toLowerCase()
-                                                )
-                                        )
-                                        .map((font, index) => (
-                                            <div
-                                                key={index}
-                                                className="font"
-                                                onClick={() =>
-                                                    searchForGoogleFont(
-                                                        font.family
-                                                    )
-                                                }
-                                            >
-                                                {font.family}
-                                            </div>
-                                        ))}
-                            </div>
-                        </div>
-                    </div>
-                    <div className="select-font-colour">
-                        <button
-                            className="select-font-colour-btn"
-                            onClick={() => showSelectMenu("fontColour")}
-                        >
-                            {" "}
-                            Font Colour
-                        </button>
-                        <div
-                            className="font-colour-picker"
-                            style={{ display: state.fontColourPickerVis }}
-                        >
-                            <ChromePicker
-                                style={{ display: state.fontColourPickerVis }}
-                                color={state.fontColour}
-                                onChangeComplete={handleFontColourChange}
-                            />
-                        </div>
-                    </div>
-                    <div className="upload-background">
-                        <button
-                            className="upload-background-btn"
-                            onClick={() => handleFileUpload("uploadBackground")}
-                        >
-                            Upload Background
-                        </button>
-                        <input
-                            ref={fileUploadRef}
-                            onChange={handleFileChange}
-                            type="file"
-                            accept="image/*"
-                            className="file-upload"
-                        ></input>
-                    </div>
-                    <div
-                        className="close-styler"
-                        style={
-                            anyStylerOpen
-                                ? { display: "flex" }
-                                : { display: "none" }
-                        }
-                    >
-                        <FontAwesomeIcon
-                            className="close-style-btn"
-                            icon={faSquareCheck}
-                            style={{ color: "#86DA98", height: "3rem" }}
-                            onClick={() => finishStyling()}
-                        />
-                    </div>
-                    <div className="save">
-                        <FontAwesomeIcon
-                            className="save-btn"
-                            icon={faFloppyDisk}
-                            style={{ height: "2rem" }}
-                            onClick={() => setIsSaveModalOpen(true)}
-                        />
-                    </div>
+                    <SelectColour
+                        state={state}
+                        showSelectMenu={showSelectMenu}
+                        handleBGColourChange={handleBGColourChange}
+                    ></SelectColour>
+                    <SelectFontType
+                        fontTypePickerVis={state.fontTypePickerVis}
+                        listOfAllFonts={listOfAllFonts}
+                        fontSearch={fontSearch}
+                        setFontSearch={setFontSearch}
+                        searchForGoogleFont={searchForGoogleFont}
+                        showSelectMenu={showSelectMenu}
+                    ></SelectFontType>
+                    <SelectFontColour
+                        state={state}
+                        showSelectMenu={showSelectMenu}
+                        handleFontColourChange={handleFontColourChange}
+                    ></SelectFontColour>
+                    <UploadBackground
+                        fileUploadRef={fileUploadRef}
+                        handleFileUpload={handleFileUpload}
+                        handleFileChange={handleFileChange}
+                    ></UploadBackground>
+                    <CloseStyler
+                        anyStylerOpen={anyStylerOpen}
+                        finishStyling={finishStyling}
+                    ></CloseStyler>
+                    <Delete vis={vis}></Delete>
+                    <Save setIsSaveModalOpen={setIsSaveModalOpen}></Save>
+                    <Share />
                 </div>
             </div>
         </>

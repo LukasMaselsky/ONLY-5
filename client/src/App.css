@@ -31,6 +31,8 @@ body {
 }
 
 main {
+    /*background-image: url("./assets/bg.png");
+    background-size: cover;*/
     width: 100vw;
     width: 100svw;
     background-color: var(--background);
@@ -371,12 +373,6 @@ input:focus {
     transform: translate(-50%, -50%);
 }
 
-/* when hovering on song card show option to delete */
-
-.song:hover .trash-wrapper {
-    visibility: visible;
-}
-
 .song:hover {
     opacity: 0.9;
 }
@@ -544,15 +540,26 @@ input[type="checkbox"] {
 .select-font-colour-btn:hover,
 .upload-background-btn:hover,
 .save-btn:hover,
-.close-style-btn:hover {
+.close-style-btn:hover,
+.share-btn:hover,
+.select-all-btn:hover,
+.apply-selection-btn:hover,
+.full-background-image-btn:hover,
+.cancel-btn:hover {
     cursor: pointer;
 }
 
 .select-all-btn,
 .apply-selection-btn,
-.full-background-image-btn {
+.full-background-image-btn,
+.cancel-btn {
     padding: 0.5rem;
     border: none;
+    font-family: "Manrope", sans-serif;
+}
+
+.cancel-btn {
+    background: var(--accent);
 }
 
 .upload-background > input {
@@ -722,6 +729,7 @@ input[type="checkbox"] {
 .post {
     width: 100%;
     position: relative;
+    background: var(--secondary);
 }
 
 .post > img {

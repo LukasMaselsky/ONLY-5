@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import axios from "axios";
-import html2canvas from "html2canvas";
 import ScaleLoader from "react-spinners/ScaleLoader";
+import useCreateImage from "../../hooks/useCreateImage";
 
 function SaveModal({
     isSaveModalOpen,
@@ -9,7 +9,6 @@ function SaveModal({
     playlistRef,
     playlist,
 }) {
-    const postWidth = "1000px";
     const [isSaving, setIsSaving] = useState(false);
     const element = document.getElementsByClassName("playlist-wrapper")[0];
 
@@ -20,6 +19,7 @@ function SaveModal({
     });
 
     const modalRef = useRef(null);
+    const { image, isCreating, createImage } = useCreateImage(element);
 
     useEffect(() => {
         if (isSaveModalOpen) {
@@ -38,33 +38,17 @@ function SaveModal({
         if (element === null || playlist.length < 5) {
             return;
         }
-
-        html2canvas(element, {
-            windowWidth: postWidth,
-            useCORS: true,
-            logging: false,
-            scale: 2.5, // 2.5 times the quality
-        }) // windowWidth should be consistent var and take into account 70% width of wrapper
-            .then((canvas) => {
-                canvas.toBlob((blob) => {
-                    //! 444px to get 600px width ???????????????
-                    const newImage = new File([blob], "image", {
-                        type: "image/png",
-                    });
-
-                    // ! EXPERIMENT
-                    let img = document.createElement("img");
-                    img.src = URL.createObjectURL(blob);
-                    console.log(img);
-                    // ! EXPERIMENT
-
-                    postData(newImage);
-                });
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        createImage();
     };
+
+    useEffect(() => {
+        const savePost = async () => {
+            if (!isCreating) {
+                postData(image);
+            }
+        };
+        savePost();
+    }, [isCreating]);
 
     const postData = async (newImage) => {
         try {
