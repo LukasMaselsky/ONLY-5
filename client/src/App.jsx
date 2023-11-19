@@ -92,6 +92,21 @@ function App() {
                     ...state,
                     readyForUpload: action.status,
                 };
+            case "showSearchBackgroundPicker":
+                return {
+                    ...state,
+                    searchBackgroundVis: "flex",
+                };
+            case "hideSearchBackgroundPicker":
+                return {
+                    ...state,
+                    searchBackgroundVis: "none",
+                };
+            case "setSearchBackground":
+                return {
+                    ...state,
+                    searchBG: action.image,
+                };
         }
     }
 
@@ -111,6 +126,8 @@ function App() {
         fontTypePickerVis: "none",
         uploadBG: null,
         readyForUpload: false,
+        searchBackgroundVis: "none",
+        searchBG: null,
     });
 
     const [whichCustomiseOption, setWhichCustomiseOption] = useState("");

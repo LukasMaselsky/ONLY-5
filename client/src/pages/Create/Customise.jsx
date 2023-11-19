@@ -11,6 +11,7 @@ import { SelectFontColour } from "./SelectFontColour";
 import { SelectFontType } from "./SelectFontType";
 import { SelectColour } from "./SelectColour";
 import { Delete } from "./Delete";
+import { SearchBackground } from "./SearchBackground";
 
 //! add message for user not in console
 //!! WHY DOES STILL TRIGGER WHEN THERE ISNT ERROR
@@ -32,6 +33,8 @@ function Customise({
     const [fontSearch, setFontSearch] = useState("");
     const fileUploadRef = useRef(null);
     const [isToggled, togglePopup] = useTogglePopup();
+    const [imageSearch, setImageSearch] = useState("");
+    const [imageSearchChoices, setImageSearchChoices] = useState(null);
 
     const searchForGoogleFont = (family) => {
         const WebFontConfig = {
@@ -73,6 +76,7 @@ function Customise({
         dispatch({ type: "hideBGColourPicker" });
         dispatch({ type: "hideFontColourPicker" });
         dispatch({ type: "hideFontTypePicker" });
+        dispatch({ type: "hideSearchBackgroundPicker" });
     };
 
     const showSelectMenu = (payload) => {
@@ -137,6 +141,25 @@ function Customise({
         }
     }, [playlist]);
 
+    const searchForImage = () => {
+        axios
+            .get(
+                "https://pixabay.com/api/?key=" +
+                    import.meta.env.VITE_PIXABAY_API_KEY +
+                    "&q=" +
+                    imageSearch +
+                    "&orientation=horizontal"
+            )
+            .then((response) => {
+                const images = response["data"]["hits"].slice(0, 10);
+
+                setImageSearchChoices(images.map((i) => i.largeImageURL));
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
     return (
         <>
             <div
@@ -173,13 +196,30 @@ function Customise({
                         handleFileUpload={handleFileUpload}
                         handleFileChange={handleFileChange}
                     ></UploadBackground>
-                    <CloseStyler
-                        anyStylerOpen={anyStylerOpen}
-                        finishStyling={finishStyling}
-                    ></CloseStyler>
-                    <Delete vis={vis}></Delete>
-                    <Save setIsSaveModalOpen={setIsSaveModalOpen}></Save>
-                    <Share />
+                    <SearchBackground
+                        searchBackgroundVis={state.searchBackgroundVis}
+                        imageSearch={imageSearch}
+                        setImageSearch={setImageSearch}
+                        searchForImage={searchForImage}
+                        showSelectMenu={showSelectMenu}
+                        imageSearchChoices={imageSearchChoices}
+                        dispatch={dispatch}
+                    ></SearchBackground>
+                    <div
+                        style={{
+                            display: "flex",
+                            gap: "1rem",
+                            alignItems: "center",
+                        }}
+                    >
+                        <CloseStyler
+                            anyStylerOpen={anyStylerOpen}
+                            finishStyling={finishStyling}
+                        ></CloseStyler>
+                        <Delete vis={vis}></Delete>
+                        <Save setIsSaveModalOpen={setIsSaveModalOpen}></Save>
+                        <Share />
+                    </div>
                 </div>
             </div>
         </>

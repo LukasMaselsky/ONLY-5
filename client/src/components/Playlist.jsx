@@ -140,6 +140,29 @@ function Playlist({
         }
     }, [playlist]);
 
+    // search background apply
+    useEffect(() => {
+        if (fullBackground) {
+            const wrapper =
+                document.getElementsByClassName("playlist-wrapper")[0];
+
+            //loop through playlist and make each background transparent
+            for (let i = 0; i < playlist.length; i++) {
+                const song = document.getElementsByClassName("song")[i];
+                song.style.backgroundColor = "transparent";
+            }
+
+            wrapper.style.backgroundImage = "url(" + state.searchBG + ")";
+        } else {
+            for (let i = 0; i < selectedForStyling.length; i++) {
+                const id = "song-" + String(selectedForStyling[i]);
+                const element = document.getElementById(id);
+
+                element.style.backgroundImage = "url(" + state.searchBG + ")";
+            }
+        }
+    }, [state.searchBG]);
+
     return (
         <div className="playlist">
             <DragDropContext onDragEnd={handleOnDragEnd}>

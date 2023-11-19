@@ -35,6 +35,9 @@ function ApplyCustomiseSelect({
             } else if (vis.whichCustomiseOption === "uploadBackground") {
                 setFullBackground(false);
                 dispatch({ type: "readyForUpload", status: true });
+            } else if (vis.whichCustomiseOption === "searchBackground") {
+                setFullBackground(false);
+                dispatch({ type: "showSearchBackgroundPicker", status: true });
             }
         }
     };
@@ -52,7 +55,12 @@ function ApplyCustomiseSelect({
         vis.setIsCheckboxVis(false);
         vis.setIsSelectButtonsVis(false);
         setFullBackground(true);
-        dispatch({ type: "readyForUpload", status: true });
+        if (vis.whichCustomiseOption === "uploadBackground") {
+            dispatch({ type: "readyForUpload", status: true });
+        } else {
+            setAnyStylerOpen(true);
+            dispatch({ type: "showSearchBackgroundPicker", status: true });
+        }
     };
 
     const cancel = () => {
@@ -90,7 +98,8 @@ function ApplyCustomiseSelect({
                     className="full-background-image"
                     style={{
                         display:
-                            vis.whichCustomiseOption === "uploadBackground"
+                            vis.whichCustomiseOption === "uploadBackground" ||
+                            vis.whichCustomiseOption == "searchBackground"
                                 ? "inline"
                                 : "none",
                     }}

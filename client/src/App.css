@@ -519,14 +519,16 @@ input[type="checkbox"] {
 
 .select-colour,
 .select-font-colour,
-.select-font-type {
+.select-font-type,
+.search-background {
     position: relative;
 }
 
 .select-colour-btn,
 .select-font-type-btn,
 .select-font-colour-btn,
-.upload-background-btn {
+.upload-background-btn,
+.search-background-btn {
     width: 10rem;
     padding: 1rem;
     border: none;
@@ -545,7 +547,8 @@ input[type="checkbox"] {
 .select-all-btn:hover,
 .apply-selection-btn:hover,
 .full-background-image-btn:hover,
-.cancel-btn:hover {
+.cancel-btn:hover,
+.search-background-btn:hover {
     cursor: pointer;
 }
 
@@ -582,7 +585,8 @@ input[type="checkbox"] {
 
 /* google font search input */
 
-.font-searcher-wrapper {
+.font-searcher-wrapper,
+.image-searcher-wrapper {
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -595,7 +599,8 @@ input[type="checkbox"] {
     transform: translateX(-20%);
 }
 
-.font-searcher {
+.font-searcher,
+.image-searcher {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -607,22 +612,26 @@ input[type="checkbox"] {
     color: "black";
 }
 
-.font-searcher > input {
+.font-searcher > input,
+.image-searcher > input {
     padding: 1rem;
     flex-grow: 2;
     border: none;
     font-size: 1rem;
 }
 
-.font-searcher > input:focus {
+.font-searcher > input:focus,
+.image-searcher > input:focus {
     outline: none;
 }
 
-.font-searcher:focus-within {
+.font-searcher:focus-within,
+.image-searcher:focus-within {
     outline: 1px solid blue;
 }
 
-.font-list {
+.font-list,
+.image-list {
     height: 100%;
     width: 100%;
     overflow-y: scroll;
@@ -643,6 +652,25 @@ input[type="checkbox"] {
 .font-list > .font:hover {
     cursor: pointer;
     opacity: 0.5;
+}
+
+.image-list > .image-choice:hover {
+    cursor: pointer;
+}
+
+.image-list > div > img {
+    width: 100%;
+}
+
+.image-searcher > .search-button {
+    color: black;
+    border: none;
+    font-size: 1.5rem;
+    margin-right: 10px;
+}
+.image-searcher > .search-button:hover {
+    cursor: pointer;
+    opacity: 0.9;
 }
 
 .save-modal {
