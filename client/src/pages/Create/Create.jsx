@@ -1,10 +1,10 @@
 import Navbar from "../../components/Navbar";
-import Searchbar from "./Searchbar";
-import Playlist from "../../components/Playlist";
-import ChooseSong from "./ChooseSong";
-import ApplyCustomiseSelect from "./ApplyCustomiseSelect";
-import Customise from "./Customise";
-import SaveModal from "./SaveModal";
+import Searchbar from "../../components/Create/Searchbar";
+import Playlist from "../../components/Create/Playlist";
+import ChooseSong from "../../components/Create/ChooseSong";
+import ApplyCustomiseSelect from "../../components/Create/ApplyCustomiseSelect";
+import Customise from "../../components/Create/Customise";
+import SaveModal from "../../components/Create/SaveModal";
 
 function Create({
     playlist,

@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import ScaleLoader from "react-spinners/ScaleLoader";
 import axios from "axios";
-import Explicit from "../../components/Explicit";
+import Explicit from "./Explicit";
 
 const milliToMin = (millis) => {
     const minutes = Math.floor(millis / 60000);

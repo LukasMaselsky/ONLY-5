@@ -22,6 +22,19 @@ export function SearchBackground(props) {
                         value={props.imageSearch}
                         onInput={(e) => props.setImageSearch(e.target.value)}
                     />
+
+                    <select
+                        className="image-option-select"
+                        onChange={(e) =>
+                            props.setImageSearchOption(e.target.value)
+                        }
+                        defaultValue={props.imageSearchOption}
+                    >
+                        <option value="all">All</option>
+                        <option value="photo">Photo</option>
+                        <option value="illustration">Illustration</option>
+                        <option value="vector">Vector</option>
+                    </select>
                     <FontAwesomeIcon
                         className="search-button"
                         icon={faMagnifyingGlass}
@@ -45,6 +58,9 @@ export function SearchBackground(props) {
                                 <img src={choice}></img>
                             </div>
                         ))}
+                </div>
+                <div>
+                    <p>powered by Pixabay</p>
                 </div>
             </div>
         </div>

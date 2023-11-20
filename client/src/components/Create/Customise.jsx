@@ -35,6 +35,7 @@ function Customise({
     const [isToggled, togglePopup] = useTogglePopup();
     const [imageSearch, setImageSearch] = useState("");
     const [imageSearchChoices, setImageSearchChoices] = useState(null);
+    const [imageSearchOption, setImageSearchOption] = useState("all");
 
     const searchForGoogleFont = (family) => {
         const WebFontConfig = {
@@ -148,9 +149,11 @@ function Customise({
                     import.meta.env.VITE_PIXABAY_API_KEY +
                     "&q=" +
                     imageSearch +
-                    "&orientation=horizontal"
+                    "&orientation=horizontal&image_type=" +
+                    imageSearchOption
             )
             .then((response) => {
+                console.log(response);
                 const images = response["data"]["hits"].slice(0, 10);
 
                 setImageSearchChoices(images.map((i) => i.largeImageURL));
@@ -204,6 +207,8 @@ function Customise({
                         showSelectMenu={showSelectMenu}
                         imageSearchChoices={imageSearchChoices}
                         dispatch={dispatch}
+                        imageSearchOption={imageSearchOption}
+                        setImageSearchOption={setImageSearchOption}
                     ></SearchBackground>
                     <div
                         style={{

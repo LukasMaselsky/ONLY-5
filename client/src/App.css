@@ -559,6 +559,7 @@ input[type="checkbox"] {
     padding: 0.5rem;
     border: none;
     font-family: "Manrope", sans-serif;
+    white-space: nowrap;
 }
 
 .cancel-btn {
@@ -599,6 +600,12 @@ input[type="checkbox"] {
     transform: translateX(-20%);
 }
 
+.image-searcher-wrapper {
+    width: 20rem;
+    height: 18rem;
+    transform: translateX(-25%);
+}
+
 .font-searcher,
 .image-searcher {
     display: flex;
@@ -612,12 +619,28 @@ input[type="checkbox"] {
     color: "black";
 }
 
+.image-searcher {
+    width: 18rem;
+    border: 1px solid grey;
+    background: white;
+    height: 3.5rem;
+    padding: 1px;
+    color: "black";
+    display: flex;
+}
+
 .font-searcher > input,
 .image-searcher > input {
     padding: 1rem;
     flex-grow: 2;
     border: none;
     font-size: 1rem;
+}
+
+.image-searcher > input {
+    padding: 1rem 0rem 1rem 0.8rem;
+    flex-grow: 0;
+    width: 11rem;
 }
 
 .font-searcher > input:focus,
@@ -666,12 +689,28 @@ input[type="checkbox"] {
     color: black;
     border: none;
     font-size: 1.5rem;
-    margin-right: 10px;
+    margin-left: 5px;
 }
+
 .image-searcher > .search-button:hover {
     cursor: pointer;
     opacity: 0.9;
 }
+
+.image-option-select {
+    width: 4rem;
+    background-color: var(--text);
+    border: 1px solid grey;
+    font-family: "Manrope", sans-serif;
+    margin-left: 5px;
+}
+
+.image-searcher-wrapper > div > p {
+    color: black;
+    font-size: 0.6rem;
+}
+
+/* MODAL */
 
 .save-modal {
     position: absolute;

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import LazyImage from "../../components/LazyImage";
+import LazyImage from "./LazyImage";
 
 function convertDate(date) {
     var myDate = new Date(date);

@@ -1,9 +1,7 @@
-import Welcome from "./Welcome";
+import Welcome from "../../components/Home/Welcome";
 
 function Home() {
-    return (
-        <Welcome />
-    )
+    return <Welcome />;
 }
 
 export default Home;
