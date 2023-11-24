@@ -11,7 +11,7 @@ export function UploadBackground(props) {
                 ref={props.fileUploadRef}
                 onChange={props.handleFileChange}
                 type="file"
-                accept="image/*"
+                accept="image/png, image/jpeg"
                 className="file-upload"
             ></input>
         </div>

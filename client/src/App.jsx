@@ -1,9 +1,9 @@
+import "./App.css";
 import { useState, createContext, useReducer, useEffect, useRef } from "react";
 import Home from "./pages/Home/Home";
 import Create from "./pages/Create/Create";
 import Explore from "./pages/Explore/Explore";
 import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
-import "./App.css";
 
 export const Visibility = createContext({
     isCheckboxVis: null,

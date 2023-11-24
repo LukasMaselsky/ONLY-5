@@ -1,26 +1,18 @@
 import { useState, useEffect, useContext, useRef } from "react";
 import { Visibility } from "../../App";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faX } from "@fortawesome/free-solid-svg-icons";
+import { faX, faRotate } from "@fortawesome/free-solid-svg-icons";
 import ScaleLoader from "react-spinners/ScaleLoader";
 import axios from "axios";
-import Explicit from "./Explicit";
-
-const milliToMin = (millis) => {
-    const minutes = Math.floor(millis / 60000);
-    const seconds = ((millis % 60000) / 1000).toFixed(0);
-    //ES6 interpolated literals/template literals
-    //If seconds is less than 10 put a zero in front.
-    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-};
+import ChooseSongList from "./ChooseSongList";
 
 function ChooseSong({ playlist, setPlaylist, search, setSearch }) {
     const [selection, setSelection] = useState(null);
     const vis = useContext(Visibility);
     const [isChoosing, setIsChoosing] = useState(false); //* var to know if song is being chosen to prevent spamming of search button
     const [isLoading, setIsLoading] = useState(false);
+    const [failedLoadSongs, setFailedLoadSongs] = useState(false);
 
-    const [token, setToken] = useState("");
     const [offsetCounter, setOffsetCounter] = useState(5);
     const [previousSearch, setPreviousSearch] = useState("");
 
@@ -46,8 +38,6 @@ function ChooseSong({ playlist, setPlaylist, search, setSearch }) {
             method: "POST",
         })
             .then((tokenResponse) => {
-                setToken(tokenResponse.data.access_token);
-
                 axios(
                     "https://api.spotify.com/v1/search?q=" +
                         searchTerm +
@@ -68,16 +58,16 @@ function ChooseSong({ playlist, setPlaylist, search, setSearch }) {
                         setSearch(null); // prevents choose song api call firing if leaving page and coming back
                         //console.log(response)
                         let data = response["data"]["tracks"]["items"];
-                        data.sort((a, b) => b.popularity - a.popularity); // sort by highest popularity
+                        data.sort((a, b) => b.popularity - a.popularity); //* sort by highest popularity
                         setSelection(data);
                         setIsLoading(false);
                     })
                     .catch((err) => {
-                        console.log(err);
+                        setFailedLoadSongs(true);
                     });
             })
             .catch((err) => {
-                console.log(err);
+                setFailedLoadSongs(true);
             });
     };
 
@@ -91,38 +81,9 @@ function ChooseSong({ playlist, setPlaylist, search, setSearch }) {
         }
     }, [search]);
 
-    const loadMoreSongs = () => {
-        callSongs(offsetCounter);
-        setOffsetCounter((counter) => counter + 5);
-    };
-
-    const chooseAddition = (title, artist, length, cover, explicit) => {
-        // update playlist with new song after selection from options
-        setPlaylist((prevItems) => [
-            ...prevItems,
-            {
-                title: title,
-                artist: artist,
-                id:
-                    playlist.length !== 0
-                        ? playlist[playlist.length - 1].id + 1
-                        : 0, // if array not empty
-                length: length,
-                coverArt: cover,
-                explicit: explicit,
-            },
-        ]);
-        //! HIDE POPUP
-        setIsChoosing(false);
-    };
-
     const exitChoosing = () => {
         setIsChoosing(false);
         setIsLoading(false);
-    };
-
-    const getArtistNames = (arr) => {
-        return arr.map((artist) => artist.name).join(", ");
     };
 
     const modalRef = useRef(null);
@@ -154,6 +115,10 @@ function ChooseSong({ playlist, setPlaylist, search, setSearch }) {
         };
     }, []);
 
+    useEffect(() => {
+        setIsLoading(false);
+    }, [failedLoadSongs]);
+
     return (
         <dialog ref={modalRef} className="choose-song">
             <FontAwesomeIcon
@@ -173,74 +138,39 @@ function ChooseSong({ playlist, setPlaylist, search, setSearch }) {
                 aria-label="Loading Spinner"
                 data-testid="loader"
             />
-            <div
-                className="choose-song-wrapper"
-                style={{ display: isLoading ? "none" : "inline" }}
-            >
-                <h1 className="choose-song-heading">Choose song to add</h1>
-                {selection &&
-                    selection.map((song) => (
-                        <div
-                            className="song popup"
-                            onClick={() =>
-                                chooseAddition(
-                                    song["name"],
-                                    getArtistNames(song["artists"]),
-                                    milliToMin(song["duration_ms"]),
-                                    song["album"]["images"][0]["url"],
-                                    song["explicit"]
-                                )
-                            }
-                            key={song.id}
-                        >
-                            <img
-                                className="cover-art"
-                                src={song["album"]["images"][0]["url"]}
-                            ></img>
-
-                            <div className="song-info">
-                                <p
-                                    className="song-title choose"
-                                    style={{ fontSize: "1.5rem" }}
-                                >
-                                    {song["name"]}
-                                </p>
-                                <div
-                                    style={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        alignItems: "center",
-                                        gap: "0.4rem",
-                                    }}
-                                >
-                                    <Explicit
-                                        style={{
-                                            display: song.explicit
-                                                ? "inline-block"
-                                                : "none",
-                                            height: "1rem",
-                                        }}
-                                    />
-                                    <p className="song-artist choose">
-                                        {getArtistNames(song["artists"])}
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="song-length">
-                                <p>
-                                    {song["duration_ms"] !== undefined
-                                        ? milliToMin(song["duration_ms"])
-                                        : "-"}
-                                </p>
-                            </div>
-                        </div>
-                    ))}
-                <span className="load-more" onClick={() => loadMoreSongs()}>
-                    Load More
-                </span>
-            </div>
+            {failedLoadSongs ? (
+                <FailedChooseSongList exitChoosing={exitChoosing} />
+            ) : (
+                <ChooseSongList
+                    setPlaylist={setPlaylist}
+                    setIsChoosing={setIsChoosing}
+                    callSongs={callSongs}
+                    setOffsetCounter={setOffsetCounter}
+                    offsetCounter={offsetCounter}
+                    isLoading={isLoading}
+                    selection={selection}
+                    playlist={playlist}
+                />
+            )}
         </dialog>
     );
 }
 
 export default ChooseSong;
+
+function FailedChooseSongList({ exitChoosing }) {
+    const root = document.querySelector(":root");
+    const secondary = getComputedStyle(root).getPropertyValue("--secondary");
+
+    return (
+        <div className="choose-song-failed-load">
+            <FontAwesomeIcon
+                icon={faRotate}
+                style={{ color: secondary, fontSize: "5rem" }}
+            />
+            <p>The songs failed to load.</p>
+            <p>Check your internet connection and try again.</p>
+            <button onClick={exitChoosing}>OK</button>
+        </div>
+    );
+}

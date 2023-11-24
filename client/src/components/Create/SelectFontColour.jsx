@@ -1,4 +1,4 @@
-import { ChromePicker } from "react-color";
+import GradientColourPicker from "../GradientColourPicker";
 
 export function SelectFontColour(props) {
     return (
@@ -16,12 +16,12 @@ export function SelectFontColour(props) {
                     display: props.state.fontColourPickerVis,
                 }}
             >
-                <ChromePicker
+                <GradientColourPicker
                     style={{
                         display: props.state.fontColourPickerVis,
                     }}
-                    color={props.state.fontColour}
-                    onChangeComplete={props.handleFontColourChange}
+                    value={props.state.fontColour}
+                    onChange={props.handleFontColourChange}
                 />
             </div>
         </div>

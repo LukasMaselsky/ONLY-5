@@ -1,4 +1,4 @@
-import { ChromePicker } from "react-color";
+import GradientColourPicker from "../GradientColourPicker";
 
 export function SelectColour(props) {
     return (
@@ -15,12 +15,12 @@ export function SelectColour(props) {
                     display: props.state.BGColourPickerVis,
                 }}
             >
-                <ChromePicker
+                <GradientColourPicker
                     style={{
                         display: props.state.BGColourPickerVis,
                     }}
-                    color={props.state.BGColour}
-                    onChangeComplete={props.handleBGColourChange}
+                    value={props.state.BGColour}
+                    onChange={props.handleBGColourChange}
                 />
             </div>
         </div>

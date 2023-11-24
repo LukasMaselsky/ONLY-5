@@ -61,6 +61,7 @@ function SaveModal({
             modalRef.current.close();
             setIsSaving(false);
             setIsSaveModalOpen(false);
+
             await axios.post("http://localhost:8800/posts", formData);
         } catch (err) {
             console.log(err);

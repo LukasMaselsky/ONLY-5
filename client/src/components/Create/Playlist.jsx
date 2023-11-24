@@ -6,6 +6,7 @@ import { Visibility } from "../../App";
 import Explicit from "./Explicit";
 
 function setTrashColour() {
+    //! might be broken with gradient
     const songs =
         document.getElementsByClassName("playlist-wrapper")[0].childNodes;
 
@@ -65,12 +66,11 @@ function Playlist({
         wrapper.style.backgroundImage = "none";
 
         for (let i = 0; i < selectedForStyling.length; i++) {
-            const colourRGBA = JSON.stringify(Object.values(state.BGColour));
             const id = "song-" + String(selectedForStyling[i]);
             const element = document.getElementById(id);
+
             element.style.backgroundImage = "none"; //* CLEAR BG IMAGE IF STYLING BG COLOUR
-            element.style.backgroundColor =
-                "rgba(" + colourRGBA.slice(1, -1) + ")";
+            element.style.background = state.BGColour;
         }
         setTrashColour(); // set trash colour dynamically to either black or white
     }, [state.BGColour]);
@@ -84,13 +84,33 @@ function Playlist({
         }
     }, [state.fontType]);
 
-    // change font type on each song selected
+    // change font colour on each song selected
     useEffect(() => {
         for (let i = 0; i < selectedForStyling.length; i++) {
-            const colourRGBA = JSON.stringify(Object.values(state.fontColour));
+            let colourRGBA = JSON.stringify(state.fontColour);
+
             const id = "song-" + String(selectedForStyling[i]);
             const element = document.getElementById(id);
-            element.style.color = "rgba(" + colourRGBA.slice(1, -1) + ")";
+            const title = element.getElementsByClassName("song-title")[0];
+            const artist = element.getElementsByClassName("song-artist")[0];
+
+            if (colourRGBA.slice(1, 5) == "rgba") {
+                // reset gradient styling
+                title.style.backgroundImage = "none";
+                artist.style.backgroundImage = "none";
+                title.style.backgroundClip = "border-box";
+                artist.style.backgroundClip = "border-box";
+                // set color
+                title.style.color = colourRGBA.slice(1, -1);
+                artist.style.color = colourRGBA.slice(1, -1);
+            } else {
+                title.style.backgroundImage = state.fontColour;
+                artist.style.backgroundImage = state.fontColour;
+                title.style.color = "transparent";
+                artist.style.color = "transparent";
+                title.style.backgroundClip = "text";
+                artist.style.backgroundClip = "text";
+            }
         }
     }, [state.fontColour]);
 
@@ -137,6 +157,9 @@ function Playlist({
                 song.style.backgroundColor = "transparent";
             }
             // only change last element since this is the newest one added
+        }
+        if (playlist.length == 0) {
+            vis.setIsTrashVis(false); // hide trash icons when customise bar dissapears
         }
     }, [playlist]);
 

@@ -4,7 +4,7 @@ import Feed from "../../components/Explore/Feed";
 function Explore({ playlist }) {
     return (
         <>
-            <Navbar playlist={playlist} />
+            <Navbar />
             <Feed />
         </>
     );

@@ -107,11 +107,11 @@ function Customise({
 
     // this is for colour picker itself
     const handleBGColourChange = (colour) => {
-        dispatch({ type: "setBGColour", colour: colour.rgb });
+        dispatch({ type: "setBGColour", colour: colour });
     };
 
     const handleFontColourChange = (colour) => {
-        dispatch({ type: "setFontColour", colour: colour.rgb });
+        dispatch({ type: "setFontColour", colour: colour });
     };
 
     const handleFileUpload = (payload) => {
@@ -135,12 +135,6 @@ function Customise({
         // 👇️ can still access file object here
         dispatch({ type: "uploadBG", file: fileObj });
     };
-
-    useEffect(() => {
-        if (playlist.length == 0) {
-            vis.setIsTrashVis(false); // hide trash icons when customise bar dissapears
-        }
-    }, [playlist]);
 
     const searchForImage = () => {
         axios
