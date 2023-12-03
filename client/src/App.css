@@ -502,6 +502,7 @@ input[type="checkbox"] {
     gap: 1rem;
     width: 70%;
     display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
 }
 
@@ -894,9 +895,69 @@ input[type="checkbox"] {
     margin-top: 3px !important;
 }
 
+/* FOOTER */
+
+.footer {
+    border-top: 1px solid var(--text);
+    width: 100%;
+    /*height:calc(var(--songHeight) * var(--playlistLimit));*/
+    display: flex;
+    justify-content: center;
+}
+
+.footer-wrapper {
+    padding: 1rem;
+    display: flex;
+    width: 70%;
+    /*background-color:var(--text);*/
+    flex-direction: column;
+}
+
+.footer-main {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 5rem;
+}
+
+.footer-main > div > a {
+    text-decoration: none;
+    color: var(--text);
+    font-weight: 400;
+}
+
+.footer-main > div > h2 {
+    color: var(--text);
+    text-decoration: underline 3px var(--accent);
+    text-underline-offset: 3px;
+}
+
+.footer-info,
+.footer-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.footer-credit {
+    padding: 1rem 6rem;
+    color: var(--text);
+    font-weight: 400;
+}
+
+.footer-credit > p > a {
+    font-weight: 500;
+    color: var(--primary);
+}
+
 /* for mobile (less than 800px screen width) */
 @media screen and (max-width: 800px) {
     .playlist-wrapper {
+        width: 90%;
+    }
+
+    .footer-wrapper {
         width: 90%;
     }
 
@@ -908,5 +969,11 @@ input[type="checkbox"] {
 @media screen and (max-width: 500px) {
     .customise-wrapper {
         flex-direction: column;
+    }
+
+    .footer-main,
+    .footer-credit {
+        padding-right: 0;
+        padding-left: 0;
     }
 }

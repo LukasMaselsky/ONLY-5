@@ -1,4 +1,5 @@
 import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 import Searchbar from "../../components/Create/Searchbar";
 import Playlist from "../../components/Create/Playlist";
 import ChooseSong from "../../components/Create/ChooseSong";
@@ -73,6 +74,7 @@ function Create({
                     playlist={playlist}
                 />
             </main>
+            <Footer />
         </>
     );
 }
