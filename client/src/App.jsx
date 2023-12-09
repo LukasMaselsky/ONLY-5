@@ -3,6 +3,8 @@ import { useState, createContext, useReducer, useEffect, useRef } from "react";
 import Home from "./pages/Home/Home";
 import Create from "./pages/Create/Create";
 import Explore from "./pages/Explore/Explore";
+import About from "./pages/About/About";
+import Guide from "./pages/Guide/Guide";
 import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
 
 export const Visibility = createContext({
@@ -190,7 +192,15 @@ function App() {
         },
         {
             path: "/explore",
-            element: <Explore playlist={playlist} />,
+            element: <Explore />,
+        },
+        {
+            path: "/about",
+            element: <About />,
+        },
+        {
+            path: "/guide",
+            element: <Guide />,
         },
     ]);
 

@@ -36,7 +36,6 @@ function Searchbar({ setSearch, playlist }) {
             <FontAwesomeIcon
                 className="search-button"
                 icon={faMagnifyingGlass}
-                style={{ color: "#ffffff" }}
                 onClick={handleSearch}
             />
             <div className="search-popup">

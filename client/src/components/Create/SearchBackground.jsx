@@ -1,7 +1,32 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
 
 export function SearchBackground(props) {
+    const [imageSearch, setImageSearch] = useState("");
+    const [imageSearchChoices, setImageSearchChoices] = useState(null);
+    const [imageSearchOption, setImageSearchOption] = useState("all");
+
+    const searchForImage = () => {
+        axios
+            .get(
+                "https://pixabay.com/api/?key=" +
+                    import.meta.env.VITE_PIXABAY_API_KEY +
+                    "&q=" +
+                    imageSearch +
+                    "&orientation=horizontal&image_type=" +
+                    imageSearchOption
+            )
+            .then((response) => {
+                const images = response["data"]["hits"].slice(0, 10);
+
+                setImageSearchChoices(images.map((i) => i.largeImageURL));
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
     return (
         <div className="search-background">
             <button
@@ -19,16 +44,14 @@ export function SearchBackground(props) {
                 <div className="image-searcher">
                     <input
                         placeholder="Search for a wallpaper"
-                        value={props.imageSearch}
-                        onInput={(e) => props.setImageSearch(e.target.value)}
+                        value={imageSearch}
+                        onInput={(e) => setImageSearch(e.target.value)}
                     />
 
                     <select
                         className="image-option-select"
-                        onChange={(e) =>
-                            props.setImageSearchOption(e.target.value)
-                        }
-                        defaultValue={props.imageSearchOption}
+                        onChange={(e) => setImageSearchOption(e.target.value)}
+                        defaultValue={imageSearchOption}
                     >
                         <option value="all">All</option>
                         <option value="photo">Photo</option>
@@ -39,12 +62,12 @@ export function SearchBackground(props) {
                         className="search-button"
                         icon={faMagnifyingGlass}
                         style={{ color: "black" }}
-                        onClick={() => props.searchForImage()}
+                        onClick={() => searchForImage()}
                     />
                 </div>
                 <div className="image-list">
-                    {props.imageSearchChoices &&
-                        props.imageSearchChoices.map((choice, index) => (
+                    {imageSearchChoices &&
+                        imageSearchChoices.map((choice, index) => (
                             <div
                                 key={index}
                                 className="image-choice"

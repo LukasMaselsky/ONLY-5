@@ -124,7 +124,6 @@ function ChooseSong({ playlist, setPlaylist, search, setSearch }) {
             <FontAwesomeIcon
                 className="exit"
                 icon={faX}
-                style={{ color: "#000000" }}
                 onClick={exitChoosing}
             />
             <ScaleLoader

@@ -1,4 +1,8 @@
+import { useState } from "react";
+
 export function SelectFontType(props) {
+    const [fontSearch, setFontSearch] = useState("");
+
     return (
         <div className="select-font-type">
             <button
@@ -16,8 +20,8 @@ export function SelectFontType(props) {
                 <div className="font-searcher">
                     <input
                         placeholder="Search for a Google font"
-                        value={props.fontSearch}
-                        onInput={(e) => props.setFontSearch(e.target.value)}
+                        value={fontSearch}
+                        onInput={(e) => setFontSearch(e.target.value)}
                     />
                 </div>
                 <div className="font-list">
@@ -26,7 +30,7 @@ export function SelectFontType(props) {
                             .filter((name) =>
                                 name.family
                                     .toLowerCase()
-                                    .includes(props.fontSearch.toLowerCase())
+                                    .includes(fontSearch.toLowerCase())
                             )
                             .map((font, index) => (
                                 <div

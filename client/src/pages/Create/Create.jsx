@@ -28,7 +28,7 @@ function Create({
 }) {
     return (
         <>
-            <Navbar playlist={playlist} />
+            <Navbar />
             <main style={{ minHeight: "90vh" }}>
                 <Searchbar setSearch={setSearch} playlist={playlist} />
                 <Playlist

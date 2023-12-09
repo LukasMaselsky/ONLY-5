@@ -1,8 +1,20 @@
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faBars } from "@fortawesome/free-solid-svg-icons";
+import {
+    faUser,
+    faBars,
+    faCircleHalfStroke,
+} from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
+
+const toggleLightDarkMode = () => {
+    const root = document.querySelector(":root");
+    const property1 = getComputedStyle(root).getPropertyValue("--background");
+    const property2 = getComputedStyle(root).getPropertyValue("--text");
+    root.style.setProperty("--background", property2);
+    root.style.setProperty("--text", property1);
+};
 
 function Navbar() {
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -44,6 +56,12 @@ function NavHamburger() {
                 </Link>
             </div>
             <div className="hamburger-icon-section">
+                <div className="light-dark-mode">
+                    <FontAwesomeIcon
+                        icon={faCircleHalfStroke}
+                        onClick={() => toggleLightDarkMode()}
+                    />
+                </div>
                 <div className="hamburger">
                     <FontAwesomeIcon
                         icon={faBars}
@@ -68,11 +86,6 @@ function NavHamburger() {
                 <div className="hamburger-nav-section">
                     <Link to="/explore" className="hamburger-nav-button">
                         <p>Explore</p>
-                    </Link>
-                </div>
-                <div className="hamburger-nav-section">
-                    <Link to="/contact" className="hamburger-nav-button">
-                        <p>Contact</p>
                     </Link>
                 </div>
                 <div className="hamburger-nav-section">
@@ -110,10 +123,11 @@ function NavNormal() {
                     <p>Explore</p>
                 </Link>
             </div>
-            <div id="nav-contact-section" className="nav-section">
-                <Link to="/contact" className="nav-button">
-                    <p>Contact</p>
-                </Link>
+            <div className="light-dark-mode">
+                <FontAwesomeIcon
+                    icon={faCircleHalfStroke}
+                    onClick={() => toggleLightDarkMode()}
+                />
             </div>
             <div id="nav-account-section" className="nav-section">
                 <Link

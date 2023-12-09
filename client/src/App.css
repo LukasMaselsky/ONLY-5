@@ -128,7 +128,18 @@ nav {
     height: 1.5rem;
 }
 
+.light-dark-mode {
+    color: var(--text);
+    font-size: 1.5rem;
+}
+
+.light-dark-mode:hover {
+    cursor: pointer;
+}
+
 .hamburger-icon-section {
+    display: flex;
+    gap: 1rem;
     padding: 0 1rem;
 }
 
@@ -203,6 +214,18 @@ nav {
     z-index: 0;
 }
 
+.welcome:nth-child(1) > .welcome-text {
+    color: var(--accent);
+}
+
+.welcome:nth-child(2) > .welcome-text {
+    color: var(--secondary);
+}
+
+.welcome:nth-child(3) > .welcome-text {
+    color: var(--primary);
+}
+
 .welcome-text {
     z-index: -1;
     transition: all 1.5s;
@@ -223,7 +246,7 @@ nav {
 }
 
 .enter-link > a {
-    color: var(--background);
+    color: #121f0a; /* not affected by dark light mode toggle */
     text-decoration: none;
 }
 
@@ -250,8 +273,10 @@ nav {
     padding: 1rem;
     font-size: 1rem;
     border: none;
+    background-color: #f3efef;
+    color: #121f0a;
 
-    border-bottom: 5px solid;
+    border: 5px solid;
     border-image-slice: 1;
     border-width: 2px;
     border-image-source: linear-gradient(to right, #000000, var(--accent));
@@ -260,6 +285,7 @@ nav {
 .search > .search-button {
     border: none;
     font-size: 1.5rem;
+    color: var(--text);
 }
 
 .search > .search-button:hover {
@@ -349,7 +375,7 @@ input:focus {
 }
 
 .song {
-    color: var(--background);
+    color: #121f0a; /* not affected by dark light mode toggle*/
     position: relative;
     padding: 0.5rem 1rem;
     height: var(--songHeight);
@@ -454,6 +480,7 @@ input[type="checkbox"] {
 }
 
 .exit {
+    color: var(--background);
     position: absolute;
     top: 0;
     right: 0;
@@ -895,6 +922,36 @@ input[type="checkbox"] {
     margin-top: 3px !important;
 }
 
+/* ABOUT, GUIDE */
+
+.about-main,
+.guide-main {
+    justify-content: flex-start;
+    min-height: "90vh";
+}
+
+.about-wrapper,
+.guide-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 2rem 5rem;
+}
+.about-wrapper > h1,
+.guide-wrapper > h1 {
+    font-size: 3rem;
+}
+
+.about-wrapper > p,
+.guide-wrapper > p {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+    white-space: normal;
+    font-size: 1.5rem;
+    line-height: 3rem;
+}
+
 /* FOOTER */
 
 .footer {
@@ -963,6 +1020,14 @@ input[type="checkbox"] {
 
     .feed-wrapper {
         width: 100%;
+    }
+
+    .about-wrapper {
+        padding: 2rem 2rem;
+        p {
+            font-size: 1rem;
+            line-height: 2rem;
+        }
     }
 }
 

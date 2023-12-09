@@ -28,14 +28,11 @@ function Customise({
     setSelectedForStyling,
     setIsSaveModalOpen,
 }) {
-    var [listOfAllFonts, setListOfAllFonts] = useState(null);
+    const [listOfAllFonts, setListOfAllFonts] = useState(null);
     const vis = useContext(Visibility);
-    const [fontSearch, setFontSearch] = useState("");
+
     const fileUploadRef = useRef(null);
     const [isToggled, togglePopup] = useTogglePopup();
-    const [imageSearch, setImageSearch] = useState("");
-    const [imageSearchChoices, setImageSearchChoices] = useState(null);
-    const [imageSearchOption, setImageSearchOption] = useState("all");
 
     const searchForGoogleFont = (family) => {
         const WebFontConfig = {
@@ -60,7 +57,6 @@ function Customise({
                 )
                 .then((response) => {
                     setListOfAllFonts(response.data.items); // array
-                    console.log(listOfAllFonts);
                 })
                 .catch((err) => {
                     console.log(err);
@@ -136,27 +132,6 @@ function Customise({
         dispatch({ type: "uploadBG", file: fileObj });
     };
 
-    const searchForImage = () => {
-        axios
-            .get(
-                "https://pixabay.com/api/?key=" +
-                    import.meta.env.VITE_PIXABAY_API_KEY +
-                    "&q=" +
-                    imageSearch +
-                    "&orientation=horizontal&image_type=" +
-                    imageSearchOption
-            )
-            .then((response) => {
-                console.log(response);
-                const images = response["data"]["hits"].slice(0, 10);
-
-                setImageSearchChoices(images.map((i) => i.largeImageURL));
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    };
-
     return (
         <>
             <div
@@ -193,8 +168,6 @@ function Customise({
                     <SelectFontType
                         fontTypePickerVis={state.fontTypePickerVis}
                         listOfAllFonts={listOfAllFonts}
-                        fontSearch={fontSearch}
-                        setFontSearch={setFontSearch}
                         searchForGoogleFont={searchForGoogleFont}
                         showSelectMenu={showSelectMenu}
                     ></SelectFontType>
@@ -210,14 +183,8 @@ function Customise({
                     ></UploadBackground>
                     <SearchBackground
                         searchBackgroundVis={state.searchBackgroundVis}
-                        imageSearch={imageSearch}
-                        setImageSearch={setImageSearch}
-                        searchForImage={searchForImage}
                         showSelectMenu={showSelectMenu}
-                        imageSearchChoices={imageSearchChoices}
                         dispatch={dispatch}
-                        imageSearchOption={imageSearchOption}
-                        setImageSearchOption={setImageSearchOption}
                     ></SearchBackground>
                 </div>
             </div>
