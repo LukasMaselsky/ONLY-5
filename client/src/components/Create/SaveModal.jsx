@@ -62,7 +62,7 @@ function SaveModal({
             setIsSaving(false);
             setIsSaveModalOpen(false);
 
-            await axios.post("http://localhost:8800/posts", formData);
+            await axios.post("http://localhost:8800/server/posts", formData);
         } catch (err) {
             console.log(err);
         }

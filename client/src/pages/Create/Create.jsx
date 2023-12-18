@@ -6,6 +6,7 @@ import ChooseSong from "../../components/Create/ChooseSong";
 import ApplyCustomiseSelect from "../../components/Create/ApplyCustomiseSelect";
 import Customise from "../../components/Create/Customise";
 import SaveModal from "../../components/Create/SaveModal";
+import FirstTimeMessage from "../../components/Create/FirstTimeMessage";
 
 function Create({
     playlist,
@@ -30,6 +31,7 @@ function Create({
         <>
             <Navbar />
             <main style={{ minHeight: "90vh" }}>
+                <FirstTimeMessage playlist={playlist} />
                 <Searchbar setSearch={setSearch} playlist={playlist} />
                 <Playlist
                     playlistRef={playlistRef}

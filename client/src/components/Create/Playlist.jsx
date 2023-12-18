@@ -93,23 +93,30 @@ function Playlist({
             const element = document.getElementById(id);
             const title = element.getElementsByClassName("song-title")[0];
             const artist = element.getElementsByClassName("song-artist")[0];
+            const length = element.getElementsByClassName("song-length")[0];
 
             if (colourRGBA.slice(1, 5) == "rgba") {
                 // reset gradient styling
                 title.style.backgroundImage = "none";
                 artist.style.backgroundImage = "none";
+                length.style.backgroundImage = "none";
                 title.style.backgroundClip = "border-box";
                 artist.style.backgroundClip = "border-box";
+                length.style.backgroundClip = "border-box";
                 // set color
                 title.style.color = colourRGBA.slice(1, -1);
                 artist.style.color = colourRGBA.slice(1, -1);
+                length.style.color = colourRGBA.slice(1, -1);
             } else {
                 title.style.backgroundImage = state.fontColour;
                 artist.style.backgroundImage = state.fontColour;
+                length.style.backgroundImage = state.fontColour;
                 title.style.color = "transparent";
                 artist.style.color = "transparent";
+                length.style.color = "transparent";
                 title.style.backgroundClip = "text";
                 artist.style.backgroundClip = "text";
+                length.style.backgroundClip = "text";
             }
         }
     }, [state.fontColour]);

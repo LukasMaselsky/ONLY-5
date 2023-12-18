@@ -250,6 +250,26 @@ nav {
     text-decoration: none;
 }
 
+/* CREATE */
+
+.first-time-message {
+    text-align: center;
+    font-size: 2rem;
+    padding: 0 2rem 2rem 2rem;
+}
+
+.first-time-message > p {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+    white-space: normal;
+}
+
+.first-time-message > p > a {
+    text-decoration: none;
+    color: var(--accent);
+}
+
 .search {
     font-family: "Manrope";
     display: grid;
@@ -563,6 +583,8 @@ input[type="checkbox"] {
     white-space: nowrap;
     overflow: hidden;
     font-family: "Manrope", sans-serif;
+    background-color: var(--text);
+    color: var(--background);
 }
 
 .select-colour-btn:hover,
@@ -937,6 +959,7 @@ input[type="checkbox"] {
     gap: 1rem;
     padding: 2rem 5rem;
 }
+
 .about-wrapper > h1,
 .guide-wrapper > h1 {
     font-size: 3rem;
@@ -1028,6 +1051,26 @@ input[type="checkbox"] {
             font-size: 1rem;
             line-height: 2rem;
         }
+    }
+
+    .about-wrapper,
+    .guide-wrapper {
+        padding: 2rem 1rem;
+    }
+
+    .about-wrapper > h1,
+    .guide-wrapper > h1 {
+        font-size: 2rem;
+    }
+
+    .about-wrapper > p,
+    .guide-wrapper > p {
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        hyphens: auto;
+        white-space: normal;
+        font-size: 1rem;
+        line-height: 2rem;
     }
 }
 

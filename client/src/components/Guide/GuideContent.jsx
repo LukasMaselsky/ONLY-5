@@ -1,7 +1,7 @@
 export default function GuideContent() {
     return (
         <div className="guide-wrapper">
-            <h1>About</h1>
+            <h1>Guide</h1>
             <p>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 Voluptates dolorum odit dolorem. Cumque architecto temporibus
