@@ -7,7 +7,7 @@ function FirstTimeMessage({ playlist }) {
             style={{ display: playlist.length > 0 ? "none" : "inline" }}
         >
             <p>
-                First time here? See our{" "}
+                First time here? See the{" "}
                 <Link to="/guide">
                     <span>guide</span>
                 </Link>

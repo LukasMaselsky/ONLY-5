@@ -5,6 +5,9 @@ import Create from "./pages/Create/Create";
 import Explore from "./pages/Explore/Explore";
 import About from "./pages/About/About";
 import Guide from "./pages/Guide/Guide";
+import Register from "./pages/Register/Register";
+import Login from "./pages/Login/Login";
+import Account from "./pages/Account/Account";
 import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
 
 export const Visibility = createContext({
@@ -201,6 +204,18 @@ function App() {
         {
             path: "/guide",
             element: <Guide />,
+        },
+        {
+            path: "/register",
+            element: <Register />,
+        },
+        {
+            path: "/login",
+            element: <Login />,
+        },
+        {
+            path: "/account",
+            element: <Account />,
         },
     ]);
 

@@ -16,7 +16,7 @@ function Feed() {
 
     useEffect(() => {
         axios
-            .get("http://localhost:8800/server/posts")
+            .get("/posts")
             .then((res) => {
                 //console.log(res.data);
                 setPosts((prev) => [...prev, ...res.data]);

@@ -55,14 +55,14 @@ function SaveModal({
             const formData = new FormData();
             formData.append("image", newImage);
             formData.append("title", post.title);
-            formData.append("author", post.author);
+            formData.append("username", post.author); //! GET RID OF post.author //! should be obtained from users table or from local storage
             formData.append("date", post.date);
 
             modalRef.current.close();
             setIsSaving(false);
             setIsSaveModalOpen(false);
 
-            await axios.post("http://localhost:8800/server/posts", formData);
+            await axios.post("/posts", formData);
         } catch (err) {
             console.log(err);
         }
@@ -117,12 +117,6 @@ function SaveModal({
                     type="text"
                     placeholder="Enter title of playlist"
                     name="title"
-                    onChange={handleChange}
-                ></input>
-                <input
-                    type="text"
-                    placeholder="Enter your username"
-                    name="author"
                     onChange={handleChange}
                 ></input>
                 <div className="modal-btn-wrapper">

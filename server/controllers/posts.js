@@ -9,7 +9,7 @@ export const getPosts = (req, res) => {
 };
 
 export const createPost = (req, res) => {
-    const q = "INSERT INTO posts (title, author, date, image) VALUES (?)"; // ? for security idk why
+    const q = "INSERT INTO posts (title, username, date, image) VALUES (?)"; // ? for security idk why
     const values = [
         req.body.title,
         req.body.author,
