@@ -791,6 +791,21 @@ input[type="checkbox"] {
     background-color: var(--text);
 }
 
+.save-modal-wrapper > p {
+    color: red;
+}
+
+.save-modal-wrapper > span {
+    display: flex;
+    gap: 1rem;
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+.save-modal-wrapper > span > a {
+    color: var(--secondary);
+}
+
 .modal-btn-wrapper {
     padding-top: 1rem;
     width: 100%;

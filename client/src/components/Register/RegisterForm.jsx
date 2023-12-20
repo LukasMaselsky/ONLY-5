@@ -50,7 +50,10 @@ function RegisterForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post("/auth/register", inputs);
+            const res = await axios.post(
+                import.meta.env.VITE_SERVER_URL + "/auth/register",
+                values
+            );
             navigate("/login");
         } catch (err) {
             setError(err.response.data); // error message from server error

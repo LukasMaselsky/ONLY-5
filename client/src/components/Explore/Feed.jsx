@@ -16,7 +16,7 @@ function Feed() {
 
     useEffect(() => {
         axios
-            .get("/posts")
+            .get(import.meta.env.VITE_SERVER_URL + "/posts")
             .then((res) => {
                 //console.log(res.data);
                 setPosts((prev) => [...prev, ...res.data]);
@@ -61,7 +61,7 @@ function FeedWrapper({ posts }) {
                             <div className="author">
                                 <p>
                                     <span>by </span>
-                                    {post.author}
+                                    {post.username}
                                 </p>
                             </div>
                             <div></div> {/* for grid*/}

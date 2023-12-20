@@ -1,7 +1,9 @@
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
 import ScaleLoader from "react-spinners/ScaleLoader";
 import useCreateImage from "../../hooks/useCreateImage";
+import { Link } from "react-router-dom";
 
 function SaveModal({
     isSaveModalOpen,
@@ -9,14 +11,16 @@ function SaveModal({
     playlistRef,
     playlist,
 }) {
+    const { currentUser } = useContext(AuthContext);
+
     const [isSaving, setIsSaving] = useState(false);
     const element = document.getElementsByClassName("playlist-wrapper")[0];
 
     const [post, setPost] = useState({
         title: "",
-        author: "",
         date: new Date().toISOString().slice(0, 10),
     });
+    const [error, setError] = useState(null);
 
     const modalRef = useRef(null);
     const { image, isCreating, createImage } = useCreateImage(element);
@@ -24,6 +28,7 @@ function SaveModal({
     useEffect(() => {
         if (isSaveModalOpen) {
             modalRef.current.showModal();
+            setError(null);
         }
     }, [isSaveModalOpen]);
 
@@ -33,11 +38,18 @@ function SaveModal({
     };
 
     const save = async () => {
-        setIsSaving(true);
-        //! handle playlist.length message to user
-        if (element === null || playlist.length < 5) {
+        if (element === null) {
             return;
         }
+        if (!post.title.length) {
+            setError("Title can't be empty");
+            return;
+        }
+        if (playlist.length < 5) {
+            setError("Playlist has to contain 5 songs");
+            return;
+        }
+        setIsSaving(true);
         createImage();
     };
 
@@ -55,14 +67,18 @@ function SaveModal({
             const formData = new FormData();
             formData.append("image", newImage);
             formData.append("title", post.title);
-            formData.append("username", post.author); //! GET RID OF post.author //! should be obtained from users table or from local storage
+            formData.append("username", currentUser.username);
             formData.append("date", post.date);
 
             modalRef.current.close();
             setIsSaving(false);
             setIsSaveModalOpen(false);
 
-            await axios.post("/posts", formData);
+            await axios.post(
+                import.meta.env.VITE_SERVER_URL + "/posts",
+                formData,
+                { withCredentials: true }
+            );
         } catch (err) {
             console.log(err);
         }
@@ -117,8 +133,20 @@ function SaveModal({
                     type="text"
                     placeholder="Enter title of playlist"
                     name="title"
+                    pattern="^.{3,16}$"
+                    required={true}
                     onChange={handleChange}
                 ></input>
+                {error && <p>{error}</p>}
+                {currentUser === null && (
+                    <>
+                        <p>You have to be logged in to save</p>
+                        <span>
+                            <Link to="/login">Login</Link>
+                            <Link to="/Register">Register</Link>
+                        </span>
+                    </>
+                )}
                 <div className="modal-btn-wrapper">
                     <button className="modal-cancel-btn" onClick={cancelModal}>
                         Cancel

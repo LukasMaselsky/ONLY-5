@@ -1,7 +1,6 @@
 import { useState, useContext } from "react";
 import FormInput from "../Login/FormInput";
-import { useNavigate, Link } from "react-router-dom";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function LoginForm() {
@@ -42,7 +41,7 @@ export default function LoginForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await login(inputs);
+            await login(values);
             navigate("/create");
         } catch (err) {
             setError(err.response.data); // error message from server error
@@ -65,8 +64,8 @@ export default function LoginForm() {
                         onChange={onChange}
                     />
                 ))}
+                {error && <span>{error}</span>}
                 <button>Login</button>
-                {error && <p>{error}</p>}
             </form>
         </div>
     );
