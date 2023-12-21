@@ -3,12 +3,7 @@ import axios from "axios";
 import LazyImage from "./LazyImage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRotate } from "@fortawesome/free-solid-svg-icons";
-
-function convertDate(date) {
-    var myDate = new Date(date);
-    const options = { year: "numeric", month: "long", day: "numeric" };
-    return myDate.toLocaleDateString("en-GB", options);
-}
+import convertDate from "./convertDate";
 
 function Feed() {
     const [posts, setPosts] = useState([]);
@@ -55,16 +50,16 @@ function FeedWrapper({ posts }) {
                             <div className="title">
                                 <p>{post.title}</p>
                             </div>
-                            <div className="date">
-                                <p>{convertDate(post.date)}</p>
-                            </div>
+                            <div></div> {/* for grid*/}
                             <div className="author">
                                 <p>
                                     <span>by </span>
                                     {post.username}
                                 </p>
                             </div>
-                            <div></div> {/* for grid*/}
+                            <div className="date">
+                                <p>{convertDate(post.date)}</p>
+                            </div>
                         </div>
                     </div>
                 ))}

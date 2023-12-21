@@ -1,7 +1,6 @@
 import html2canvas from "html2canvas";
 import { useState } from "react";
 
-
 function useCreateImage(element) {
     const [image, setImage] = useState();
     const [isCreating, setIsCreating] = useState(true); //* temp fix, by setting to
@@ -9,7 +8,7 @@ function useCreateImage(element) {
 
     const createImage = () => {
         const postWidth = "1000px";
-
+        setIsCreating(true);
         html2canvas(element, {
             windowWidth: postWidth,
             useCORS: true,

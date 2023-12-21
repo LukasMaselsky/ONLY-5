@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import FormInput from "../Login/FormInput";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext";
+import { AuthContext } from "../../context/authContext";
 
 export default function LoginForm() {
     const [values, setValues] = useState({

@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef, useContext } from "react";
 import axios from "axios";
-import { AuthContext } from "../../context/AuthContext";
+import { AuthContext } from "../../context/authContext";
 import ScaleLoader from "react-spinners/ScaleLoader";
 import useCreateImage from "../../hooks/useCreateImage";
 import { Link } from "react-router-dom";
@@ -45,10 +45,15 @@ function SaveModal({
             setError("Title can't be empty");
             return;
         }
+        if (post.title.length > 45) {
+            setError("Title can't be over 45 characters");
+            return;
+        }
         if (playlist.length < 5) {
             setError("Playlist has to contain 5 songs");
             return;
         }
+
         setIsSaving(true);
         createImage();
     };
@@ -133,7 +138,6 @@ function SaveModal({
                     type="text"
                     placeholder="Enter title of playlist"
                     name="title"
-                    pattern="^.{3,16}$"
                     required={true}
                     onChange={handleChange}
                 ></input>

@@ -6,7 +6,7 @@ export function SelectFontType(props) {
     return (
         <div className="select-font-type">
             <button
-                className="select-font-type-btn"
+                className="btn select-font-type-btn"
                 onClick={() => props.showSelectMenu("fontType")}
             >
                 Font Type

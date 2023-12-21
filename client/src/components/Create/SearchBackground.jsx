@@ -30,7 +30,7 @@ export function SearchBackground(props) {
     return (
         <div className="search-background">
             <button
-                className="search-background-btn"
+                className="btn search-background-btn"
                 onClick={() => props.showSelectMenu("searchBackground")}
             >
                 Search Background

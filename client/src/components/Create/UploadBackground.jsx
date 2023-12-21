@@ -2,7 +2,7 @@ export function UploadBackground(props) {
     return (
         <div className="upload-background">
             <button
-                className="upload-background-btn"
+                className="btn upload-background-btn"
                 onClick={() => props.handleFileUpload("uploadBackground")}
             >
                 Upload Background

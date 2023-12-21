@@ -2,7 +2,7 @@ import Navbar from "../../components/Navbar";
 import AccountContent from "../../components/Account/AccountContent";
 import Footer from "../../components/Footer";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext";
+import { AuthContext } from "../../context/authContext";
 import { useContext, useEffect } from "react";
 
 export default function Account() {

@@ -4,7 +4,7 @@ export function SelectFontColour(props) {
     return (
         <div className="select-font-colour">
             <button
-                className="select-font-colour-btn"
+                className="btn select-font-colour-btn"
                 onClick={() => props.showSelectMenu("fontColour")}
             >
                 {" "}

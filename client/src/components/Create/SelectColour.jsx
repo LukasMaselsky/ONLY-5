@@ -4,7 +4,7 @@ export function SelectColour(props) {
     return (
         <div className="select-colour">
             <button
-                className="select-colour-btn"
+                className="btn select-colour-btn"
                 onClick={() => props.showSelectMenu("BGColour")}
             >
                 Background Colour

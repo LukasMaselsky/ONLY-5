@@ -5,6 +5,8 @@
 :root {
     --text: #f3efef;
     --background: #121f0a;
+    --textConst: #f3efef;
+    --backgroundConst: #121f0a;
     --primary: #efbcd5;
     --secondary: #4b2376;
     --accent: #ee74af;
@@ -36,6 +38,11 @@ main {
     width: 100vw;
     width: 100svw;
     background-color: var(--background);
+    background: linear-gradient(
+        0deg,
+        var(--secondary) 0%,
+        var(--background) 100%
+    );
     color: var(--text);
     position: relative;
     min-height: 90vh;
@@ -246,7 +253,7 @@ nav {
 }
 
 .enter-link > a {
-    color: #121f0a; /* not affected by dark light mode toggle */
+    color: var(--backgroundConst); /* not affected by dark light mode toggle */
     text-decoration: none;
 }
 
@@ -293,8 +300,8 @@ nav {
     padding: 1rem;
     font-size: 1rem;
     border: none;
-    background-color: #f3efef;
-    color: #121f0a;
+    background-color: var(--textConst);
+    color: var(--backgroundConst);
 
     border: 5px solid;
     border-image-slice: 1;
@@ -395,7 +402,7 @@ input:focus {
 }
 
 .song {
-    color: #121f0a; /* not affected by dark light mode toggle*/
+    color: var(--backgroundConst); /* not affected by dark light mode toggle*/
     position: relative;
     padding: 0.5rem 1rem;
     height: var(--songHeight);
@@ -572,33 +579,31 @@ input[type="checkbox"] {
     position: relative;
 }
 
-.select-colour-btn,
-.select-font-type-btn,
-.select-font-colour-btn,
-.upload-background-btn,
-.search-background-btn {
+.btn {
     width: 10rem;
     padding: 1rem;
     border: none;
     white-space: nowrap;
     overflow: hidden;
     font-family: "Manrope", sans-serif;
-    background-color: var(--text);
-    color: var(--background);
+    background-color: var(--textConst);
+    color: var(--backgroundConst);
 }
 
-.select-colour-btn:hover,
-.select-font-type-btn:hover,
-.select-font-colour-btn:hover,
-.upload-background-btn:hover,
+.delete,
+.save,
+.share {
+    color: var(--textConst);
+}
+
+.btn:hover,
 .save-btn:hover,
 .close-style-btn:hover,
 .share-btn:hover,
 .select-all-btn:hover,
 .apply-selection-btn:hover,
 .full-background-image-btn:hover,
-.cancel-btn:hover,
-.search-background-btn:hover {
+.cancel-btn:hover {
     cursor: pointer;
 }
 
@@ -910,19 +915,21 @@ input[type="checkbox"] {
 }
 
 .post-info {
+    color: var(--textConst);
     font-family: "Manrope", sans-serif;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 50% 50%;
     padding: 0rem;
     width: 100%;
+    padding-bottom: 0.5rem;
 }
 
 .post-info > div {
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 0rem 1rem;
+    padding: 0rem 0.5rem;
     font-size: clamp(1rem, 5vw, 2rem);
 }
 
@@ -1079,7 +1086,7 @@ input[type="checkbox"] {
 
 .form-input > label {
     font-size: 0.8rem;
-    color: #121f0a;
+    color: var(--backgroundConst);
     padding-left: 0.3rem;
 }
 
@@ -1110,7 +1117,7 @@ form {
 }
 
 form > h1 {
-    color: #121f0a;
+    color: var(--backgroundConst);
     text-align: center;
 }
 
@@ -1119,7 +1126,7 @@ form > button {
     padding: 1rem;
     border: none;
     background-color: var(--accent);
-    color: #121f0a;
+    color: var(--backgroundConst);
     border-radius: 5px;
     font-family: "Manrope", "sans-serif";
     font-weight: 700;
@@ -1129,13 +1136,65 @@ form > button {
 }
 
 form > span {
-    color: #121f0a;
+    color: var(--backgroundConst);
     margin-top: 1rem;
     font-size: 1rem;
 }
 
 form > span > a {
     color: var(--accent);
+}
+
+/* ACCOUNT */
+
+.account-main {
+    display: flex;
+    align-items: center;
+}
+
+.account-wrapper {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+}
+
+.account-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    place-items: center;
+    padding: 2rem 0;
+}
+
+.account-grid > .post {
+    width: 300px;
+    border: 1px solid var(--text);
+}
+
+.account-grid > .post > div > .title {
+    font-size: clamp(0.5rem, 3vw, 1.5rem);
+}
+
+.account-grid > .post > .post-info > .date {
+    font-weight: 200;
+    font-size: clamp(0.5rem, 2vw, 1rem);
+    justify-content: flex-end;
+}
+
+.account-grid > .post > .post-info > .author {
+    font-size: clamp(0.5rem, 2vw, 1rem);
+}
+
+.account-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.account-header > .btn {
+    width: 5rem;
+    padding: 0.5rem;
 }
 
 /* for mobile (less than 800px screen width) */
