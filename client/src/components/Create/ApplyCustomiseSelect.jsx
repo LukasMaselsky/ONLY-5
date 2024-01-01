@@ -1,6 +1,6 @@
-import { useContext, useState } from "react";
-import { Visibility } from "../../App";
+import { useContext } from "react";
 import useTogglePopup from "../../hooks/useTogglePopup";
+import { VisContext } from "../../context/visContext";
 
 function ApplyCustomiseSelect({
     setFullBackground,
@@ -12,7 +12,7 @@ function ApplyCustomiseSelect({
     anyStylerOpen,
     setAnyStylerOpen,
 }) {
-    const vis = useContext(Visibility);
+    const vis = useContext(VisContext);
     const [isToggled, togglePopup] = useTogglePopup();
 
     const finishSelectingForCustomise = () => {

@@ -7,8 +7,22 @@ export default function Footer() {
                 <div className="footer-main">
                     <div className="footer-info">
                         <h2>Info</h2>
-                        <Link to="/about">About us</Link>
-                        <Link to="/guide">Guide</Link>
+                        <Link
+                            to="/about"
+                            onClick={() => {
+                                window.scroll(0, 0);
+                            }}
+                        >
+                            About us
+                        </Link>
+                        <Link
+                            to="/guide"
+                            onClick={() => {
+                                window.scroll(0, 0);
+                            }}
+                        >
+                            Guide
+                        </Link>
                     </div>
                     <div className="footer-contact">
                         <h2>Contact</h2>

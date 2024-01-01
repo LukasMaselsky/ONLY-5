@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext, useRef } from "react";
-import { Visibility } from "../../App";
+import { VisContext } from "../../context/visContext";
 import Share from "./Share";
 import WebFont from "webfontloader";
 import axios from "axios";
@@ -29,7 +29,7 @@ function Customise({
     setIsSaveModalOpen,
 }) {
     const [listOfAllFonts, setListOfAllFonts] = useState(null);
-    const vis = useContext(Visibility);
+    const vis = useContext(VisContext);
 
     const fileUploadRef = useRef(null);
     const [isToggled, togglePopup] = useTogglePopup();

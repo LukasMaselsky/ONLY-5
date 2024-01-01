@@ -2,7 +2,7 @@ import { useContext, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import { Visibility } from "../../App";
+import { VisContext } from "../../context/visContext";
 import Explicit from "./Explicit";
 
 function setTrashColour() {
@@ -39,7 +39,7 @@ function Playlist({
     state,
     dispatch,
 }) {
-    const vis = useContext(Visibility);
+    const vis = useContext(VisContext);
 
     function handleOnDragEnd(result) {
         if (!result.destination) return;

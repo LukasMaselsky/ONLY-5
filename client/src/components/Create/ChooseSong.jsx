@@ -1,5 +1,4 @@
-import { useState, useEffect, useContext, useRef } from "react";
-import { Visibility } from "../../App";
+import { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX, faRotate } from "@fortawesome/free-solid-svg-icons";
 import ScaleLoader from "react-spinners/ScaleLoader";
@@ -8,7 +7,6 @@ import ChooseSongList from "./ChooseSongList";
 
 function ChooseSong({ playlist, setPlaylist, search, setSearch }) {
     const [selection, setSelection] = useState(null);
-    const vis = useContext(Visibility);
     const [isChoosing, setIsChoosing] = useState(false); //* var to know if song is being chosen to prevent spamming of search button
     const [isLoading, setIsLoading] = useState(false);
     const [failedLoadSongs, setFailedLoadSongs] = useState(false);

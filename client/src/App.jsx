@@ -10,24 +10,10 @@ import Login from "./pages/Login/Login";
 import Account from "./pages/Account/Account";
 import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
 
-export const Visibility = createContext({
-    isCheckboxVis: null,
-    setIsCheckboxVis: null,
-    isSelectButtonsVis: null,
-    setIsSelectButtonsVis: null,
-    whichCustomiseOption: null,
-    setWhichCustomiseOption: null,
-    isTrashVis: null,
-    setIsTrashVis: null,
-});
-
 function App() {
     const [playlist, setPlaylist] = useState([]);
 
     const [search, setSearch] = useState(null);
-
-    const [isCheckboxVis, setIsCheckboxVis] = useState(false);
-    const [isSelectButtonsVis, setIsSelectButtonsVis] = useState(false);
 
     const [selectedForStyling, setSelectedForStyling] = useState([]);
 
@@ -36,7 +22,6 @@ function App() {
     const [fullBackground, setFullBackground] = useState(false);
 
     const [isSaveModalOpen, setIsSaveModalOpen] = useState(false);
-    const [isTrashVis, setIsTrashVis] = useState(false);
 
     const playlistRef = useRef(null);
 
@@ -135,8 +120,6 @@ function App() {
         searchBG: null,
     });
 
-    const [whichCustomiseOption, setWhichCustomiseOption] = useState("");
-
     const updatePlaylist = (update) => {
         setPlaylist(update);
     };
@@ -219,22 +202,7 @@ function App() {
         },
     ]);
 
-    return (
-        <Visibility.Provider
-            value={{
-                isCheckboxVis: isCheckboxVis,
-                setIsCheckboxVis: setIsCheckboxVis,
-                isSelectButtonsVis: isSelectButtonsVis,
-                setIsSelectButtonsVis: setIsSelectButtonsVis,
-                whichCustomiseOption: whichCustomiseOption,
-                setWhichCustomiseOption: setWhichCustomiseOption,
-                isTrashVis: isTrashVis,
-                setIsTrashVis: setIsTrashVis,
-            }}
-        >
-            <RouterProvider router={router} />
-        </Visibility.Provider>
-    );
+    return <RouterProvider router={router} />;
 }
 
 export default App;
