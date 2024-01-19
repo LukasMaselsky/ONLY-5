@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState, createContext, useReducer, useEffect, useRef } from "react";
+import { useState, useReducer, useEffect, useRef } from "react";
 import Home from "./pages/Home/Home";
 import Create from "./pages/Create/Create";
 import Explore from "./pages/Explore/Explore";
@@ -8,7 +8,7 @@ import Guide from "./pages/Guide/Guide";
 import Register from "./pages/Register/Register";
 import Login from "./pages/Login/Login";
 import Account from "./pages/Account/Account";
-import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 function App() {
     const [playlist, setPlaylist] = useState([]);

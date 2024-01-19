@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import FormInput from "../Login/FormInput";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/authContext";
 
 function RegisterForm() {
     const [values, setValues] = useState({
@@ -11,6 +12,7 @@ function RegisterForm() {
     });
     const navigate = useNavigate();
     const [error, setError] = useState(null);
+    const { login } = useContext(AuthContext);
 
     const inputs = [
         {
@@ -64,6 +66,15 @@ function RegisterForm() {
         setValues({ ...values, [e.target.name]: e.target.value });
     };
 
+    const handleDemo = async () => {
+        try {
+            await login({ username: "demo", password: "demo123!" });
+            navigate("/create");
+        } catch (err) {
+            setError(err.response.data); // error message from server error
+        }
+    };
+
     return (
         <div className="register-wrapper">
             <form onSubmit={handleSubmit}>
@@ -76,11 +87,16 @@ function RegisterForm() {
                         onChange={onChange}
                     />
                 ))}
-                <button>Register</button>
+                <button className="register-form-btn" type="submit">
+                    Register
+                </button>
                 {error && <p>{error}</p>}
                 <span>
                     Have an account? <Link to="/login">Login</Link>
                 </span>
+                <button className="demo-btn" type="button" onClick={handleDemo}>
+                    Demo
+                </button>
             </form>
         </div>
     );

@@ -1,8 +1,6 @@
 import { useState, useEffect, useContext, useRef } from "react";
 import { VisContext } from "../../context/visContext";
 import Share from "./Share";
-import WebFont from "webfontloader";
-import axios from "axios";
 import useTogglePopup from "../../hooks/useTogglePopup";
 import { Save } from "./Save";
 import { CloseStyler } from "./CloseStyler";
@@ -13,12 +11,6 @@ import { SelectColour } from "./SelectColour";
 import { Delete } from "./Delete";
 import { SearchBackground } from "./SearchBackground";
 
-//! add message for user not in console
-//!! WHY DOES STILL TRIGGER WHEN THERE ISNT ERROR
-const handleGoogleFontError = () => {
-    console.log("error");
-};
-
 function Customise({
     playlist,
     state,
@@ -28,41 +20,10 @@ function Customise({
     setSelectedForStyling,
     setIsSaveModalOpen,
 }) {
-    const [listOfAllFonts, setListOfAllFonts] = useState(null);
     const vis = useContext(VisContext);
 
     const fileUploadRef = useRef(null);
     const [isToggled, togglePopup] = useTogglePopup();
-
-    const searchForGoogleFont = (family) => {
-        const WebFontConfig = {
-            active: dispatch({ type: "setFontType", font: family }),
-            inactive: handleGoogleFontError(),
-        };
-
-        WebFont.load({
-            google: {
-                families: [family],
-            },
-        });
-    };
-
-    useEffect(() => {
-        if (state.fontTypePickerVis == "flex" && listOfAllFonts == null) {
-            // fetch list of all fonts when font search bar appears for the first time
-            axios
-                .get(
-                    "https://www.googleapis.com/webfonts/v1/webfonts?key=" +
-                        import.meta.env.VITE_GOOGLE_FONTS_API_KEY
-                )
-                .then((response) => {
-                    setListOfAllFonts(response.data.items); // array
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-        }
-    }, [state.fontTypePickerVis]);
 
     const finishStyling = () => {
         setAnyStylerOpen(false);
@@ -166,9 +127,8 @@ function Customise({
                         handleBGColourChange={handleBGColourChange}
                     ></SelectColour>
                     <SelectFontType
-                        fontTypePickerVis={state.fontTypePickerVis}
-                        listOfAllFonts={listOfAllFonts}
-                        searchForGoogleFont={searchForGoogleFont}
+                        state={state}
+                        dispatch={dispatch}
                         showSelectMenu={showSelectMenu}
                     ></SelectFontType>
                     <SelectFontColour

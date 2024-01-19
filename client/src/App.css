@@ -153,9 +153,6 @@ nav {
 .hamburger {
     font-size: 1.5rem;
     color: var(--text);
-}
-
-.hamburger:hover {
     cursor: pointer;
 }
 
@@ -1121,7 +1118,9 @@ form > h1 {
     text-align: center;
 }
 
-form > button {
+.register-form-btn,
+.login-form-btn,
+.demo-btn {
     width: 100%;
     padding: 1rem;
     border: none;
@@ -1143,6 +1142,15 @@ form > span {
 
 form > span > a {
     color: var(--accent);
+}
+
+.demo-btn {
+    background-color: var(--primary);
+    color: var(--background);
+}
+
+.register-form > p {
+    margin-top: 0.5rem;
 }
 
 /* ACCOUNT */

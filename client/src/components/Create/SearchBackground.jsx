@@ -1,11 +1,13 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
+import axios from "axios";
 
 export function SearchBackground(props) {
     const [imageSearch, setImageSearch] = useState("");
     const [imageSearchChoices, setImageSearchChoices] = useState(null);
     const [imageSearchOption, setImageSearchOption] = useState("all");
+    const [failedImageLoad, setFailedImageLoad] = useState(false);
 
     const searchForImage = () => {
         axios
@@ -23,7 +25,7 @@ export function SearchBackground(props) {
                 setImageSearchChoices(images.map((i) => i.largeImageURL));
             })
             .catch((err) => {
-                console.log(err);
+                setFailedImageLoad(true);
             });
     };
 
@@ -66,7 +68,10 @@ export function SearchBackground(props) {
                     />
                 </div>
                 <div className="image-list">
-                    {imageSearchChoices &&
+                    {failedImageLoad ? (
+                        <div>Failed to load images</div>
+                    ) : (
+                        imageSearchChoices &&
                         imageSearchChoices.map((choice, index) => (
                             <div
                                 key={index}
@@ -80,7 +85,8 @@ export function SearchBackground(props) {
                             >
                                 <img src={choice}></img>
                             </div>
-                        ))}
+                        ))
+                    )}
                 </div>
                 <div>
                     <p>powered by Pixabay</p>
