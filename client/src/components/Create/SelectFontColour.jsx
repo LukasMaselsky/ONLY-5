@@ -4,6 +4,7 @@ export function SelectFontColour(props) {
     return (
         <div className="select-font-colour">
             <button
+                aria-label="font colour"
                 className="btn select-font-colour-btn"
                 onClick={() => props.showSelectMenu("fontColour")}
             >

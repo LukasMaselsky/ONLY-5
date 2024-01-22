@@ -44,6 +44,7 @@ export function SelectFontType(props) {
     return (
         <div className="select-font-type">
             <button
+                aria-label="font type"
                 className="btn select-font-type-btn"
                 onClick={() => props.showSelectMenu("fontType")}
             >

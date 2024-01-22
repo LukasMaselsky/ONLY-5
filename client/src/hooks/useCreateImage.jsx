@@ -26,7 +26,6 @@ function useCreateImage(element) {
                 });
             })
             .catch((err) => {
-                console.log(err);
                 const newImage = null;
                 setImage(newImage);
                 setIsCreating(false);

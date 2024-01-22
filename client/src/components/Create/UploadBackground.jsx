@@ -2,6 +2,7 @@ export function UploadBackground(props) {
     return (
         <div className="upload-background">
             <button
+                aria-label="upload background"
                 className="btn upload-background-btn"
                 onClick={() => props.handleFileUpload("uploadBackground")}
             >

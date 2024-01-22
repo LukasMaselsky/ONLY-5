@@ -152,10 +152,18 @@ function SaveModal({
                     </>
                 )}
                 <div className="modal-btn-wrapper">
-                    <button className="modal-cancel-btn" onClick={cancelModal}>
+                    <button
+                        aria-label="cancel"
+                        className="modal-cancel-btn"
+                        onClick={cancelModal}
+                    >
                         Cancel
                     </button>
-                    <button className="modal-save-btn" onClick={save}>
+                    <button
+                        aria-label="save"
+                        className="modal-save-btn"
+                        onClick={save}
+                    >
                         Save
                     </button>
                 </div>

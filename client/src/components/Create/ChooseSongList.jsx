@@ -72,6 +72,7 @@ function ChooseSongList({
                     >
                         <img
                             className="cover-art"
+                            alt="cover art"
                             src={song["album"]["images"][0]["url"]}
                         ></img>
 

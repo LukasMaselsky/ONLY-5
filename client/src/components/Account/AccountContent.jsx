@@ -32,6 +32,7 @@ function AccountContent() {
                 <div className="account-header">
                     <h1>{currentUser && currentUser.username}</h1>
                     <button
+                        aria-label="logout"
                         className="btn"
                         onClick={() => {
                             logout();

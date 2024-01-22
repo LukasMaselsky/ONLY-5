@@ -32,6 +32,7 @@ export function SearchBackground(props) {
     return (
         <div className="search-background">
             <button
+                aria-label="search background"
                 className="btn search-background-btn"
                 onClick={() => props.showSelectMenu("searchBackground")}
             >
@@ -83,7 +84,7 @@ export function SearchBackground(props) {
                                     })
                                 }
                             >
-                                <img src={choice}></img>
+                                <img alt="background image" src={choice}></img>
                             </div>
                         ))
                     )}

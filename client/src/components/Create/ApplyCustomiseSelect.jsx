@@ -82,12 +82,17 @@ function ApplyCustomiseSelect({
                     <p>Nothing selected</p>
                 </div>
                 <div className="cancel">
-                    <button className="cancel-btn" onClick={() => cancel()}>
+                    <button
+                        aria-label="cancel"
+                        className="cancel-btn"
+                        onClick={() => cancel()}
+                    >
                         Cancel
                     </button>
                 </div>
                 <div className="select-all">
                     <button
+                        aria-label="select all"
                         className="select-all-btn"
                         onClick={() => selectAll()}
                     >
@@ -105,6 +110,7 @@ function ApplyCustomiseSelect({
                     }}
                 >
                     <button
+                        aria-label="full background"
                         className="full-background-image-btn"
                         onClick={() => selectFullBackgroundImage()}
                     >
@@ -113,6 +119,7 @@ function ApplyCustomiseSelect({
                 </div>
                 <div className="apply-selection">
                     <button
+                        aria-label="finish selection"
                         className="apply-selection-btn"
                         onClick={() => finishSelectingForCustomise()}
                     >

@@ -54,7 +54,7 @@ function ChooseSong({ playlist, setPlaylist, search, setSearch }) {
                             setPreviousSearch(search); // save search term for if user presses load more
                         }
                         setSearch(null); // prevents choose song api call firing if leaving page and coming back
-                        //console.log(response)
+
                         let data = response["data"]["tracks"]["items"];
                         data.sort((a, b) => b.popularity - a.popularity); //* sort by highest popularity
                         setSelection(data);
@@ -167,7 +167,9 @@ function FailedChooseSongList({ exitChoosing }) {
             />
             <p>The songs failed to load.</p>
             <p>Check your internet connection and try again.</p>
-            <button onClick={exitChoosing}>OK</button>
+            <button aria-label="ok" onClick={exitChoosing}>
+                OK
+            </button>
         </div>
     );
 }

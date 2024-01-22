@@ -15,15 +15,6 @@ Create the ultimate 5 song playlist, customised to your liking.
 -   Express.js 4.18
 -   MySQL 8.1
 
-## Tests
-
-Describe and show how to run the tests with code examples.
-Explain what these tests test and why.
-
-```shell
-Give an example
-```
-
 ## API Reference
 
 -   Song information from [Spotify Web API](https://developer.spotify.com/documentation/web-api)

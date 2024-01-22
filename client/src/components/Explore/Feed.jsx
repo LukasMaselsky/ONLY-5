@@ -13,7 +13,6 @@ function Feed() {
         axios
             .get(import.meta.env.VITE_SERVER_URL + "/posts")
             .then((res) => {
-                //console.log(res.data);
                 setPosts((prev) => [...prev, ...res.data]);
             })
             .catch((err) => {

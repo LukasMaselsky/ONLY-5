@@ -51,7 +51,7 @@ function NavHamburger() {
             >
                 <Link to="/">
                     <div className="logo">
-                        <img src={logo}></img>
+                        <img alt="logo" src={logo}></img>
                     </div>
                 </Link>
             </div>
@@ -104,7 +104,7 @@ function NavNormal() {
             <div id="nav-logo-section" className="nav-section">
                 <Link to="/">
                     <div className="logo">
-                        <img src={logo}></img>
+                        <img alt="logo" src={logo}></img>
                     </div>
                 </Link>
             </div>

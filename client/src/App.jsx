@@ -4,7 +4,6 @@ import Home from "./pages/Home/Home";
 import Create from "./pages/Create/Create";
 import Explore from "./pages/Explore/Explore";
 import About from "./pages/About/About";
-import Guide from "./pages/Guide/Guide";
 import Register from "./pages/Register/Register";
 import Login from "./pages/Login/Login";
 import Account from "./pages/Account/Account";
@@ -183,10 +182,6 @@ function App() {
         {
             path: "/about",
             element: <About />,
-        },
-        {
-            path: "/guide",
-            element: <Guide />,
         },
         {
             path: "/register",

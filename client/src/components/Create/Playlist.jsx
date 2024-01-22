@@ -221,6 +221,7 @@ function Playlist({
                                             ref={provided.innerRef}
                                         >
                                             <img
+                                                alt="cover art"
                                                 className="cover-art"
                                                 src={song.coverArt}
                                             ></img>

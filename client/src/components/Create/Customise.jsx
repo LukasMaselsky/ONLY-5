@@ -86,7 +86,7 @@ function Customise({
         if (!fileObj) {
             return;
         }
-        console.log(event.target.files[0]);
+
         // 👇️ reset file input
         event.target.value = null;
         // 👇️ can still access file object here

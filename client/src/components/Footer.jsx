@@ -21,7 +21,7 @@ export default function Footer() {
                                 window.scroll(0, 0);
                             }}
                         >
-                            Guide
+                            SOMETHING
                         </Link>
                     </div>
                     <div className="footer-contact">
