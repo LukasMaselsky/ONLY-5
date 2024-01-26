@@ -5,7 +5,7 @@ export const getPosts = (req, res) => {
     const q = "SELECT * FROM posts";
     db.query(q, (err, data) => {
         if (err) return res.json(err);
-        return res.json(data);
+        return res.json(data.rows);
     });
 };
 
@@ -17,11 +17,12 @@ export const getUserPosts = (req, res) => {
     jwt.verify(token, "jwtkey", (err, userInfo) => {
         if (err) return res.status(403).json("Token is not valid!");
 
-        const q = "SELECT * FROM posts WHERE user_id = ?";
+        //const q = "SELECT * FROM posts WHERE user_id = ?";
+        const q = "SELECT * FROM posts WHERE user_id = ($1)";
 
         db.query(q, [userInfo.id], (err, data) => {
             if (err) return res.status(500).json(err);
-            return res.json(data);
+            return res.json(data.rows);
         });
     });
 };
@@ -34,8 +35,9 @@ export const createPost = (req, res) => {
     jwt.verify(token, "jwtkey", (err, userInfo) => {
         if (err) return res.status(403).json("Token is not valid!");
 
+        //const q ="INSERT INTO posts(`title`, `username`, `date`, `image`, `user_id`) VALUES (?)";
         const q =
-            "INSERT INTO posts(`title`, `username`, `date`, `image`, `user_id`) VALUES (?)";
+            "INSERT INTO posts(title, username, date, image, user_id) VALUES ($1, $2, $3, $4, $5)";
 
         const values = [
             req.body.title,
@@ -45,7 +47,7 @@ export const createPost = (req, res) => {
             userInfo.id,
         ];
 
-        db.query(q, [values], (err, data) => {
+        db.query(q, [...values], (err, data) => {
             if (err) return res.status(500).json(err);
             return res.json("Post has been created.");
         });

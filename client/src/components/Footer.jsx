@@ -15,14 +15,6 @@ export default function Footer() {
                         >
                             About us
                         </Link>
-                        <Link
-                            to="/guide"
-                            onClick={() => {
-                                window.scroll(0, 0);
-                            }}
-                        >
-                            SOMETHING
-                        </Link>
                     </div>
                     <div className="footer-contact">
                         <h2>Contact</h2>
