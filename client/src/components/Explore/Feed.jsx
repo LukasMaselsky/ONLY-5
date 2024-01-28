@@ -4,6 +4,7 @@ import LazyImage from "./LazyImage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRotate } from "@fortawesome/free-solid-svg-icons";
 import convertDate from "./convertDate";
+import useFirebase from "../../hooks/useFirebase";
 
 function Feed() {
     const [posts, setPosts] = useState([]);
@@ -34,6 +35,15 @@ function Feed() {
 export default Feed;
 
 function FeedWrapper({ posts }) {
+    const { allImages, getAllImages } = useFirebase();
+
+    useEffect(() => {
+        const getImages = async () => {
+            await getAllImages();
+        };
+        getImages();
+    }, []);
+
     return (
         <div className="feed-wrapper">
             {posts &&
@@ -41,8 +51,7 @@ function FeedWrapper({ posts }) {
                     <div className="post" key={post.id}>
                         <LazyImage
                             src={
-                                "http://localhost:8800/playlist-images/" +
-                                post.image
+                                allImages.length == 0 ? null : allImages[index]
                             }
                         />
                         <div className="post-info">

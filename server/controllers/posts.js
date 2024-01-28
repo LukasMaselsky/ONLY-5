@@ -43,9 +43,11 @@ export const createPost = (req, res) => {
             req.body.title,
             req.body.username,
             req.body.date,
-            req.file.filename,
+            req.body.image,
             userInfo.id,
         ];
+
+        console.log(values);
 
         db.query(q, [...values], (err, data) => {
             if (err) return res.status(500).json(err);

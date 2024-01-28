@@ -6,6 +6,7 @@ import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRotate } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import useFirebase from "../../hooks/useFirebase";
 
 function AccountContent() {
     const [posts, setPosts] = useState([]);
@@ -46,7 +47,7 @@ function AccountContent() {
             {postsFailedLoad ? (
                 <GridFailedLoad />
             ) : (
-                <AccountGrid posts={posts} />
+                <AccountGrid posts={posts} currentUser={currentUser} />
             )}
         </div>
     );
@@ -54,16 +55,28 @@ function AccountContent() {
 
 export default AccountContent;
 
-function AccountGrid({ posts }) {
+function AccountGrid({ posts, currentUser }) {
+    const { allUserImages, getUserImages } = useFirebase();
+
+    useEffect(() => {
+        const getImages = async () => {
+            await getUserImages(currentUser.username);
+        };
+        getImages();
+    }, []);
+
+    // set up by relying on the order of sql data and firebase images being the same
+
     return (
         <div className="account-grid">
             {posts &&
-                posts.map((post) => (
+                posts.map((post, index) => (
                     <div className="post" key={post.id}>
                         <LazyImage
                             src={
-                                "http://localhost:8800/playlist-images/" +
-                                post.image
+                                allUserImages.length == 0
+                                    ? null
+                                    : allUserImages[index]
                             }
                         />
                         <div className="post-info">

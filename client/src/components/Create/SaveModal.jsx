@@ -4,6 +4,7 @@ import { AuthContext } from "../../context/authContext";
 import ScaleLoader from "react-spinners/ScaleLoader";
 import useCreateImage from "../../hooks/useCreateImage";
 import { Link } from "react-router-dom";
+import useFirebase from "../../hooks/useFirebase";
 
 function SaveModal({
     isSaveModalOpen,
@@ -24,6 +25,7 @@ function SaveModal({
 
     const modalRef = useRef(null);
     const { image, isCreating, createImage } = useCreateImage(element);
+    const { imageId, uploadImage } = useFirebase();
 
     useEffect(() => {
         if (isSaveModalOpen) {
@@ -60,20 +62,25 @@ function SaveModal({
 
     useEffect(() => {
         const savePost = async () => {
-            if (!isCreating) {
+            if (!isCreating || !imageId) {
                 postData(image);
             }
         };
         savePost();
-    }, [isCreating]);
+    }, [isCreating, imageId]);
 
     const postData = async (newImage) => {
+        if (!newImage) return; // prevents first use effect call on initial render
         try {
-            const formData = new FormData();
-            formData.append("image", newImage);
-            formData.append("title", post.title);
-            formData.append("username", currentUser.username);
-            formData.append("date", post.date);
+            // upload image to firebase storage
+            await uploadImage(currentUser.username, newImage);
+
+            const inputs = {
+                image: imageId,
+                title: post.title,
+                username: currentUser.username,
+                date: post.date,
+            };
 
             modalRef.current.close();
             setIsSaving(false);
@@ -81,7 +88,7 @@ function SaveModal({
 
             await axios.post(
                 import.meta.env.VITE_SERVER_URL + "/posts",
-                formData,
+                inputs,
                 { withCredentials: true }
             );
         } catch (err) {

@@ -1,9 +1,8 @@
 import express from "express";
-import multer from "multer";
 import { getPosts, createPost, getUserPosts } from "../controllers/posts.js";
 
 const router = express.Router();
-
+/*
 const storage = multer.diskStorage({
     destination: (req, file, callback) => {
         callback(null, "public/playlist-images"); // path to folder with images
@@ -16,8 +15,9 @@ const storage = multer.diskStorage({
 const upload = multer({
     storage: storage,
 });
+*/
 
-router.post("/", upload.single("image"), createPost);
+router.post("/", createPost);
 router.get("/", getPosts);
 router.get("/userPosts", getUserPosts);
 
