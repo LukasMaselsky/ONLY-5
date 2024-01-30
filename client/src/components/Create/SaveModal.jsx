@@ -62,12 +62,12 @@ function SaveModal({
 
     useEffect(() => {
         const savePost = async () => {
-            if (!isCreating || !imageId) {
+            if (!isCreating) {
                 postData(image);
             }
         };
         savePost();
-    }, [isCreating, imageId]);
+    }, [isCreating]);
 
     const postData = async (newImage) => {
         if (!newImage) return; // prevents first use effect call on initial render
