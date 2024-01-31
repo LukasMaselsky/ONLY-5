@@ -8,7 +8,10 @@ export default function AboutContent() {
             </p>
             <br></br>
             <h2>Why only 5 songs?</h2>
-            <br>Sometimes less is more. </br>
+            <p>
+                Sometimes less is more. 5 songs are enough to fit a certain
+                theme or convey a particular taste, without being overwhelming
+            </p>
         </div>
     );
 }

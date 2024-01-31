@@ -31,8 +31,11 @@ export default function useFirebase() {
             import.meta.env.VITE_SERVER_URL + "/firebase/getAllImages",
             { withCredentials: true }
         );
-
-        setAllImages(response.data);
+        const data =
+            response.data.length !== 0
+                ? response.data.reverse()
+                : response.data;
+        setAllImages(data);
     };
 
     const getUserImages = async (username) => {
@@ -42,7 +45,11 @@ export default function useFirebase() {
             inputs,
             { withCredentials: true }
         );
-        setAllUserImages(response.data);
+        const data =
+            response.data.length !== 0
+                ? response.data.reverse()
+                : response.data;
+        setAllUserImages(data);
     };
 
     return {

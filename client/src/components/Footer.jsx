@@ -18,7 +18,12 @@ export default function Footer() {
                     </div>
                     <div className="footer-contact">
                         <h2>Contact</h2>
-                        <a href="mailto:someone@gmail.com">Email</a>
+                        <a
+                            href="mailto:lukasmaselsky@gmail.com"
+                            target="_blank"
+                        >
+                            Email
+                        </a>
                     </div>
                 </div>
                 <div className="footer-credit">
