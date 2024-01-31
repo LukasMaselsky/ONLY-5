@@ -7,12 +7,22 @@ export default function useFirebase() {
     const [allUserImages, setAllUserImages] = useState([]);
 
     const uploadImage = async (username, image) => {
-        const inputs = { username: username, image: image };
+        const formData = new FormData();
+
+        formData.append("image", image);
+        formData.append("username", username);
+
         const response = await axios.post(
             import.meta.env.VITE_SERVER_URL + "/firebase/uploadImage",
-            inputs,
-            { withCredentials: true }
+            formData,
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+                withCredentials: true,
+            }
         );
+
         setImageId(response.data);
     };
 

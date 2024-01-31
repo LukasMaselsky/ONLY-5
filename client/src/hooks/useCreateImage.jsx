@@ -18,9 +18,11 @@ function useCreateImage(element) {
             .then((canvas) => {
                 canvas.toBlob((blob) => {
                     //! 444px to get 600px width ???????????????
+
                     const newImage = new File([blob], "image", {
                         type: "image/png",
                     });
+
                     setImage(newImage);
                     setIsCreating(false);
                 });

@@ -28,8 +28,6 @@ export const getUserPosts = (req, res) => {
 };
 
 export const createPost = (req, res) => {
-    if (req.body.image == undefined || req.body.image == null)
-        return res.status(500).json("Image is undefined");
     const token = req.cookies.access_token;
 
     if (!token) return res.status(401).json("Not authenticated!");
@@ -48,8 +46,6 @@ export const createPost = (req, res) => {
             req.body.image,
             userInfo.id,
         ];
-
-        console.log(values);
 
         db.query(q, [...values], (err, data) => {
             if (err) return res.status(500).json(err);

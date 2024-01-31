@@ -6,6 +6,7 @@ import {
     getAllImages,
     getUserImages,
 } from "../controllers/firebase.js";
+import multer from "multer";
 
 const firebaseConfig = {
     apiKey: process.env.FIREBASE_API_KEY,
@@ -22,7 +23,8 @@ export const storage = getStorage(app);
 
 const router = express.Router();
 
-router.post("/uploadImage", uploadImage);
+const upload = multer();
+router.post("/uploadImage", upload.single("image"), uploadImage);
 router.get("/getAllImages", getAllImages);
 router.post("/getUserImages", getUserImages);
 

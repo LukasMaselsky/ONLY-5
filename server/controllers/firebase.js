@@ -1,14 +1,19 @@
 import { ref, uploadBytes, listAll, getDownloadURL } from "firebase/storage";
 import { storage } from "../routes/firebase.js";
 import { v4 } from "uuid";
+import winston from "winston";
 
 export const uploadImage = async (req, res) => {
-    if (!req.body.image) return res.status(500).json("image is undefined");
+    if (!req.file) return res.status(500).json("image is undefined");
+
     const imageId = v4();
     const imageFilename = req.body.username + "_" + imageId;
     const imageRef = ref(storage, `images/${imageFilename}`);
+    const metadata = {
+        contentType: "image/png",
+    };
     try {
-        const response = await uploadBytes(imageRef, req.body.image);
+        const response = await uploadBytes(imageRef, req.file.buffer, metadata);
         return res.json(imageId);
     } catch (err) {
         console.log(err);
