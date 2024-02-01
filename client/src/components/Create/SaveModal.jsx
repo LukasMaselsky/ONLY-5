@@ -25,7 +25,7 @@ function SaveModal({
 
     const modalRef = useRef(null);
     const { image, isCreating, createImage } = useCreateImage(element);
-    const { imageId, uploadImage } = useFirebase();
+    const { uploadImage } = useFirebase();
 
     useEffect(() => {
         if (isSaveModalOpen) {
@@ -73,7 +73,7 @@ function SaveModal({
         if (!newImage) return; // prevents first use effect call on initial render
         try {
             // upload image to firebase storage
-            await uploadImage(currentUser.username, newImage);
+            const imageId = await uploadImage(currentUser.username, newImage);
 
             const inputs = {
                 image: imageId,
@@ -85,12 +85,13 @@ function SaveModal({
             modalRef.current.close();
             setIsSaving(false);
             setIsSaveModalOpen(false);
-
+            
             await axios.post(
                 import.meta.env.VITE_SERVER_URL + "/posts",
                 inputs,
                 { withCredentials: true }
             );
+            
         } catch (err) {
             console.log(err);
         }

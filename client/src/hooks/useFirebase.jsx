@@ -2,7 +2,6 @@ import { useState } from "react";
 import axios from "axios";
 
 export default function useFirebase() {
-    const [imageId, setImageId] = useState("");
     const [allImages, setAllImages] = useState([]);
     const [allUserImages, setAllUserImages] = useState([]);
 
@@ -22,8 +21,7 @@ export default function useFirebase() {
                 withCredentials: true,
             }
         );
-
-        setImageId(response.data);
+        return response.data;
     };
 
     const getAllImages = async () => {
@@ -55,7 +53,6 @@ export default function useFirebase() {
     return {
         allImages,
         getAllImages,
-        imageId,
         uploadImage,
         allUserImages,
         getUserImages,

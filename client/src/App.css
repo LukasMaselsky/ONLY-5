@@ -1261,6 +1261,10 @@ form > span > a {
         padding-left: 0;
     }
 
+    .footer-credit > p {
+        padding: 0 1rem;
+    }
+
     form {
         width: 20rem;
     }
