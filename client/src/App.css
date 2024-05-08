@@ -427,6 +427,11 @@ input:focus {
     opacity: 0.9;
 }
 
+.cover-art {
+    aspect-ratio: 1 / 1;
+    height: 100%;
+}
+
 .song-info {
     display: flex;
     flex-direction: column;
