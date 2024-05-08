@@ -106,21 +106,7 @@ function Customise({
                             check
                         </p>
                     </div>
-                    <div
-                        style={{
-                            display: "flex",
-                            gap: "1rem",
-                            alignItems: "center",
-                        }}
-                    >
-                        <CloseStyler
-                            anyStylerOpen={anyStylerOpen}
-                            finishStyling={finishStyling}
-                        ></CloseStyler>
-                        <Delete vis={vis}></Delete>
-                        <Save setIsSaveModalOpen={setIsSaveModalOpen}></Save>
-                        <Share />
-                    </div>
+
                     <SelectColour
                         state={state}
                         showSelectMenu={showSelectMenu}
@@ -146,6 +132,21 @@ function Customise({
                         showSelectMenu={showSelectMenu}
                         dispatch={dispatch}
                     ></SearchBackground>
+                    <div
+                        style={{
+                            display: "flex",
+                            gap: "1rem",
+                            alignItems: "center",
+                        }}
+                    >
+                        <CloseStyler
+                            anyStylerOpen={anyStylerOpen}
+                            finishStyling={finishStyling}
+                        ></CloseStyler>
+                        <Delete vis={vis}></Delete>
+                        <Save setIsSaveModalOpen={setIsSaveModalOpen}></Save>
+                        <Share />
+                    </div>
                 </div>
             </div>
         </>

@@ -616,6 +616,7 @@ input[type="checkbox"] {
     border: none;
     font-family: "Manrope", sans-serif;
     white-space: nowrap;
+    color: var(--backgroundConst);
 }
 
 .cancel-btn {
