@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { VisContext } from "../../context/visContext";
-import Explicit from "./Explicit";
+import explicit from "../../assets/explicit.png";
 
 function setTrashColour() {
     //! might be broken with gradient
@@ -237,15 +237,16 @@ function Playlist({
                                                         gap: "0.4rem",
                                                     }}
                                                 >
-                                                    <Explicit
+                                                    <img
                                                         style={{
                                                             display:
                                                                 song.explicit
                                                                     ? "inline-block"
                                                                     : "none",
-                                                            height: "1rem",
                                                         }}
-                                                    />
+                                                        src={explicit}
+                                                        className="explicit"
+                                                    ></img>
                                                     <p className="song-artist">
                                                         {song.artist}
                                                     </p>

@@ -444,6 +444,10 @@ input:focus {
     font-size: 1rem;
 }
 
+.explicit {
+    height: 1rem; /* matches song-artist */
+}
+
 p,
 h1 {
     text-overflow: ellipsis;

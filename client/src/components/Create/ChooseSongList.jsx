@@ -1,4 +1,5 @@
 import Explicit from "./Explicit";
+import explicit from "../../assets/explicit.png";
 
 const milliToMin = (millis) => {
     const minutes = Math.floor(millis / 60000);
@@ -91,14 +92,15 @@ function ChooseSongList({
                                     gap: "0.4rem",
                                 }}
                             >
-                                <Explicit
+                                <img
+                                    src={explicit}
                                     style={{
                                         display: song.explicit
                                             ? "inline-block"
                                             : "none",
-                                        height: "1rem",
                                     }}
-                                />
+                                    className="explicit"
+                                ></img>
                                 <p className="song-artist choose">
                                     {getArtistNames(song["artists"])}
                                 </p>
