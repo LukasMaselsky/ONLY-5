@@ -581,7 +581,8 @@ input[type="checkbox"] {
 .select-colour,
 .select-font-colour,
 .select-font-type,
-.search-background {
+.search-background,
+.upload-background {
     position: relative;
 }
 
@@ -639,11 +640,8 @@ input[type="checkbox"] {
 .font-colour-picker {
     position: absolute;
     bottom: 80px;
-}
-
-.background-colour-picker,
-.font-colour-picker {
     transform: translateX(-15%); /* APPROXIMATION */
+    z-index: 10 !important;
 }
 
 /* google font search input */
@@ -660,6 +658,7 @@ input[type="checkbox"] {
     height: 15rem;
     padding: 1rem;
     transform: translateX(-20%);
+    z-index: 10 !important;
 }
 
 .image-searcher-wrapper {
