@@ -630,7 +630,8 @@ input[type="checkbox"] {
 }
 
 .upload-background > input {
-    display: block;
+    display: none;
+    position: absolute;
     visibility: hidden;
     width: 0;
     height: 0;
